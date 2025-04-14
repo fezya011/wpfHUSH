@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wpfHUSH.Model
 {
-    internal class Role
+    public class Role
     {
     }
 }

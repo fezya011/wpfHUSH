@@ -15,7 +15,7 @@ namespace wpfHUSH.Model
         public bool Gender { get; set; }
         public byte[] Photo { get; set; }
         public int LoginPasswordId { get; set; }
-        public LoginPassword LoginPassword { get; set; }
+        public LoginPassword LoginPassword1 { get; set; }
 
     }
 

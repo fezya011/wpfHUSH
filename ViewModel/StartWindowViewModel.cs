@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
-namespace wpfHUSH.Model
+namespace wpfHUSH.ViewModel
 {
-    public class Contact
+    public class StartWindowViewModel
     {
-        
 
-        
     }
 }

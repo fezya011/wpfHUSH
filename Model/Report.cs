@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wpfHUSH.Model
 {
-    internal class Report
+    public class Report
     {
     }
 }

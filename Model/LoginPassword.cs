@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wpfHUSH.Model
 {
-    internal class LoginPassword
+    public class LoginPassword
     {
     }
 }
