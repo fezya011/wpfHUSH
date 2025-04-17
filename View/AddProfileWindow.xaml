@@ -7,6 +7,68 @@
         mc:Ignorable="d"
         Title="AddProfileWindow" Height="450" Width="820" MaxHeight="450" MaxWidth="820" MinWidth="820" MinHeight="450" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <Style x:Key="RoundedImageButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <!-- Контейнер с полностью закругленными углами -->
+                            <Border x:Name="imageContainer" 
+                                CornerRadius="12" 
+                                ClipToBounds="True">
+                                <Image x:Name="mainImage" 
+                                   Source="C:\Users\Admin\source\repos\WPPFHUSH\Pictures\Group 2.png" 
+                                   Stretch="UniformToFill"/>
+                            </Border>
+
+                            <!-- Затемненный слой -->
+                            <Border x:Name="darkenRect" 
+                                CornerRadius="12"
+                                Background="#80000000" 
+                                Opacity="0"/>
+
+                            <!-- Стильная галочка -->
+                            <Viewbox x:Name="checkMark" 
+                                 Width="24" Height="24"
+                                 Opacity="0">
+                                <Grid Width="24" Height="24">
+                                    <Ellipse Fill="#FF4CAF50" 
+                                         Width="20" Height="20"/>
+                                    <Path Data="M6,12 L10,16 18,8"
+                                      Stroke="White"
+                                      StrokeThickness="2.5"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"/>
+                                </Grid>
+                            </Viewbox>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <!-- Затемнение -->
+                                            <DoubleAnimation Storyboard.TargetName="darkenRect"
+                                                       Storyboard.TargetProperty="Opacity"
+                                                       To="1" Duration="0:0:0.1"/>
+
+                                            <!-- Появление галочки -->
+                                            <DoubleAnimation Storyboard.TargetName="checkMark"
+                                                       Storyboard.TargetProperty="Opacity"
+                                                       To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="BigTextBoxStyle" TargetType="{x:Type TextBox}">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="Black"/>
@@ -321,7 +383,7 @@
         </Style>
 
         <Style x:Key="TextBlockText" TargetType="TextBlock">
-            <Setter Property="Margin" Value="0,15,0,0"/>
+            <Setter Property="Margin" Value="0,12,0,0"/>
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="FontSize" Value="15"/>
         </Style>
@@ -336,12 +398,12 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="75*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">
-            <Image Source="C:\Users\Student\source\repos\wpfHUSH\Pictures\Group 18.png" Height="37" Width="180" RenderOptions.BitmapScalingMode="HighQuality" 
+            <Image Source="C:\Users\Admin\source\repos\WPPFHUSH\Pictures\Group 18.png" Height="37" Width="180" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
         </StackPanel>
 
@@ -349,7 +411,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
             <TextBlock Text="Создание профиля" Style="{StaticResource LabelAddProfile}"/>
             <Button Height="274" Style="{StaticResource AddPhotoButton}" >
                 <Button.Background>
-                    <ImageBrush ImageSource="C:\Users\Student\source\repos\wpfHUSH\Pictures\Group 21.png"/>
+                    <ImageBrush ImageSource="C:\Users\Admin\source\repos\WPPFHUSH\Pictures\Group 21.png"/>
                 </Button.Background>
             </Button>
         </StackPanel>
@@ -360,6 +422,10 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
             <TextBlock Text="Описание" Style="{StaticResource TextBlockText}"/>
             <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Напиши что нибудь о себе..." />
             <TextBlock Text="Пол" Style="{StaticResource TextBlockText}"/>
+            <StackPanel Orientation="Horizontal">
+            <Button Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyle}"/>
+                <Button Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyle}"/>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2">
