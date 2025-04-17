@@ -14,9 +14,14 @@ namespace wpfHUSH.Model
         public int Age { get; set; }
         public bool Gender { get; set; }
         public byte[] Photo { get; set; }
+        public LoginPassword LoginPassword { get; set; }
         public int LoginPasswordId { get; set; }
-        public LoginPassword LoginPassword1 { get; set; }
-
+        public Role Role { get; set; }
+        public int RoleId { get; set; }
+        public Report Report { get; set; }
+        public int ReportId { get; set; }
+        public Contact Contact { get; set; }
+        public int ContactId { get; set; }
     }
 
 }

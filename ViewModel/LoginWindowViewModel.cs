@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wpfHUSH.Model
+namespace wpfHUSH.ViewModel
 {
-    public class Reason
+    class LoginWindowViewModel
     {
-        public int Id { get; set; }
-        public string Type { get; set; }
+
     }
 }

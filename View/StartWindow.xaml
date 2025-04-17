@@ -5,23 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="450" MaxHeight="300" MaxWidth="450" MinHeight="300" MinWidth="450">
+        Title="MainWindow" Height="300" Width="450" MaxHeight="300" MaxWidth="450" MinHeight="300" MinWidth="450" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="RoundedBlackBorderButton" TargetType="Button">
             <Setter Property="Background" Value="White"/>
-            <!-- Белый фон -->
             <Setter Property="Foreground" Value="Black"/>
-            <!-- Черный текст -->
-            <Setter Property="BorderBrush" Value="Black"/>
-            <!-- Черная рамка -->
+            <Setter Property="BorderBrush" Value="#FF2B2B2B"/>
             <Setter Property="BorderThickness" Value="2"/>
-            <!-- Толщина рамки -->
             <Setter Property="FontFamily" Value="Arial Black"/>
-            <!-- Шрифт Arial Black -->
             <Setter Property="FontSize" Value="14"/>
-            <!-- Размер текста -->
             <Setter Property="Padding" Value="12"/>
-            <!-- Отступы внутри кнопки -->
             <Setter Property="Width" Value="252"/>
             <Setter Property="Height" Value="37"/>
             <Setter Property="Template">
@@ -33,7 +26,6 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="10">
-                            <!-- Закругление углов -->
                             <ContentPresenter 
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -41,19 +33,13 @@
                             TextBlock.FontSize="{TemplateBinding FontSize}"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <!-- Эффект при наведении -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#F0F0F0"/>
-                                <!-- Светло-серый фон -->
                                 <Setter TargetName="border" Property="BorderBrush" Value="#333333"/>
-                                <!-- Темная рамка -->
                             </Trigger>
-                            <!-- Эффект при нажатии -->
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
-                                <!-- Серый фон -->
                                 <Setter TargetName="border" Property="BorderBrush" Value="#000000"/>
-                                <!-- Черная рамка -->
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -79,7 +65,8 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-            <Image Source="C:\Users\Fezil13\Source\Repos\wpfHUSH\Pictures\Group 18.png" Height="54" Width="272"/>
+            <Image Source="C:\Users\Student\source\repos\wpfHUSH\Pictures\Group 18.png" Height="54" Width="272" RenderOptions.BitmapScalingMode="HighQuality" 
+       RenderOptions.EdgeMode="Aliased"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
@@ -87,15 +74,19 @@
         </StackPanel>
 
         <StackPanel Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center">
-            <TextBlock Text="Выберите чтобы продолжить" FontFamily="Arial Rounded MT Bold" FontSize="14"/>
+            <TextBlock Text="Выберите чтобы продолжить" FontFamily="Arial" FontSize="14" FontWeight="Bold" Foreground="#FF737373"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="1" VerticalAlignment="Center">
-            <Button Content="Войти" Style="{StaticResource RoundedBlackBorderButton}"/>
+            <Button Content="Войти" Style="{StaticResource RoundedBlackBorderButton}" Command="{Binding OpenLogin}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="5" Grid.Column="1" VerticalAlignment="Center">
-            <Button Content="Регистрация" Style="{StaticResource RoundedBlackBorderButton}"/>
+            <Button Content="Регистрация" Style="{StaticResource RoundedBlackBorderButton}" Command="{Binding OpenRegistration}"/>
+        </StackPanel>
+
+        <StackPanel>
+            <Button Content="123123" Command="{Binding open}"/>
         </StackPanel>
     </Grid>
 </Window>

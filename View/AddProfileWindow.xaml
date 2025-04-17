@@ -1,0 +1,374 @@
+﻿<Window x:Class="wpfHUSH.View.AddProfileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:wpfHUSH.View"
+        mc:Ignorable="d"
+        Title="AddProfileWindow" Height="450" Width="820" MaxHeight="450" MaxWidth="820" MinWidth="820" MinHeight="450" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="BigTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Height" Value="97"/>
+            <Setter Property="Width" Value="210"/>
+            <Setter Property="Margin" Value="0,10,0,10"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border x:Name="border" 
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="16"
+            SnapsToDevicePixels="True">
+
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <TextBlock x:Name="watermark"
+                       Text="{TemplateBinding Tag}"
+                       Foreground="LightGray"
+                       Visibility="Collapsed"
+                       FontFamily="Arial Black"
+                       VerticalAlignment="Center"
+                       FontSize="11" FontWeight="Bold" Height="72" Margin="6,0,0,0"
+                                       
+                               />
+
+                                    <ScrollViewer x:Name="PART_ContentHost"
+                         VerticalAlignment="Center" Height="85"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                            </Trigger>
+
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TelegramTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Width" Value="210"/>
+            <Setter Property="Margin" Value="0,10,0,10"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border x:Name="border" 
+     Background="{TemplateBinding Background}"
+     BorderBrush="{TemplateBinding BorderBrush}"
+     BorderThickness="{TemplateBinding BorderThickness}"
+     CornerRadius="16"
+     SnapsToDevicePixels="True">
+
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <TextBlock x:Name="watermark"
+                Text="{TemplateBinding Tag}"
+                Foreground="LightGray"
+                Visibility="Collapsed"
+                FontFamily="Arial Black"
+                VerticalAlignment="Center" 
+                Margin="29,0,0,0"
+                FontSize="11" FontWeight="Bold"
+                                      
+                                
+                        />
+                                    <Image Source="C:\Users\Student\source\repos\wpfHUSH\Pictures\Vector.png" Margin="3,3,173,3" RenderOptions.BitmapScalingMode="HighQuality" 
+       RenderOptions.EdgeMode="Aliased"/>
+
+                                    <ScrollViewer x:Name="PART_ContentHost"
+                  VerticalAlignment="Center" Margin="27,0,0,0"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                            </Trigger>
+
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="VKTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Width" Value="210"/>
+            <Setter Property="Margin" Value="0,10,0,10"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border x:Name="border" 
+             Background="{TemplateBinding Background}"
+             BorderBrush="{TemplateBinding BorderBrush}"
+             BorderThickness="{TemplateBinding BorderThickness}"
+             CornerRadius="16"
+             SnapsToDevicePixels="True">
+
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <TextBlock x:Name="watermark"
+                        Text="{TemplateBinding Tag}"
+                        Foreground="LightGray"
+                        Visibility="Collapsed"
+                        FontFamily="Arial Black"
+                        VerticalAlignment="Center" 
+                        Margin="29,0,0,0"
+                        FontSize="11" FontWeight="Bold"
+                                              
+                                        
+                                />
+                                    <Image Source="C:\Users\Student\source\repos\wpfHUSH\Pictures\Vector2333.png" Margin="3,3,174,3" RenderOptions.BitmapScalingMode="HighQuality" 
+       RenderOptions.EdgeMode="Aliased"/>
+
+                                    <ScrollViewer x:Name="PART_ContentHost"
+                          VerticalAlignment="Center" Margin="27,0,0,0"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                            </Trigger>
+
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ModernTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Width" Value="210"/>
+            <Setter Property="Margin" Value="0,10,0,10"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border x:Name="border" 
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="16"
+                    SnapsToDevicePixels="True">
+
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <TextBlock x:Name="watermark"
+                               Text="{TemplateBinding Tag}"
+                               Foreground="LightGray"
+                               Visibility="Collapsed"
+                               FontFamily="Arial Black"
+                               VerticalAlignment="Center" 
+                               Margin="10,0,0,0"
+                               FontSize="11" FontWeight="Bold"
+                                               
+                                       />
+
+                                    <ScrollViewer x:Name="PART_ContentHost"
+                                 VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                            </Trigger>
+
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="AddPhotoButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Width" Value="277"/>
+            <Setter Property="Margin" Value="30,8,19,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                        x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="16">
+                            <ContentPresenter 
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"
+             TextBlock.FontFamily="{TemplateBinding FontFamily}"
+             TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFCECECE"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="LabelAddProfile" TargetType="TextBlock">
+            <Setter Property="Margin" Value="30,10,0,0"/>
+            <Setter Property="FontFamily" Value="Arial Black"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Width" Value="221"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style x:Key="TextBlockText" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,15,0,0"/>
+            <Setter Property="FontFamily" Value="Arial Black"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">
+            <Image Source="C:\Users\Student\source\repos\wpfHUSH\Pictures\Group 18.png" Height="37" Width="180" RenderOptions.BitmapScalingMode="HighQuality" 
+RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Создание профиля" Style="{StaticResource LabelAddProfile}"/>
+            <Button Height="274" Style="{StaticResource AddPhotoButton}" >
+                <Button.Background>
+                    <ImageBrush ImageSource="C:\Users\Student\source\repos\wpfHUSH\Pictures\Group 21.png"/>
+                </Button.Background>
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <TextBlock Text="Имя" Style="{StaticResource TextBlockText}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Как тебя зовут?)"/>
+            <TextBlock Text="Описание" Style="{StaticResource TextBlockText}"/>
+            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Напиши что нибудь о себе..." />
+            <TextBlock Text="Пол" Style="{StaticResource TextBlockText}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="2">
+            <TextBlock Text="Возраст" Style="{StaticResource TextBlockText}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Сколько тебе лет?"/>
+            <TextBlock Text="Контакты" Style="{StaticResource TextBlockText}"/>
+            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку"/>
+            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

@@ -9,8 +9,7 @@ namespace wpfHUSH.Model
 {
     public class Contact
     {
-        
-
-        
+        public int Id { get; set; }
+        public string Link { get; set; }
     }
 }
