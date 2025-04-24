@@ -9,7 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="View\2Vector.png" />
     <None Remove="View\Group 21.png" />
+    <None Remove="View\Vector2.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +21,7 @@
 
   <ItemGroup>
     <Resource Include="Pictures\Group 21.png" />
+    <Resource Include="Pictures\2Vector.png" />
   </ItemGroup>
 
 </Project>

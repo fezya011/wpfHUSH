@@ -27,6 +27,6 @@ namespace wpfHUSH.View
             DataContext = new AddProfileWindowViewModel();  
         }
 
-        
+       
     }
 }
