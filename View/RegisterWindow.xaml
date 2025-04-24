@@ -128,7 +128,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Column="1" Grid.Row="1">
-            <Image Source="C:\Users\Student\source\repos\wpfHUSH\Pictures\Group 18.png" Height="54" Width="272" RenderOptions.BitmapScalingMode="HighQuality" 
+            <Image Source="/Pictures/Group 18.png" Height="54" Width="272" RenderOptions.BitmapScalingMode="HighQuality" 
        RenderOptions.EdgeMode="Aliased"/>
         </StackPanel>
 

@@ -9,11 +9,22 @@ using System.Windows.Media.Imaging;
 using System.Windows;
 using wpfHUSH.VMTools;
 using System.Windows.Controls;
+using System.Windows.Input;
+using wpfHUSH.View;
 
 namespace wpfHUSH.ViewModel
 {
-    class SearchWindowViewModel : BaseVM, INotifyPropertyChanged
+    class SearchWindowViewModel : BaseVM
     {
-        
+        public ICommand Open { get; set; }
+
+        public SearchWindowViewModel()
+        {
+            Open = new CommandVM(() =>
+            {
+                LikedWindow vm = new LikedWindow();
+                vm.ShowDialog();
+            }, () => true);
+        }
     }
 }

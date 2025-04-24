@@ -10,19 +10,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using wpfHUSH.ViewModel;
 
 namespace wpfHUSH.View
 {
     /// <summary>
-    /// Логика взаимодействия для Page1.xaml
+    /// Логика взаимодействия для MutualSympathyWindow.xaml
     /// </summary>
-    public partial class Page1 : Page
+    public partial class LikedWindow : Window
     {
-        public Page1()
+        public LikedWindow()
         {
             InitializeComponent();
+            DataContext = new LikedWindowViewModel();
         }
     }
 }

@@ -120,25 +120,25 @@ RenderOptions.EdgeMode="Aliased"/>
                     </TransformGroup>
                 </Image.RenderTransform>
                 <Image.OpacityMask>
-                    <ImageBrush ImageSource="C:\Users\Student\source\repos\wpfHUSH\Pictures\Test.png" />
+                    <ImageBrush ImageSource="/Pictures/Test.png" />
                 </Image.OpacityMask>
             </Image>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Button Style="{StaticResource UserButton}" >
+            <Button Style="{StaticResource UserButton}" Command="{Binding Open}">
                 <Button.Background>
-                    <ImageBrush ImageSource="C:\Users\Student\source\repos\wpfHUSH\Pictures\Like.png"/>
+                    <ImageBrush ImageSource="/Pictures/Like.png"/>
                 </Button.Background>
             </Button>
             <Button Style="{StaticResource UserButton}">
                 <Button.Background>
-                    <ImageBrush ImageSource="C:\Users\Student\source\repos\wpfHUSH\Pictures\Dislike.png"/>
+                    <ImageBrush ImageSource="/Pictures/Dislike.png"/>
                 </Button.Background>
             </Button>
             <Button Style="{StaticResource UserButton}">
                 <Button.Background>
-                    <ImageBrush ImageSource="C:\Users\Student\source\repos\wpfHUSH\Pictures\Report.png"/>
+                    <ImageBrush ImageSource="/Pictures/Report.png"/>
                 </Button.Background>
             </Button>
         </StackPanel>
@@ -146,7 +146,7 @@ RenderOptions.EdgeMode="Aliased"/>
         <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Button Height="37" Width="30" Style="{StaticResource RoundedButton}" Margin="4,0,10,10" >
                 <Button.Background>
-                    <ImageBrush ImageSource="C:\Users\Student\source\repos\wpfHUSH\Pictures\Notification.png"/>
+                    <ImageBrush ImageSource="/Pictures/Notification.png"/>
                 </Button.Background>
             </Button>
         </StackPanel>

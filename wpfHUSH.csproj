@@ -9,6 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pictures\Back.png" />
+    <None Remove="Pictures\Dislike.png" />
+    <None Remove="Pictures\Group 1.png" />
+    <None Remove="Pictures\Group 18.png" />
+    <None Remove="Pictures\Group 2.png" />
+    <None Remove="Pictures\Group 3.png" />
+    <None Remove="Pictures\ic_baseline-create.png" />
+    <None Remove="Pictures\Like.png" />
+    <None Remove="Pictures\Notification.png" />
+    <None Remove="Pictures\Rectangle 20.png" />
+    <None Remove="Pictures\Report.png" />
+    <None Remove="Pictures\Test.png" />
+    <None Remove="Pictures\Test2.png" />
+    <None Remove="Pictures\Trash.png" />
+    <None Remove="Pictures\Vector.png" />
+    <None Remove="Pictures\Vector2333.png" />
     <None Remove="View\2Vector.png" />
     <None Remove="View\Group 21.png" />
     <None Remove="View\Vector2.png" />
@@ -20,8 +36,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Pictures\Back.png" />
+    <Resource Include="Pictures\Dislike.png" />
+    <Resource Include="Pictures\Group 1.png" />
+    <Resource Include="Pictures\Group 18.png" />
+    <Resource Include="Pictures\Group 2.png" />
     <Resource Include="Pictures\Group 21.png" />
     <Resource Include="Pictures\2Vector.png" />
+    <Resource Include="Pictures\Group 3.png" />
+    <Resource Include="Pictures\ic_baseline-create.png" />
+    <Resource Include="Pictures\Like.png" />
+    <Resource Include="Pictures\Notification.png" />
+    <Resource Include="Pictures\Rectangle 20.png" />
+    <Resource Include="Pictures\Report.png" />
+    <Resource Include="Pictures\Test.png" />
+    <Resource Include="Pictures\Test2.png" />
+    <Resource Include="Pictures\Trash.png" />
+    <Resource Include="Pictures\Vector.png" />
+    <Resource Include="Pictures\Vector2333.png" />
   </ItemGroup>
 
 </Project>
