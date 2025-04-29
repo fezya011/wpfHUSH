@@ -102,6 +102,12 @@
             <Setter Property="Width" Value="332"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
+        <Style x:Key="LinkBlockText" TargetType="TextBlock">
+            <Setter Property="Margin" Value="6,0,0,0"/>
+            <Setter Property="FontFamily" Value="Arial Black"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Height" Value="18"/>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -152,7 +158,7 @@ RenderOptions.EdgeMode="Aliased"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
-            <Image Source="/Pictures/Location.png" RenderOptions.BitmapScalingMode="HighQuality" 
+            <Image Source="/Pictures/Loci.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,40,5,0"/>
             <TextBlock Text="Владивосток" Height="23" Style="{StaticResource TextLocation}"/>
         </StackPanel>
@@ -161,8 +167,8 @@ RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,40,5,0"/>
             <TextBlock Text="Читаю книги, люблю готовить. Занимаюсь спортом, ищу свою жрицу любви ) asdasadsasadsdddvbnhfjghjghbnmbnmbnm" Style="{StaticResource TextDescription}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-            <Button Style="{StaticResource UserButton}">
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding UserButtonsVisible}">
+            <Button Style="{StaticResource UserButton}" Command="{Binding LinkVisible}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Like.png"/>
                 </Button.Background>
@@ -177,6 +183,18 @@ RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,40,5,0"/>
                     <ImageBrush ImageSource="/Pictures/Report.png"/>
                 </Button.Background>
             </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding LinksButtonsVisible}">
+            <StackPanel Orientation="Horizontal" Margin="10,170,0,0">
+                <Image Source="/Pictures/Vector2333.png" Height="33" Width="41" />
+                <TextBlock Text="https://vk.ru/123123" Style="{StaticResource LinkBlockText}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
+                <Image Source="/Pictures/Vector.png" Height="33" Width="41" />
+                <TextBlock Text="@1213132asdasd" Style="{StaticResource LinkBlockText}"/>
+            </StackPanel>
+           
         </StackPanel>
 
     </Grid>

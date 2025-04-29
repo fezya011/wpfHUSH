@@ -101,7 +101,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,7,0,0"/>
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Image Source="C:\Users\Student\source\repos\wpfHUSH\Pictures\Rectangle 20.png" Height="34" Width="34" Margin="0,0,7,0" />
             <TextBlock Text="asdadadas" Style="{StaticResource TextNickname}"/>
-            <Button BorderBrush="{x:Null}" Width="16" Height="16" Style="{StaticResource RoundedButton}">
+            <Button BorderBrush="{x:Null}" Width="16" Height="16" Style="{StaticResource RoundedButton}" Command="{Binding OpenEditWindow}">
                 <Button.Background>
                     <ImageBrush ImageSource="C:\Users\Student\source\repos\wpfHUSH\Pictures\ic_baseline-create.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>

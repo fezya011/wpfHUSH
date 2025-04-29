@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pictures\akar-icons_edit.png" />
     <None Remove="Pictures\Back.png" />
     <None Remove="Pictures\Dislike.png" />
     <None Remove="Pictures\Group 1.png" />
@@ -17,6 +18,7 @@
     <None Remove="Pictures\Group 3.png" />
     <None Remove="Pictures\ic_baseline-create.png" />
     <None Remove="Pictures\Like.png" />
+    <None Remove="Pictures\Loci.png" />
     <None Remove="Pictures\Notification.png" />
     <None Remove="Pictures\Rectangle 20.png" />
     <None Remove="Pictures\Report.png" />
@@ -36,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Pictures\akar-icons_edit.png" />
     <Resource Include="Pictures\Back.png" />
     <Resource Include="Pictures\Dislike.png" />
     <Resource Include="Pictures\Group 1.png" />
@@ -46,6 +49,7 @@
     <Resource Include="Pictures\Group 3.png" />
     <Resource Include="Pictures\ic_baseline-create.png" />
     <Resource Include="Pictures\Like.png" />
+    <Resource Include="Pictures\Loci.png" />
     <Resource Include="Pictures\Notification.png" />
     <Resource Include="Pictures\Rectangle 20.png" />
     <Resource Include="Pictures\Report.png" />

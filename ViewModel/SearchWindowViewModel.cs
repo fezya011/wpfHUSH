@@ -17,6 +17,7 @@ namespace wpfHUSH.ViewModel
     class SearchWindowViewModel : BaseVM
     {
         public ICommand Open { get; set; }
+        public ICommand OpenEditWindow { get; set; }
 
         public SearchWindowViewModel()
         {
@@ -24,6 +25,12 @@ namespace wpfHUSH.ViewModel
             {
                 LikedWindow vm = new LikedWindow();
                 vm.ShowDialog();
+            }, () => true);
+
+            OpenEditWindow = new CommandVM(() =>
+            {
+                EditProfileWindow editProfileWindow = new EditProfileWindow();
+                editProfileWindow.ShowDialog();
             }, () => true);
         }
     }
