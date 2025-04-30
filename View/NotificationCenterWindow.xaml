@@ -1,0 +1,74 @@
+﻿<Window x:Class="wpfHUSH.View.NotificationCenterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:wpfHUSH.View"
+        mc:Ignorable="d"
+        Title="NotificationCenterWindow" Height="320" Width="250" MaxHeight="320" MinHeight="320" MaxWidth="250" MinWidth="250" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="LabelText" TargetType="Label">
+            <Setter Property="FontFamily" Value="Arial Black"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="0,6,0,0"/>
+        </Style>
+        <Style x:Key="RoundedButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="0,2,0,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+     x:Name="border"
+     Background="{TemplateBinding Background}"
+     BorderBrush="{TemplateBinding BorderBrush}"
+     BorderThickness="{TemplateBinding BorderThickness}"
+     CornerRadius="16">
+                            <ContentPresenter 
+         HorizontalAlignment="Center"
+         VerticalAlignment="Center"
+         TextBlock.FontFamily="{TemplateBinding FontFamily}"
+         TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFABAAAA"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Image Source="/Pictures/Notification.png" Height="52" Width="38" VerticalAlignment="Top" Margin="7"/>
+            <Label Content="Центр" Style="{StaticResource LabelText}" Height="30" VerticalAlignment="Top" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label Content="уведомлений" Style="{StaticResource LabelText}" Height="30" VerticalAlignment="Top" Margin="53,25,0,0" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <Button Height="86" Width="208" HorizontalAlignment="Left" Style="{StaticResource RoundedButton}">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Pictures/MessageLeft.png"/>
+                </Button.Background>
+            </Button>
+            <Button Height="86" Width="208" HorizontalAlignment="Right" Style="{StaticResource RoundedButton}">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Pictures/MessageRight.png"/>
+                </Button.Background>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

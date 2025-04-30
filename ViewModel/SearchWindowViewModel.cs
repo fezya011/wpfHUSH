@@ -18,6 +18,7 @@ namespace wpfHUSH.ViewModel
     {
         public ICommand Open { get; set; }
         public ICommand OpenEditWindow { get; set; }
+        public ICommand OpenNotificationWindow { get; set; }
 
         public SearchWindowViewModel()
         {
@@ -31,6 +32,12 @@ namespace wpfHUSH.ViewModel
             {
                 EditProfileWindow editProfileWindow = new EditProfileWindow();
                 editProfileWindow.ShowDialog();
+            }, () => true);
+
+            OpenNotificationWindow = new CommandVM(() =>
+            {
+                NotificationCenterWindow notificationCenterWindow = new NotificationCenterWindow();
+                notificationCenterWindow.ShowDialog();
             }, () => true);
         }
     }

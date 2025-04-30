@@ -108,6 +108,165 @@
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Height" Value="18"/>
         </Style>
+        <Style x:Key="Text" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Arial Black"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="0,235,190,0"/>
+        </Style>
+
+        <Style x:Key="RoundedComboBoxStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="Margin" Value="0,0,0,7"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <Border x:Name="Border" 
+                                CornerRadius="12" 
+                                Background="White" 
+                                BorderBrush="Black" 
+                                BorderThickness="2">
+                                <Grid>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter x:Name="ContentSite"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                  Margin="5,0,0,0"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"/>
+
+
+                                    <ToggleButton x:Name="ToggleButton"
+                                              Grid.Column="1"
+                                              Focusable="False"
+                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ClickMode="Press" Background="{x:Null}" BorderBrush="{x:Null}">
+                                        <Path x:Name="Arrow"
+                                          Fill="#444444"
+                                          Data="M0,0 L4,4 8,0 Z"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                                    </ToggleButton>
+                                </Grid>
+                            </Border>
+
+
+                            <Popup x:Name="Popup"
+                               Placement="Bottom"
+                               Focusable="False"
+                               AllowsTransparency="True"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               PopupAnimation="Slide">
+                                <Border x:Name="DropDownBorder"
+                                    CornerRadius="10"
+                                    Background="White"
+                                    BorderBrush="#888888"
+                                    BorderThickness="1"
+                                    MinWidth="{TemplateBinding ActualWidth}"
+                                    MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <ScrollViewer>
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#555555"/>
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#555555"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="#EEEEEE"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#CCCCCC"/>
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="BigTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Height" Value="62"/>
+            <Setter Property="Width" Value="232"/>
+
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border x:Name="border" 
+     Background="{TemplateBinding Background}"
+     BorderBrush="{TemplateBinding BorderBrush}"
+     BorderThickness="{TemplateBinding BorderThickness}"
+     CornerRadius="16"
+     SnapsToDevicePixels="True">
+
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <TextBlock x:Name="watermark"
+                Text="{TemplateBinding Tag}"
+                Foreground="LightGray"
+                Visibility="Collapsed"
+                FontFamily="Arial Black"
+                VerticalAlignment="Center"
+                FontSize="11" FontWeight="Bold" Height="50" Margin="6,0,0,0"
+                                
+                        />
+
+                                    <ScrollViewer x:Name="PART_ContentHost"
+                  VerticalAlignment="Center" Height="50"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                            </Trigger>
+
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -178,7 +337,7 @@ RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,40,5,0"/>
                     <ImageBrush ImageSource="/Pictures/Dislike.png"/>
                 </Button.Background>
             </Button>
-            <Button Style="{StaticResource UserButton}">
+            <Button Style="{StaticResource UserButton}" Command="{Binding ReportVisible}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Report.png"/>
                 </Button.Background>
@@ -191,10 +350,15 @@ RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,40,5,0"/>
                 <TextBlock Text="https://vk.ru/123123" Style="{StaticResource LinkBlockText}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
-                <Image Source="/Pictures/Vector.png" Height="33" Width="41" />
+                <Image Source="/Pictures/VectorTG.png" Height="33" Width="41" />
                 <TextBlock Text="@1213132asdasd" Style="{StaticResource LinkBlockText}"/>
             </StackPanel>
-           
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding ReportWindowVisible}">
+            <TextBlock Text="Жалоба" Style="{StaticResource Text}" Width="75" />
+            <ComboBox Style="{StaticResource RoundedComboBoxStyle}" Width="233" HorizontalAlignment="Left"/>
+            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание жалобы"/>
         </StackPanel>
 
     </Grid>

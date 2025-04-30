@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="AddProfileWindow" Height="470" Width="820" MaxHeight="450" MaxWidth="820" MinWidth="820" MinHeight="470" WindowStartupLocation="CenterScreen">
+        Title="AddProfileWindow" Height="480" Width="820" MaxHeight="480" MaxWidth="820" MinWidth="820" MinHeight="480" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>
@@ -273,7 +273,7 @@ RenderOptions.EdgeMode="Aliased"/>
                                       
                                 
                         />
-                                    <Image Source="/Pictures/Vector.png" Margin="3,3,173,3" RenderOptions.BitmapScalingMode="HighQuality" 
+                                    <Image Source="/Pictures/VectorTG.png" Margin="3,3,173,3" RenderOptions.BitmapScalingMode="HighQuality" 
        RenderOptions.EdgeMode="Aliased"/>
 
                                     <ScrollViewer x:Name="PART_ContentHost"
@@ -491,6 +491,75 @@ RenderOptions.EdgeMode="Aliased"/>
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="FontSize" Value="15"/>
         </Style>
+        <Style x:Key="LocationTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="Width" Value="210"/>
+            <Setter Property="Margin" Value="0,10,0,10"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border x:Name="border" 
+      Background="{TemplateBinding Background}"
+      BorderBrush="{TemplateBinding BorderBrush}"
+      BorderThickness="{TemplateBinding BorderThickness}"
+      CornerRadius="16"
+      SnapsToDevicePixels="True">
+
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <TextBlock x:Name="watermark"
+                 Text="{TemplateBinding Tag}"
+                 Foreground="LightGray"
+                 Visibility="Collapsed"
+                 FontFamily="Arial Black"
+                 VerticalAlignment="Center" 
+                 Margin="29,0,0,0"
+                 FontSize="11" FontWeight="Bold"
+                                       
+                                 
+                         />
+                                    <Image Source="/Pictures/Loci.png" Margin="3,3,174,3" RenderOptions.BitmapScalingMode="HighQuality" 
+RenderOptions.EdgeMode="Aliased"/>
+
+                                    <ScrollViewer x:Name="PART_ContentHost"
+                   VerticalAlignment="Center" Margin="27,0,0,0"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                            </Trigger>
+
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -503,7 +572,7 @@ RenderOptions.EdgeMode="Aliased"/>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">
@@ -513,7 +582,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
 
         <StackPanel Grid.Row="1">
             <TextBlock Text="Создание профиля" Style="{StaticResource LabelAddProfile}"/>
-            <Button Height="294" Style="{StaticResource AddPhotoButton}" Width="286" >
+            <Button Height="303" Style="{StaticResource AddPhotoButton}" Width="298" >
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Group 21.png"/>
                 </Button.Background>
@@ -525,11 +594,8 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
             <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Как тебя зовут?)"/>
             <TextBlock Text="Описание" Style="{StaticResource TextBlockText}"/>
             <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Напиши что нибудь о себе..." />
-            <TextBlock Text="Пол" Style="{StaticResource TextBlockText}"/>
-            <StackPanel Orientation="Horizontal">
-                <Button Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleFemale}" Margin="0,0,20,0"/>
-                <Button Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleMale}"/>
-            </StackPanel>
+            <TextBlock Text="Населенный пункт" Style="{StaticResource TextBlockText}"/>
+            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Где ты живешь?"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2">
@@ -538,12 +604,17 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
             <TextBlock Text="Контакты" Style="{StaticResource TextBlockText}"/>
             <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку"/>
             <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя"/>
-            
+            <TextBlock Text="Пол" Style="{StaticResource TextBlockText}"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleFemale}" Margin="0,8,20,0"/>
+                <Button Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleMale}" Margin="0,8,0,0"/>
+            </StackPanel>
+
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
             <Button Content="Сохранить" Style="{StaticResource RoundedButton}" Command="{Binding Open}"/>
-            <Button Width="46" Style="{StaticResource RoundedButton}">
+            <Button Width="46" Style="{StaticResource RoundedButton}" >
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Group 3.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button.Background>

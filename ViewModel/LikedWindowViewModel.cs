@@ -15,8 +15,20 @@ namespace wpfHUSH.ViewModel
     {
         private Visibility linksButtonsVisible = Visibility.Collapsed;
         private Visibility userButtonsVisible;
+        private Visibility reportWindowVisible = Visibility.Collapsed;
 
         public ICommand LinkVisible { get; }
+        public ICommand ReportVisible { get; }
+
+        public Visibility ReportWindowVisible 
+        {
+            get => reportWindowVisible; 
+            set
+            {
+                reportWindowVisible = value;
+                Signal();
+            }
+        }
 
         public Visibility UserButtonsVisible 
         { 
@@ -43,6 +55,13 @@ namespace wpfHUSH.ViewModel
                 UserButtonsVisible = Visibility.Collapsed;
                 LinksButtonsVisible = Visibility.Visible;
             }, () => true);
+
+            ReportVisible = new CommandVM(() =>
+            {
+                ReportWindowVisible = Visibility.Visible;
+            }, () => true);
+
+            
         }
     }
 }
