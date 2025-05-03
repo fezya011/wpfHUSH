@@ -59,7 +59,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1">
-            <Button Height="86" Width="208" HorizontalAlignment="Left" Style="{StaticResource RoundedButton}">
+            <Button Height="86" Width="208" HorizontalAlignment="Left" Style="{StaticResource RoundedButton}" Command="{Binding OpenLikedWindow}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/MessageLeft.png"/>
                 </Button.Background>

@@ -11,22 +11,54 @@ using wpfHUSH.VMTools;
 using System.Windows.Controls;
 using System.Windows.Input;
 using wpfHUSH.View;
+using System.Collections.ObjectModel;
+using wpfHUSH.Model;
+using System.Windows.Media;
 
 namespace wpfHUSH.ViewModel
 {
     class SearchWindowViewModel : BaseVM
     {
-        public ICommand Open { get; set; }
+        
+
+        
+
+        private Visibility reportWindowVisible = Visibility.Collapsed;
+
+
+       
+        public Visibility ReportWindowVisible
+        {
+            get => reportWindowVisible; 
+            set
+            {
+                reportWindowVisible = value;
+                Signal();
+            }
+        }
+        private bool _isLiked;
+        public bool IsLiked
+        {
+            get => _isLiked;
+            set { _isLiked = value; Signal(); }
+        }
+
+        private bool _isDisliked;
+        public bool IsDisliked
+        {
+            get => _isDisliked;
+            set { _isDisliked = value; Signal(); }
+        }
         public ICommand OpenEditWindow { get; set; }
         public ICommand OpenNotificationWindow { get; set; }
+        public ICommand ReportVisible { get; }
+        public ICommand ReportHidden { get; }
 
-        public SearchWindowViewModel()
+        public ICommand LikeCommand { get; }
+        public ICommand DislikeCommand { get; }
+        public SearchWindowViewModel(SearchWindow searchWindow)
         {
-            Open = new CommandVM(() =>
-            {
-                LikedWindow vm = new LikedWindow();
-                vm.ShowDialog();
-            }, () => true);
+           
 
             OpenEditWindow = new CommandVM(() =>
             {
@@ -38,6 +70,16 @@ namespace wpfHUSH.ViewModel
             {
                 NotificationCenterWindow notificationCenterWindow = new NotificationCenterWindow();
                 notificationCenterWindow.ShowDialog();
+            }, () => true);
+
+            ReportVisible = new CommandVM(() =>
+            {
+                ReportWindowVisible = Visibility.Visible;
+            }, () => true);
+            
+            ReportHidden = new CommandVM(() =>
+            {
+                ReportWindowVisible = Visibility.Hidden;
             }, () => true);
         }
     }

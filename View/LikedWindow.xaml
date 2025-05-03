@@ -111,7 +111,7 @@
         <Style x:Key="Text" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Margin" Value="0,235,190,0"/>
+            <Setter Property="Margin" Value="0,170,190,5"/>
         </Style>
 
         <Style x:Key="RoundedComboBoxStyle" TargetType="{x:Type ComboBox}">
@@ -133,6 +133,7 @@
                                 BorderBrush="Black" 
                                 BorderThickness="2">
                                 <Grid>
+                                    
 
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -146,6 +147,23 @@
                                                   Margin="5,0,0,0"
                                                   VerticalAlignment="Center"
                                                   HorizontalAlignment="Left"/>
+                                    <TextBox x:Name="PART_EditableTextBox"
+                                                     Style="{x:Null}" 
+                                                     HorizontalAlignment="Stretch"
+                                                     VerticalAlignment="Center"
+                                                     Margin="5,3,25,3"
+                                                     Focusable="True"
+                                                     Background="Transparent"
+                                                     Visibility="Hidden"
+                                                     IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                                    <TextBlock x:Name="PlaceholderText"
+                                                       Text="Выберите причину жалобы"
+                                                       FontFamily="Arial Black"
+                                                       FontSize="11"
+                                                       Margin="8,3,25,3"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Left"
+                                                       Foreground="LightGray"/>
 
 
                                     <ToggleButton x:Name="ToggleButton"
@@ -187,15 +205,22 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
                             </Trigger>
                             <Trigger Property="IsDropDownOpen" Value="True">
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter TargetName="Border" Property="Background" Value="#EEEEEE"/>
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#CCCCCC"/>
                                 <Setter Property="Foreground" Value="#888888"/>
                             </Trigger>
+                            <DataTrigger Binding="{Binding SelectedItem, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -267,6 +292,45 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ReportButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="FontFamily" Value="Arial Black"/>
+            <Setter Property="Width" Value="55"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+            <Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>
+            <Setter Property="Margin" Value="0,8,5,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+    x:Name="border"
+    Background="{TemplateBinding Background}"
+    BorderBrush="{TemplateBinding BorderBrush}"
+    BorderThickness="{TemplateBinding BorderThickness}"
+    CornerRadius="16">
+                            <ContentPresenter 
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        TextBlock.FontFamily="{TemplateBinding FontFamily}"
+        TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFCECECE"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -288,7 +352,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,7,0,0"/>
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Image Source="/Pictures/Rectangle 20.png" Height="34" Width="34" Margin="0,0,7,0" />
             <TextBlock Text="asdadadas" Style="{StaticResource TextNickname}"/>
-            <Button BorderBrush="{x:Null}" Width="16" Height="16" Style="{StaticResource RoundedButton}">
+            <Button BorderBrush="{x:Null}" Width="16" Height="16" Style="{StaticResource RoundedButton}" Command="{Binding OpenEditWindow}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/ic_baseline-create.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
@@ -308,7 +372,7 @@ RenderOptions.EdgeMode="Aliased"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <Button Width="33" Style="{StaticResource RoundedButton}" Height="33" Margin="4,10,10,0">
+            <Button Width="33" Style="{StaticResource RoundedButton}" Height="33" Margin="4,10,10,0" Command="{Binding CloseWindow}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Back.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
@@ -357,8 +421,13 @@ RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,40,5,0"/>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding ReportWindowVisible}">
             <TextBlock Text="Жалоба" Style="{StaticResource Text}" Width="75" />
-            <ComboBox Style="{StaticResource RoundedComboBoxStyle}" Width="233" HorizontalAlignment="Left"/>
+            <ComboBox Style="{StaticResource RoundedComboBoxStyle}" Width="233" HorizontalAlignment="Left" ItemsSource="{Binding Items}"/>
             <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание жалобы"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Отправить" Style="{StaticResource ReportButton}" Width="187"/>
+                <Button Content="х" Style="{StaticResource ReportButton}" Width="41" Command="{Binding ReturnUsersButtons}"/>
+            </StackPanel>
+            
         </StackPanel>
 
     </Grid>

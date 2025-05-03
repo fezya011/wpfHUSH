@@ -23,7 +23,7 @@ namespace wpfHUSH.View
         public LikedWindow()
         {
             InitializeComponent();
-            DataContext = new LikedWindowViewModel();
+            DataContext = new LikedWindowViewModel(this);
         }
     }
 }

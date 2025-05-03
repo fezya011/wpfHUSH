@@ -498,7 +498,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <Button Width="33" Style="{StaticResource RoundedButton}" Height="33" Margin="4,7,10,0">
+            <Button Width="33" Style="{StaticResource RoundedButton}" Height="33" Margin="4,7,10,0" Command="{Binding CloseWindow}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Back.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>

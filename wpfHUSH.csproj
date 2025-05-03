@@ -40,6 +40,7 @@
     <Resource Include="Pictures\Exit.png" />
     <Resource Include="Pictures\MessageLeft.png" />
     <Resource Include="Pictures\MessageRight.png" />
+    <Resource Include="Pictures\PhotoTest.jpg" />
     <Resource Include="Pictures\VectorTG.png" />
   </ItemGroup>
 

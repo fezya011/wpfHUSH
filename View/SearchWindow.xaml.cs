@@ -26,9 +26,9 @@ namespace wpfHUSH.View
         public SearchWindow()
         {
             InitializeComponent();
-            DataContext = new SearchWindowViewModel();     
+            DataContext = new SearchWindowViewModel(this);     
         }
-      
-   
+
+        
     }
 }

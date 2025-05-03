@@ -79,17 +79,240 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="Text" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Arial Black"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="0,130,65,5"/>
+        </Style>
+
+        <Style x:Key="RoundedComboBoxStyle" TargetType="{x:Type ComboBox}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="Margin" Value="6,0,0,7"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <Border x:Name="Border" 
+                            CornerRadius="12" 
+                            Background="White" 
+                            BorderBrush="Black" 
+                            BorderThickness="2">
+                                <Grid>
+
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter x:Name="ContentSite"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              Margin="5,0,0,0"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"/>
+                                    <TextBox x:Name="PART_EditableTextBox"
+                                                 Style="{x:Null}"
+                                                 VerticalAlignment="Center"
+                                                 Margin="5,0,0,0"
+                                                 Focusable="True"
+                                                 Background="Transparent"
+                                                 Visibility="Hidden"
+                                                 IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                                    <TextBlock x:Name="PlaceholderText"
+                                                   Text="Выберите причину жалобы"
+                                                   FontFamily="Arial Black"
+                                                   FontSize="8"
+                                                   Margin="8,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Left"
+                                                   Foreground="LightGray" Width="128"/>
+
+
+                                    <ToggleButton x:Name="ToggleButton"
+                                          Grid.Column="1"
+                                          Focusable="False"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press" Background="{x:Null}" BorderBrush="{x:Null}">
+                                        <Path x:Name="Arrow"
+                                      Fill="#444444"
+                                      Data="M0,0 L4,4 8,0 Z"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                                    </ToggleButton>
+                                </Grid>
+                            </Border>
+
+
+                            <Popup x:Name="Popup"
+                           Placement="Bottom"
+                           Focusable="False"
+                           AllowsTransparency="True"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           PopupAnimation="Slide">
+                                <Border x:Name="DropDownBorder"
+                                CornerRadius="10"
+                                Background="White"
+                                BorderBrush="#888888"
+                                BorderThickness="1"
+                                MinWidth="{TemplateBinding ActualWidth}"
+                                MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <ScrollViewer>
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="#EEEEEE"/>
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#CCCCCC"/>
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding SelectedItem, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="BigTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="Height" Value="62"/>
+            <Setter Property="Width" Value="232"/>
+            <Setter Property="Margin" Value="6,0,0,0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border x:Name="border" 
+ Background="{TemplateBinding Background}"
+ BorderBrush="{TemplateBinding BorderBrush}"
+ BorderThickness="{TemplateBinding BorderThickness}"
+ CornerRadius="16"
+ SnapsToDevicePixels="True">
+
+                                <Grid Margin="8,8,4,4">
+                                    <TextBlock x:Name="watermark"
+            Text="{TemplateBinding Tag}"
+            Foreground="LightGray"
+            Visibility="Collapsed"
+            FontFamily="Arial Black"
+            VerticalAlignment="Center"
+            FontSize="8" FontWeight="Bold" Height="50"
+                            
+                    />
+
+                                    <ScrollViewer x:Name="PART_ContentHost"
+              VerticalAlignment="Center" Height="50"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                    <Condition Property="IsKeyboardFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                            </Trigger>
+
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ReportButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="FontFamily" Value="Arial Black"/>
+            <Setter Property="Height" Value="26"/>
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+            <Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>
+            <Setter Property="Margin" Value="7,8,0,0"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+x:Name="border"
+Background="{TemplateBinding Background}"
+BorderBrush="{TemplateBinding BorderBrush}"
+BorderThickness="{TemplateBinding BorderThickness}"
+CornerRadius="10">
+                            <ContentPresenter 
+    HorizontalAlignment="Center"
+    VerticalAlignment="Center"
+    TextBlock.FontFamily="{TemplateBinding FontFamily}"
+    TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFCECECE"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+       
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition />
+            <ColumnDefinition Width="38*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="35*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
@@ -109,24 +332,10 @@ RenderOptions.EdgeMode="Aliased"/>
             </Button>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <Image Width="319" Height="331" RenderTransformOrigin="0.5,0.5">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform AngleX="-0.122"/>
-                        <RotateTransform/>
-                        <TranslateTransform X="-0.498"/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-                <Image.OpacityMask>
-                    <ImageBrush ImageSource="/Pictures/Test.png" />
-                </Image.OpacityMask>
-            </Image>
-        </StackPanel>
+        
 
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Button Style="{StaticResource UserButton}" Command="{Binding Open}">
+            <Button Style="{StaticResource UserButton}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Like.png"/>
                 </Button.Background>
@@ -136,7 +345,7 @@ RenderOptions.EdgeMode="Aliased"/>
                     <ImageBrush ImageSource="/Pictures/Dislike.png"/>
                 </Button.Background>
             </Button>
-            <Button Style="{StaticResource UserButton}">
+            <Button Style="{StaticResource UserButton}" Command="{Binding ReportVisible}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Report.png"/>
                 </Button.Background>
@@ -150,6 +359,28 @@ RenderOptions.EdgeMode="Aliased"/>
                 </Button.Background>
             </Button>
         </StackPanel>
+
+        <StackPanel Grid.RowSpan="3" Grid.Column="0" Visibility="{Binding ReportWindowVisible}" Margin="10,0,0,0">
+            <TextBlock Text="Жалоба" Style="{StaticResource Text}" Width="75" />
+            <ComboBox Style="{StaticResource RoundedComboBoxStyle}" Width="160" HorizontalAlignment="Left" ItemsSource="{Binding Items}"/>
+            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание жалобы" Width="160"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Отправить" Style="{StaticResource ReportButton}" Width="118" Height="26" />
+                <Button Content="х" Style="{StaticResource ReportButton}" Width="34" Command="{Binding ReportHidden}" Height="26"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" >
+            <Image Source="/Pictures/PhotoTest.jpg" Stretch="UniformToFill" Height="330">
+                <Image.Clip>
+                    <RectangleGeometry Rect="0,0,320,325" RadiusX="10" RadiusY="10"/>
+                </Image.Clip>
+            </Image>
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <TextBlock Text="123"/>
+            </StackPanel>
+        </StackPanel>
+
 
     </Grid>
 
