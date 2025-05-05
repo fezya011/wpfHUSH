@@ -69,7 +69,7 @@ namespace wpfHUSH.Model
 
             if (connection.OpenConnection())
             {
-                var command = connection.CreateCommand("select `Id`, `Username`, `Password`, `FirstName`, `LastName`, `Surname` ` from `Users`");
+                var command = connection.CreateCommand("SELECT User.Id, Name, About, Age, Gender, Photo, LoginPasswordId, RoleId, ContactId, City, Login, Password, RoleName, Text, ReasonId, Link FROM User LEFT JOIN LoginPassword ON LoginPasswordId = LoginPassword.Id LEFT JOIN Role ON RoleId = Role.Id LEFT JOIN Report ON ReportId = Report.Id LEFT JOIN Contact ON ContactId = Contact.Id");
                 try
                 {
                     MySqlDataReader dr = command.ExecuteReader();
@@ -78,35 +78,99 @@ namespace wpfHUSH.Model
                     {
                         int id = dr.GetInt32(0);
 
-                        string userName = string.Empty;
+                        string name = string.Empty;
                         if (!dr.IsDBNull(1))
-                            userName = dr.GetString("Username");
+                            name = dr.GetString("Name");
+
+                        string about = string.Empty;
+                        if (!dr.IsDBNull(2))
+                            about = dr.GetString("About");
+
+                        int age = 0;
+                        if (!dr.IsDBNull(3))
+                            age = dr.GetInt32("Age");
+
+                        bool gender = false;
+                        if (!dr.IsDBNull(4))
+                            gender = dr.GetBoolean("Gender");
+
+                        byte[] photo = null;
+                        if (!dr.IsDBNull(5))
+                        {
+                            long size = dr.GetBytes(5, 0, null, 0, 0);
+                            photo = new byte[size];
+                            dr.GetBytes(5, 0, photo, 0, (int)size);
+                        }
+
+                        int loginPasswordId = 0;
+                        if (!dr.IsDBNull(6))
+                            loginPasswordId = dr.GetInt32("LoginPasswordId");
+
+                        int roleId = 0;
+                        if (!dr.IsDBNull(7))
+                            roleId = dr.GetInt32("RoleId");
+
+                        int contactId = 0;
+                        if (!dr.IsDBNull(8))
+                            contactId = dr.GetInt32("ContactId");
+
+                        string city = string.Empty;
+                        if (!dr.IsDBNull(9))
+                            city = dr.GetString("City");
+
+                        string login = string.Empty;
+                        if (!dr.IsDBNull(10))
+                            login = dr.GetString("Login");
 
                         string password = string.Empty;
-                        if (!dr.IsDBNull(2))
+                        if (!dr.IsDBNull(11))
                             password = dr.GetString("Password");
 
-                        string firstName = string.Empty;
-                        if (!dr.IsDBNull(1))
-                            firstName = dr.GetString("FirstName");
+                        string roleName = string.Empty;
+                        if (!dr.IsDBNull(12))
+                            roleName = dr.GetString("RoleName");
+                        
+                        string text = string.Empty;
+                        if (!dr.IsDBNull(13))
+                            text = dr.GetString("Text");
 
-                        string lastName = string.Empty;
-                        if (!dr.IsDBNull(1))
-                            lastName = dr.GetString("LastName");
+                        int reasonId = 0;
+                        if (!dr.IsDBNull(14))
+                            reasonId = dr.GetInt32("ReasonId");
 
-                        string surname = string.Empty;
-                        if (!dr.IsDBNull(1))
-                            surname = dr.GetString("Surname");
+                        string link = string.Empty;
+                        if (!dr.IsDBNull(15))
+                            link = dr.GetString("Link");
+
+                        LoginPassword loginPassword = new LoginPassword();
+                        loginPassword.Login = login;
+                        loginPassword.Password = password;
+
+                        Role role = new Role();
+                        role.RoleName = roleName;
+                        
+                        Report report = new Report();
+                        report.Text = text;
+                        report.ReasonId = reasonId;
+
+                        Contact contact = new Contact();
+                        contact.Link = link;
+
 
                         users.Add(new User
                         {
                             Id = id,
-                            Username = userName,
-                            Password = password,
-                            FirstName = firstName,
-                            LastName = lastName,
-                            Surname = surname,
+                            Name = name,
+                            About = about,
+                            Age = age,
+                            Gender = gender,
+                            Photo = photo,
+                            LoginPasswordId = loginPasswordId,
+                            RoleId = roleId,
+                            ContactId = contactId,
+                            City = city                           
                         });
+
 
                     }
                 }
@@ -127,12 +191,16 @@ namespace wpfHUSH.Model
 
             if (connection.OpenConnection())
             {
-                var mc = connection.CreateCommand($"update `Users` set `Username`=@Username, `Password`=@Password, `FirstName`=@FirstName, `LastName`=@LastName, `Surname`=@Surname,`Id` = {edit.Id}");
-                mc.Parameters.Add(new MySqlParameter("Username", edit.Username));
-                mc.Parameters.Add(new MySqlParameter("Password", edit.Password));
-                mc.Parameters.Add(new MySqlParameter("LastName", edit.LastName));
-                mc.Parameters.Add(new MySqlParameter("FirstName", edit.FirstName));
-                mc.Parameters.Add(new MySqlParameter("Surname", edit.Surname));
+                var mc = connection.CreateCommand($"update `User` set `Name`=@Name, `About`=@About, `Age`=@Age, `Gender`=@Gender, `Photo`=@Photo, `RoleId`=@RoleId, `ReportId`=@ReportId, `ContactId`=@ContactId, `City`=@City, `Id` = {edit.Id}");
+                mc.Parameters.Add(new MySqlParameter("Name", edit.Name));
+                mc.Parameters.Add(new MySqlParameter("About", edit.About));
+                mc.Parameters.Add(new MySqlParameter("Age", edit.Age));
+                mc.Parameters.Add(new MySqlParameter("Gender", edit.Gender));
+                mc.Parameters.Add(new MySqlParameter("Photo", edit.Photo));
+                mc.Parameters.Add(new MySqlParameter("RoleId", edit.RoleId));
+                mc.Parameters.Add(new MySqlParameter("ReportId", edit.ReportId));
+                mc.Parameters.Add(new MySqlParameter("ContactId", edit.ContactId));
+                mc.Parameters.Add(new MySqlParameter("City", edit.City));
 
                 try
                 {
@@ -157,7 +225,7 @@ namespace wpfHUSH.Model
 
             if (connection.OpenConnection())
             {
-                var mc = connection.CreateCommand($"delete from `Users` where `Id` = {remove.Id}");
+                var mc = connection.CreateCommand($"delete from `User` where `Id` = {remove.Id}");
                 try
                 {
                     mc.ExecuteNonQuery();
