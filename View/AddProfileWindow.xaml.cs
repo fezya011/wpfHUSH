@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using wpfHUSH.Model;
 using wpfHUSH.ViewModel;
 
 namespace wpfHUSH.View
@@ -21,7 +22,7 @@ namespace wpfHUSH.View
     /// </summary>
     public partial class AddProfileWindow : Window
     {
-        public AddProfileWindow()
+        public AddProfileWindow(User user)
         {
             InitializeComponent();
             DataContext = new AddProfileWindowViewModel();  
