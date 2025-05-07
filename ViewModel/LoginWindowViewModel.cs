@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,16 +16,10 @@ namespace wpfHUSH.ViewModel
     {
         private User user;
         private List<User> users;
+        private string userLogin;
+        private string userPassword;
 
-        public User User 
-        { 
-            get => user;
-            set
-            {
-                user = value;
-                Signal();
-            }
-        }
+
         public List<User> Users 
         { 
             get => users;
@@ -36,6 +31,26 @@ namespace wpfHUSH.ViewModel
             }
         }
 
+        public string UserLogin 
+        { 
+            get => userLogin; 
+            set
+            {
+                userLogin = value;
+                Signal();
+            }
+        }
+
+        public string UserPassword 
+        { 
+            get => userPassword; 
+            set
+            {
+                userPassword = value;
+                Signal();
+            }
+        }
+
         public ICommand Login { get; }
 
         public LoginWindowViewModel()
@@ -43,17 +58,19 @@ namespace wpfHUSH.ViewModel
             SelectAll();
             Login = new CommandVM(() =>
             {
-                User user = Users.FirstOrDefault(u => u.LoginPassword.Login == User.LoginPassword.Login && u.LoginPassword.Password == User.LoginPassword.Password);
+                User user = Users.FirstOrDefault(u => u.LoginPassword.Login == UserLogin && u.LoginPassword.Password == UserPassword);
                 if (user != null)
                 {
-                    AddProfileWindow addProfileWindow = new AddProfileWindow(user);
+                    AddProfileWindow addProfileWindow = new AddProfileWindow();
+                    UserStatic.CurrentUser = user;
                     addProfileWindow.ShowDialog();
                 }
                 else
                 {
                     MessageBox.Show("Неправильный ввод");
                 }
-            }, () => !string.IsNullOrWhiteSpace(User.LoginPassword.Login) && !string.IsNullOrWhiteSpace(User.LoginPassword.Password));
+
+            }, () => !string.IsNullOrWhiteSpace(UserLogin) && !string.IsNullOrWhiteSpace(UserPassword));
         }
 
         private void SelectAll()

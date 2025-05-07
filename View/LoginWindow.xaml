@@ -134,9 +134,11 @@
 
         <StackPanel Grid.Row="2" Grid.Column="1">
             <TextBlock Text="Авторизация" FontFamily="Arial Black" FontSize="18" Width="130" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Логин" Text="{Binding User.LoginPassword.Login}" />
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Пароль" Text="{Binding User.LoginPassword.Password}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Логин" Text="{Binding UserLogin}" />
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Пароль" Text="{Binding UserPassword}"/>
             <Button Content="Войти" Style="{StaticResource RoundedBlackBorderButton}" Command="{Binding Login}"/>
         </StackPanel>
+
+        
     </Grid>
 </Window>

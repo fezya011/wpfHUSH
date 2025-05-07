@@ -17,6 +17,49 @@ namespace wpfHUSH.Model
             this.connection = db;
         }
 
+        public bool InsertLoginPassword(LoginPassword loginPassword)
+        {
+            bool result = false;
+            if (connection == null)
+                return result;
+
+            if (connection.OpenConnection())
+            {
+                MySqlCommand cmd = connection.CreateCommand("insert into `LoginPassword` Values (0, @Name, @About, @Age, @Gender, @Photo, @LoginPasswordId, @RoleId, @ReportId, @ContactId);select LAST_INSERT_ID();");
+
+                cmd.Parameters.Add(new MySqlParameter("Name", user.Name));
+                cmd.Parameters.Add(new MySqlParameter("About", user.About));
+                cmd.Parameters.Add(new MySqlParameter("Age", user.Age));
+                cmd.Parameters.Add(new MySqlParameter("Gender", user.Gender));
+                cmd.Parameters.Add(new MySqlParameter("Photo", user.Photo));
+                cmd.Parameters.Add(new MySqlParameter("LoginPasswordId", user.LoginPasswordId));
+                cmd.Parameters.Add(new MySqlParameter("RoleId", user.RoleId));
+                cmd.Parameters.Add(new MySqlParameter("ReportId", user.ReportId));
+                cmd.Parameters.Add(new MySqlParameter("ContactId", user.ContactId));
+                try
+                {
+
+                    int id = (int)(ulong)cmd.ExecuteScalar();
+                    if (id > 0)
+                    {
+                        MessageBox.Show(id.ToString());
+                        user.Id = id;
+                        result = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Запись не добавлена");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            connection.CloseConnection();
+            return result;
+        }
+
         public bool Insert(User user)
         {
             bool result = false;
@@ -168,7 +211,11 @@ namespace wpfHUSH.Model
                             LoginPasswordId = loginPasswordId,
                             RoleId = roleId,
                             ContactId = contactId,
-                            City = city                           
+                            City = city,
+                            LoginPassword = loginPassword,
+                            Report = report,
+                            Role = role,
+                            Contact = contact
                         });
 
 
