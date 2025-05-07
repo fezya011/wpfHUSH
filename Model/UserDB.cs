@@ -25,35 +25,29 @@ namespace wpfHUSH.Model
 
             if (connection.OpenConnection())
             {
-                MySqlCommand cmd = connection.CreateCommand("insert into `LoginPassword` Values (0, @Name, @About, @Age, @Gender, @Photo, @LoginPasswordId, @RoleId, @ReportId, @ContactId);select LAST_INSERT_ID();");
+                MySqlCommand cmd = connection.CreateCommand("insert into `LoginPassword` Values (0, @Login, @Password);select LAST_INSERT_ID();");
 
-                cmd.Parameters.Add(new MySqlParameter("Name", user.Name));
-                cmd.Parameters.Add(new MySqlParameter("About", user.About));
-                cmd.Parameters.Add(new MySqlParameter("Age", user.Age));
-                cmd.Parameters.Add(new MySqlParameter("Gender", user.Gender));
-                cmd.Parameters.Add(new MySqlParameter("Photo", user.Photo));
-                cmd.Parameters.Add(new MySqlParameter("LoginPasswordId", user.LoginPasswordId));
-                cmd.Parameters.Add(new MySqlParameter("RoleId", user.RoleId));
-                cmd.Parameters.Add(new MySqlParameter("ReportId", user.ReportId));
-                cmd.Parameters.Add(new MySqlParameter("ContactId", user.ContactId));
+                cmd.Parameters.Add(new MySqlParameter("Login", loginPassword.Login));
+                cmd.Parameters.Add(new MySqlParameter("Password", loginPassword.Password));
+                
                 try
                 {
 
                     int id = (int)(ulong)cmd.ExecuteScalar();
                     if (id > 0)
                     {
-                        MessageBox.Show(id.ToString());
-                        user.Id = id;
+                        //MessageBox.Show(id.ToString());
+                        loginPassword.Id = id;
                         result = true;
                     }
                     else
                     {
-                        MessageBox.Show("Запись не добавлена");
+                        MessageBox.Show("Ошибка базы данных при добавлении LoginPassword в User");
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    //MessageBox.Show(ex.Message);
                 }
             }
             connection.CloseConnection();
@@ -62,6 +56,7 @@ namespace wpfHUSH.Model
 
         public bool Insert(User user)
         {
+            InsertLoginPassword(user.LoginPassword);
             bool result = false;
             if (connection == null)
                 return result;
@@ -85,18 +80,17 @@ namespace wpfHUSH.Model
                     int id = (int)(ulong)cmd.ExecuteScalar();
                     if (id > 0)
                     {
-                        MessageBox.Show(id.ToString());
                         user.Id = id;
                         result = true;
                     }
                     else
                     {
-                        MessageBox.Show("Запись не добавлена");
+                        MessageBox.Show("Ошибка базы данных при добавлении User");
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    //MessageBox.Show(ex.Message);
                 }
             }
             connection.CloseConnection();

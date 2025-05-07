@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using wpfHUSH.Model;
+using wpfHUSH.View;
 using wpfHUSH.VMTools;
 
 namespace wpfHUSH.ViewModel
@@ -85,6 +86,8 @@ namespace wpfHUSH.ViewModel
                     user.LoginPassword.Password = UserPassword;
                     UserDB.GetDb().Insert(user);
                     UserStatic.CurrentUser = user;
+                    AddProfileWindow addProfileWindow = new AddProfileWindow();
+                    addProfileWindow.ShowDialog();
                 }
             }, () => !string.IsNullOrWhiteSpace(UserLogin) && !string.IsNullOrWhiteSpace(UserPassword) && !string.IsNullOrWhiteSpace(UserRepeatPassword));
         }
