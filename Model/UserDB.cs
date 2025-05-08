@@ -54,8 +54,46 @@ namespace wpfHUSH.Model
             return result;
         }
 
+        public bool InsertContact(Contact contact)
+        {
+            bool result = false;
+            if (connection == null)
+                return result;
+
+            if (connection.OpenConnection())
+            {
+                MySqlCommand cmd = connection.CreateCommand("insert into `Contact` Values (0, @Telegram, @VK);select LAST_INSERT_ID();");
+
+                cmd.Parameters.Add(new MySqlParameter("Telegram", contact.Telegram));
+                cmd.Parameters.Add(new MySqlParameter("VK", contact.VK));
+
+                try
+                {
+
+                    int id = (int)(ulong)cmd.ExecuteScalar();
+                    if (id > 0)
+                    {
+                        //MessageBox.Show(id.ToString());
+                        contact.Id = id;
+                        result = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка базы данных при добавлении Contact в User");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //MessageBox.Show(ex.Message);
+                }
+            }
+            connection.CloseConnection();
+            return result;
+        }
+
         public bool Insert(User user)
         {
+            //InsertContact(user.Contact);
             InsertLoginPassword(user.LoginPassword);
             bool result = false;
             if (connection == null)
@@ -106,7 +144,7 @@ namespace wpfHUSH.Model
 
             if (connection.OpenConnection())
             {
-                var command = connection.CreateCommand("SELECT User.Id, Name, About, Age, Gender, Photo, LoginPasswordId, RoleId, ContactId, City, Login, Password, RoleName, Text, ReasonId, Link FROM User LEFT JOIN LoginPassword ON LoginPasswordId = LoginPassword.Id LEFT JOIN Role ON RoleId = Role.Id LEFT JOIN Report ON ReportId = Report.Id LEFT JOIN Contact ON ContactId = Contact.Id");
+                var command = connection.CreateCommand("SELECT User.Id, Name, About, Age, Gender, Photo, LoginPasswordId, RoleId, ContactId, City, Login, Password, RoleName, Text, ReasonId, Telegram, VK FROM User LEFT JOIN LoginPassword ON LoginPasswordId = LoginPassword.Id LEFT JOIN Role ON RoleId = Role.Id LEFT JOIN Report ON ReportId = Report.Id LEFT JOIN Contact ON ContactId = Contact.Id");
                 try
                 {
                     MySqlDataReader dr = command.ExecuteReader();
@@ -175,9 +213,13 @@ namespace wpfHUSH.Model
                         if (!dr.IsDBNull(14))
                             reasonId = dr.GetInt32("ReasonId");
 
-                        string link = string.Empty;
+                        string telegram = string.Empty;
                         if (!dr.IsDBNull(15))
-                            link = dr.GetString("Link");
+                            telegram = dr.GetString("Telegram");
+
+                        string vk = string.Empty;
+                        if (!dr.IsDBNull(15))
+                            vk = dr.GetString("VK");
 
                         LoginPassword loginPassword = new LoginPassword();
                         loginPassword.Login = login;
@@ -191,7 +233,8 @@ namespace wpfHUSH.Model
                         report.ReasonId = reasonId;
 
                         Contact contact = new Contact();
-                        contact.Link = link;
+                        contact.Telegram = telegram;
+                        contact.VK = vk;
 
 
                         users.Add(new User
@@ -239,7 +282,6 @@ namespace wpfHUSH.Model
                 mc.Parameters.Add(new MySqlParameter("Gender", edit.Gender));
                 mc.Parameters.Add(new MySqlParameter("Photo", edit.Photo));
                 mc.Parameters.Add(new MySqlParameter("RoleId", edit.RoleId));
-                mc.Parameters.Add(new MySqlParameter("ReportId", edit.ReportId));
                 mc.Parameters.Add(new MySqlParameter("ContactId", edit.ContactId));
                 mc.Parameters.Add(new MySqlParameter("City", edit.City));
 

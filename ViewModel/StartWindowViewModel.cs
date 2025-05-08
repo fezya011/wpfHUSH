@@ -13,6 +13,7 @@ namespace wpfHUSH.ViewModel
     {
         public ICommand OpenRegistration { get; set; }
         public ICommand OpenLogin { get; set; }
+        public ICommand OPEN { get; set; }
 
         public StartWindowViewModel(MainWindow startWindow)
         {
@@ -27,7 +28,13 @@ namespace wpfHUSH.ViewModel
                 LoginWindow loginWindow = new LoginWindow();
                 loginWindow.ShowDialog();
             }, () => true);
-            
+
+            OPEN = new CommandVM(() =>
+            {
+                AddProfileWindow addProfileWindow = new AddProfileWindow();
+                addProfileWindow.ShowDialog();
+            }, () => true);
+
         }
     }
 }

@@ -10,6 +10,7 @@ namespace wpfHUSH.Model
     public class Contact
     {
         public int Id { get; set; }
-        public string Link { get; set; }
+        public string Telegram { get; set; }
+        public string VK { get; set; }
     }
 }

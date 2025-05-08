@@ -560,6 +560,69 @@ RenderOptions.EdgeMode="Aliased"/>
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="RoundedImageToggleButtonStyleMale" TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+
+                            <Border x:Name="imageContainer" 
+                         CornerRadius="12" 
+                         ClipToBounds="True">
+                                <Image x:Name="mainImage" 
+                            Source="/Pictures/Group 1.png" 
+                            Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" 
+RenderOptions.EdgeMode="Aliased"/>
+                            </Border>
+
+
+                            <Border x:Name="darkenRect" 
+                         CornerRadius="12"
+                         Background="#80000000" 
+                         Opacity="0"/>
+
+
+                            <Viewbox x:Name="checkMark" 
+                          Width="24" Height="24"
+                          Opacity="0">
+                                <Grid Width="24" Height="24">
+                                    <Ellipse Fill="#FF4CAF50" 
+                                  Width="20" Height="20"/>
+                                    <Path Data="M6,12 L10,16 18,8"
+                               Stroke="White"
+                               StrokeThickness="2.5"
+                               StrokeStartLineCap="Round"
+                               StrokeEndLineCap="Round"
+                               StrokeLineJoin="Round"/>
+                                </Grid>
+                            </Viewbox>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+
+                                            <DoubleAnimation Storyboard.TargetName="darkenRect"
+                                                Storyboard.TargetProperty="Opacity"
+                                                To="1" Duration="0:0:0.1"/>
+
+
+                                            <DoubleAnimation Storyboard.TargetName="checkMark"
+                                                Storyboard.TargetProperty="Opacity"
+                                                To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -582,7 +645,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
 
         <StackPanel Grid.Row="1">
             <TextBlock Text="Создание профиля" Style="{StaticResource LabelAddProfile}"/>
-            <Button Height="303" Style="{StaticResource AddPhotoButton}" Width="298" Command="{Binding OpenAddPhotoWindow}">
+            <Button Height="303" Style="{StaticResource AddPhotoButton}" Width="298" Command="{Binding OpenAddPhotoWindowButton}">
                 <Button.Background>
                     <ImageBrush ImageSource="{Binding Image}"/>
                 </Button.Background>
@@ -614,8 +677,8 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
-            <Button Content="Сохранить" Style="{StaticResource RoundedButton}" Command="{Binding Open}"/>
-            <Button Width="46" Style="{StaticResource RoundedButton}" >
+            <Button Content="Сохранить" Style="{StaticResource RoundedButton}" Command="{Binding SaveProfileButton}"/>
+            <Button Width="46" Style="{StaticResource RoundedButton}" Command="{Binding ResetButton}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Group 3.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Button.Background>
@@ -623,7 +686,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0">
-            <Viewbox Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">
+            <Viewbox Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,10,70,5">
                 <Grid Width="24" Height="24">
                     <!-- Зелёный кружок -->
                     <Ellipse Fill="#FF4CAF50" Width="20" Height="20" Opacity="0">
@@ -635,10 +698,18 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
                                             <BeginStoryboard>
                                                 <Storyboard>
                                                     <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                        From="0" To="1" Duration="0:0:0.3"/>
+                                            From="0" To="1" Duration="0:0:0.3"/>
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                            To="0" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -661,10 +732,18 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
                                             <BeginStoryboard>
                                                 <Storyboard>
                                                     <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                        From="0" To="1" Duration="0:0:0.3"/>
+                                            From="0" To="1" Duration="0:0:0.3"/>
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                            To="0" Duration="0:0:0.3"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -673,6 +752,8 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
                 </Grid>
             </Viewbox>
         </StackPanel>
+
+        
 
     </Grid>
 </Window>
