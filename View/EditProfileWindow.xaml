@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="EditProfileWindow" Height="500" Width="820" MaxHeight="500" MaxWidth="820" MinWidth="820" MinHeight="500" WindowStartupLocation="CenterScreen">
+        Title="EditProfileWindow" Height="530" Width="820" MaxHeight="530" MaxWidth="820" MinWidth="820" MinHeight="530" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="EditPhotoButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>
@@ -457,6 +457,41 @@ TextBlock.FontSize="{TemplateBinding FontSize}"/>
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="AddPhotoButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Width" Value="277"/>
+            <Setter Property="Margin" Value="30,8,19,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                x:Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="16">
+                            <ContentPresenter 
+     HorizontalAlignment="Center"
+     VerticalAlignment="Center"
+     TextBlock.FontFamily="{TemplateBinding FontFamily}"
+     TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFCECECE"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -477,19 +512,20 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Label Content="Редактирование профиля" Style="{StaticResource LabelText}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Имя"/>
-            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание..." Width="289"/>
-            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Населенный пункт" Width="291"/>
-            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Width="291"/>
-            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Width="291"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Имя" Text="{Binding EditableUser.Name}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Возраст" Margin="0,-2,0,9" Text="{Binding EditableUser.Age}"/>
+            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание..." Width="289" Text="{Binding EditableUser.About}"/>
+            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Населенный пункт" Width="291" Text="{Binding EditableUser.City}"/>
+            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Width="291" Text="{Binding EditableUser.Contact.VK}"/>
+            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Width="291" Text="{Binding EditableUser.Contact.Telegram}"/>
             <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
-                <Button Content="Сохранить" Style="{StaticResource RoundedButtonDown}" Command="{Binding Open}" Width="201"/>
+                <Button Content="Сохранить" Style="{StaticResource RoundedButtonDown}" Command="{Binding SaveEdit}" Width="201" />
                 <Button Width="46" Style="{StaticResource RoundedButtonDown}">
                     <Button.Background>
                         <ImageBrush ImageSource="/Pictures/Group 3.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Button.Background>
                 </Button>
-                <Button Width="46" Style="{StaticResource RoundedButtonDown}">
+                <Button Width="46" Style="{StaticResource RoundedButtonDown}" Command="{Binding Logout}">
                     <Button.Background>
                         <ImageBrush ImageSource="/Pictures/Exit.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Button.Background>
@@ -508,16 +544,14 @@ RenderOptions.EdgeMode="Aliased"/>
 
 
         <StackPanel Grid.Row="1" Grid.Column="0">
-            <Image Height="369" Margin="25,15,15,0" Source="/Pictures/Test2.png"/>
-        </StackPanel>
-        
-        <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
-            <Button Style="{StaticResource EditPhotoButton}">
+            <Button Height="420" Style="{StaticResource AddPhotoButton}" Width="400" Command="{Binding OpenAddPhotoWindowButton}">
                 <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/akar-icons_edit.png" />
+                    <ImageBrush ImageSource="{Binding Image}"/>
                 </Button.Background>
             </Button>
         </StackPanel>
+        
+        
 
         
 

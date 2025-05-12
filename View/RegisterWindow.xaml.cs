@@ -23,7 +23,7 @@ namespace wpfHUSH.View
         public RegisterWindow()
         {
             InitializeComponent();
-            DataContext = new RegisterWindowViewModel();
+            DataContext = new RegisterWindowViewModel(this);
         }
     }
 }

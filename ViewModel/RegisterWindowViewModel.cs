@@ -63,7 +63,7 @@ namespace wpfHUSH.ViewModel
 
         public ICommand SaveNewUserLoginPassword { get; }
 
-        public RegisterWindowViewModel()
+        public RegisterWindowViewModel(RegisterWindow registerWindow)
         {
             SelectAll();
             
@@ -87,6 +87,7 @@ namespace wpfHUSH.ViewModel
                     UserDB.GetDb().Insert(user);
                     UserStatic.CurrentUser = user;
                     AddProfileWindow addProfileWindow = new AddProfileWindow();
+                    registerWindow.Hide();
                     addProfileWindow.ShowDialog();
                 }
             }, () => !string.IsNullOrWhiteSpace(UserLogin) && !string.IsNullOrWhiteSpace(UserPassword) && !string.IsNullOrWhiteSpace(UserRepeatPassword));

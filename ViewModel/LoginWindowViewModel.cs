@@ -53,7 +53,7 @@ namespace wpfHUSH.ViewModel
 
         public ICommand Login { get; }
 
-        public LoginWindowViewModel()
+        public LoginWindowViewModel(LoginWindow loginWindow)
         {
             SelectAll();
             Login = new CommandVM(() =>
@@ -63,6 +63,7 @@ namespace wpfHUSH.ViewModel
                 {
                     UserStatic.CurrentUser = user;
                     SearchWindow searchWindow = new SearchWindow();
+                    loginWindow.Hide();
                     searchWindow.ShowDialog();
                 }
                 else

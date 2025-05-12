@@ -14,6 +14,7 @@ using wpfHUSH.View;
 using System.Collections.ObjectModel;
 using wpfHUSH.Model;
 using System.Windows.Media;
+using MaterialDesignThemes.Wpf;
 
 namespace wpfHUSH.ViewModel
 {
@@ -24,7 +25,9 @@ namespace wpfHUSH.ViewModel
         private Random random = new Random();
         private User currentProfile;
         private List<User> allProfiles;
-        private object genderIcon;
+        private Visibility areOver = Visibility.Hidden;
+        private Visibility hiddenLocationAndPhoto;
+        private User user;
 
         public Visibility ReportWindowVisible
         {
@@ -56,7 +59,35 @@ namespace wpfHUSH.ViewModel
             }
         }
 
-       
+        public Visibility AreOver 
+        { 
+            get => areOver; 
+            set
+            {
+                areOver = value;
+                Signal();
+            }
+        }
+
+        public Visibility HiddenLocationAndPhoto 
+        { 
+            get => hiddenLocationAndPhoto; 
+            set
+            {
+                hiddenLocationAndPhoto = value;
+                Signal();
+            }
+        }
+
+        public User User 
+        { 
+            get => user; 
+            set
+            {
+                user = value;
+                Signal();
+            }
+        }
 
         public ICommand OpenEditWindow { get; set; }
         public ICommand OpenNotificationWindow { get; set; }
@@ -68,6 +99,8 @@ namespace wpfHUSH.ViewModel
 
         public SearchWindowViewModel(SearchWindow searchWindow)
         {
+            User = UserStatic.CurrentUser;
+
             SearchSelectAll();
             profileToShow = AllProfiles
                 .OrderBy(x => random.Next())
@@ -83,13 +116,11 @@ namespace wpfHUSH.ViewModel
             LikeCommand = new CommandVM(() =>
             {
                 ProcessLikeDislike(true);
-                ShowNextProfile();
             }, () => true);
 
             DislikeCommand = new CommandVM(() =>
             {
                 ProcessLikeDislike(false);
-                ShowNextProfile();
             }, () => true);
             OpenEditWindow = new CommandVM(() =>
             {
@@ -100,7 +131,9 @@ namespace wpfHUSH.ViewModel
             OpenEditWindow = new CommandVM(() =>
             {
                 EditProfileWindow editProfileWindow = new EditProfileWindow();
-                editProfileWindow.ShowDialog();
+                searchWindow.Hide();
+                editProfileWindow.Show();
+                searchWindow.Visibility = Visibility.Visible;
             }, () => true);
 
             OpenNotificationWindow = new CommandVM(() =>
@@ -126,25 +159,38 @@ namespace wpfHUSH.ViewModel
             
         }
 
-        
-        private void ShowNextProfile()
+
+        private async void ShowNextProfile(bool isLike)
         {
-            if (profileToShow.Count == 0)
+            if (CurrentProfile == null) return;
+
+            // Запускаем анимацию исчезновения
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                MessageBox.Show("Анкеты закончились");
-                CurrentProfile = null;
-                return;
-            }
+                var window = Application.Current.Windows.OfType<SearchWindow>().FirstOrDefault();
+                window?.StartProfileAnimation(isLike ? "SlideOutToRight" : "SlideOutToLeft");
+            });
+
+            await Task.Delay(200); // Ждем завершения анимации
 
             profileToShow.Remove(CurrentProfile);
 
             if (profileToShow.Count > 0)
             {
                 CurrentProfile = profileToShow.First();
+
+                // Запускаем анимацию появления нового профиля
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    var window = Application.Current.Windows.OfType<SearchWindow>().FirstOrDefault();
+                    window?.StartProfileAnimation(isLike ? "SlideInFromLeft" : "SlideInFromRight");
+                });
             }
             else
             {
-                CurrentProfile = null;
+                AreOver = Visibility.Visible;
+                HiddenLocationAndPhoto = Visibility.Hidden;
+                CurrentProfile = null;      
             }
         }
 
@@ -152,16 +198,9 @@ namespace wpfHUSH.ViewModel
         {
             if (CurrentProfile == null) return;
 
-            if (isLike)
-            {
-                MessageBox.Show($"Вы лайкнули {CurrentProfile.Name}");
+            
 
-            }
-            else
-            {
-                MessageBox.Show($"Вы дизлаqe {CurrentProfile.Name}");
-
-            }
+            ShowNextProfile(isLike);
         }
     }
 }

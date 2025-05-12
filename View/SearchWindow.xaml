@@ -7,6 +7,54 @@
         mc:Ignorable="d"
         Title="SearchWindow"  Height="480" Width="850" MaxHeight="480" MaxWidth="850" MinWidth="850" MinHeight="480" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <Storyboard x:Key="SlideOutToLeft">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-800"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="SlideInFromRight">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="800"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="SlideOutToRight">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="800"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="SlideInFromLeft">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="-800"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="FadeInAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                            From="0" To="1" Duration="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                            From="0.5" To="1" Duration="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                            From="0.5" To="1" Duration="0:0:0.5"/>
+        </Storyboard>
         <Style x:Key="TextNickname" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="Height" Value="12"/>
@@ -339,8 +387,12 @@ RenderOptions.EdgeMode="Aliased" Margin="0,7,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Image Source="/Pictures/Rectangle 20.png" Height="34" Width="34" Margin="0,0,7,0" />
-            <TextBlock Text="asdadadas" Style="{StaticResource TextNickname}"/>
+            <Image Source="{Binding User.Photo}" Stretch="UniformToFill" Height="34">
+                <Image.Clip>
+                    <RectangleGeometry Rect="0,0,34,34" RadiusX="10" RadiusY="10"/>
+                </Image.Clip>
+            </Image>
+            <TextBlock Text="{Binding User.Name}" Style="{StaticResource TextNickname}"/>
             <Button BorderBrush="{x:Null}" Width="16" Height="16" Style="{StaticResource RoundedButton}" Command="{Binding OpenEditWindow}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/ic_baseline-create.png" RenderOptions.BitmapScalingMode="HighQuality" 
@@ -387,12 +439,26 @@ RenderOptions.EdgeMode="Aliased"/>
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" >
-            <Image Source="{Binding CurrentProfile.Photo}" Stretch="UniformToFill" Height="353">
-                <Image.Clip>
-                    <RectangleGeometry Rect="0,0,340,340" RadiusX="14" RadiusY="14"/>
-                </Image.Clip>
-            </Image>
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding AreOver}">
+            <Label Content="Анкет больше нет..." Style="{StaticResource LabelText}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" x:Name="ProfileContainer">
+            <Border x:Name="ProfileBorder" RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+                <Image Source="{Binding CurrentProfile.Photo}" Stretch="UniformToFill" Height="353">
+                    <Image.Clip>
+                        <RectangleGeometry Rect="0,0,340,340" RadiusX="14" RadiusY="14"/>
+                    </Image.Clip>
+                </Image>
+            </Border>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2">
@@ -404,7 +470,7 @@ RenderOptions.EdgeMode="Aliased" Height="23" Width="29"/>
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top">
+        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Visibility="{Binding HiddenLocationAndPhoto}">
             <Image Source="/Pictures/Loci.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,40,5,0"/>
             <TextBlock Text="{Binding CurrentProfile.City}" Height="23" Style="{StaticResource TextLocation}"/>

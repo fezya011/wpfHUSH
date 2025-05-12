@@ -23,7 +23,7 @@ namespace wpfHUSH.View
         public LoginWindow()
         {
             InitializeComponent();
-            DataContext = new LoginWindowViewModel();
+            DataContext = new LoginWindowViewModel(this);
         }
     }
 }

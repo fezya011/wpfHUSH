@@ -28,7 +28,12 @@ namespace wpfHUSH.View
             InitializeComponent();
             DataContext = new SearchWindowViewModel(this);     
         }
+        public void StartProfileAnimation(string animationName)
+        {
+            var storyboard = (Storyboard)FindResource(animationName);
+            storyboard.Begin(ProfileBorder);
+        }
 
-        
+
     }
 }
