@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="SearchWindow"  Height="480" Width="850" MaxHeight="480" MaxWidth="850" MinWidth="850" MinHeight="480" WindowStartupLocation="CenterScreen">
+        Title="SearchWindow"  Height="480" Width="850" MaxHeight="480" MaxWidth="850" MinWidth="850" MinHeight="480" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico"> 
     <Window.Resources>
         <Storyboard x:Key="SlideOutToLeft">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
@@ -349,15 +349,15 @@ CornerRadius="10">
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="LabelText" TargetType="Label">
+        <Style x:Key="LabelText" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="FontSize" Value="25"/>
-            <Setter Property="Margin" Value="0,6,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
         </Style>
         <Style x:Key="TextLocation" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Margin" Value="0,45,0,0"/>
+            <Setter Property="Margin" Value="5,3,0,0"/>
         </Style>
         <Style x:Key="TextDescription" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial Black"/>
@@ -389,7 +389,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,7,0,0"/>
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Image Source="{Binding User.Photo}" Stretch="UniformToFill" Height="34">
                 <Image.Clip>
-                    <RectangleGeometry Rect="0,0,34,34" RadiusX="10" RadiusY="10"/>
+                    <RectangleGeometry Rect="0,0,32,32" RadiusX="12" RadiusY="12"/>
                 </Image.Clip>
             </Image>
             <TextBlock Text="{Binding User.Name}" Style="{StaticResource TextNickname}"/>
@@ -440,7 +440,7 @@ RenderOptions.EdgeMode="Aliased"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding AreOver}">
-            <Label Content="Анкет больше нет..." Style="{StaticResource LabelText}" />
+            <TextBlock Text="Анкет больше нет..." Style="{StaticResource LabelText}" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" x:Name="ProfileContainer">
@@ -462,22 +462,22 @@ RenderOptions.EdgeMode="Aliased"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2">
-            <StackPanel Orientation="Horizontal">
-                <Label Content="{Binding CurrentProfile.Name}" Style="{StaticResource LabelText}"/>
-                <Label Content="{Binding CurrentProfile.Age}" Style="{StaticResource LabelText}"/>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
+                <TextBlock Text="{Binding CurrentProfile.Name}" Style="{StaticResource LabelText}"/>
+                <TextBlock Text="," Style="{StaticResource LabelText}" Height="28" Width="8" Visibility="{Binding HiddenLocationAndPhoto}" Margin="0,0,4,0"/>
+                <TextBlock Text="{Binding CurrentProfile.Age}" Style="{StaticResource LabelText}"/>
                 <Image Source="{Binding CurrentProfile.GenderIcon}" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased" Height="23" Width="29"/>
             </StackPanel>
-        </StackPanel>
-
-        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Visibility="{Binding HiddenLocationAndPhoto}">
-            <Image Source="/Pictures/Loci.png" RenderOptions.BitmapScalingMode="HighQuality" 
-RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,40,5,0"/>
-            <TextBlock Text="{Binding CurrentProfile.City}" Height="23" Style="{StaticResource TextLocation}"/>
+            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Visibility="{Binding HiddenLocationAndPhoto}" Margin="0,6,0,0" >
+                <Image Source="/Pictures/Loci.png" RenderOptions.BitmapScalingMode="HighQuality" 
+RenderOptions.EdgeMode="Aliased" Height="23" Width="16"/>
+                <TextBlock Text="{Binding CurrentProfile.City}" Height="23" Style="{StaticResource TextLocation}"/>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top">
-            <TextBlock Text="{Binding CurrentProfile.About}" Style="{StaticResource TextDescription}" Width="211" />
+            <TextBlock Text="{Binding CurrentProfile.About}" Style="{StaticResource TextDescription}" Width="211" Margin="3,70,0,0" />
         </StackPanel>
 
     </Grid>

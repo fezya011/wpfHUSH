@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="EditProfileWindow" Height="530" Width="820" MaxHeight="530" MaxWidth="820" MinWidth="820" MinHeight="530" WindowStartupLocation="CenterScreen">
+        Title="EditProfileWindow" Height="530" Width="820" MaxHeight="530" MaxWidth="820" MinWidth="820" MinHeight="530" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico">
     <Window.Resources>
         <Style x:Key="EditPhotoButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>
@@ -543,17 +543,17 @@ RenderOptions.EdgeMode="Aliased"/>
         </StackPanel>
 
 
-        <StackPanel Grid.Row="1" Grid.Column="0">
-            <Button Height="420" Style="{StaticResource AddPhotoButton}" Width="400" Command="{Binding OpenAddPhotoWindowButton}">
+        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Height="402" Style="{StaticResource AddPhotoButton}" Width="383" Command="{Binding OpenAddPhotoWindowButton}">
                 <Button.Background>
                     <ImageBrush ImageSource="{Binding Image}"/>
                 </Button.Background>
             </Button>
         </StackPanel>
-        
-        
 
-        
+
+
+
 
 
 

@@ -20,6 +20,7 @@
     <None Remove="Pictures\ic_baseline-create.png" />
     <None Remove="Pictures\Like.png" />
     <None Remove="Pictures\Loci.png" />
+    <None Remove="Pictures\Logo.ico" />
     <None Remove="Pictures\ManGender.png" />
     <None Remove="Pictures\MessageLeft.png" />
     <None Remove="Pictures\MessageRight.png" />
@@ -40,6 +41,7 @@
 
   <ItemGroup>
     <Resource Include="Pictures\Exit.png" />
+    <Resource Include="Pictures\Logo.ico" />
     <Resource Include="Pictures\ManGender.png" />
     <Resource Include="Pictures\MessageLeft.png" />
     <Resource Include="Pictures\MessageRight.png" />
@@ -67,10 +69,7 @@
     <Resource Include="Pictures\Like.png" />
     <Resource Include="Pictures\Loci.png" />
     <Resource Include="Pictures\Notification.png" />
-    <Resource Include="Pictures\Rectangle 20.png" />
     <Resource Include="Pictures\Report.png" />
-    <Resource Include="Pictures\Test.png" />
-    <Resource Include="Pictures\Test2.png" />
     <Resource Include="Pictures\Trash.png" />
     <Resource Include="Pictures\Vector2333.png" />
     <Resource Include="Pictures\WomanGender.png" />

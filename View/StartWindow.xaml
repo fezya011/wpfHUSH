@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="450" MaxHeight="300" MaxWidth="450" MinHeight="300" MinWidth="450" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="300" Width="450" MaxHeight="300" MaxWidth="450" MinHeight="300" MinWidth="450" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico">
     <Window.Resources>
         <Style x:Key="RoundedBlackBorderButton" TargetType="Button">
             <Setter Property="Background" Value="White"/>

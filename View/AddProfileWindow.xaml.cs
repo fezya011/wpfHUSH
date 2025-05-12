@@ -25,7 +25,7 @@ namespace wpfHUSH.View
         public AddProfileWindow()
         {
             InitializeComponent();
-            DataContext = new AddProfileWindowViewModel();  
+            DataContext = new AddProfileWindowViewModel(this);  
         }
 
        

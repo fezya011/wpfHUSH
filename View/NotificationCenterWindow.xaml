@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="NotificationCenterWindow" Height="320" Width="250" MaxHeight="320" MinHeight="320" MaxWidth="250" MinWidth="250" WindowStartupLocation="CenterScreen">
+        Title="NotificationCenterWindow" Height="320" Width="250" MaxHeight="320" MinHeight="320" MaxWidth="250" MinWidth="250" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico">
     <Window.Resources>
         <Style x:Key="LabelText" TargetType="Label">
             <Setter Property="FontFamily" Value="Arial Black"/>

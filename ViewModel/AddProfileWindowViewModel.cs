@@ -130,7 +130,7 @@ namespace wpfHUSH.ViewModel
         public ICommand ResetButton { get; }
 
 
-        public AddProfileWindowViewModel()
+        public AddProfileWindowViewModel(AddProfileWindow addProfileWindow)
         {
             Image = "/Pictures/Group 21.png";
             OpenAddPhotoWindowButton = new CommandVM(() =>
@@ -175,6 +175,7 @@ namespace wpfHUSH.ViewModel
                     UserDB.GetDb().Update(user);
                     user = UserStatic.CurrentUser;
                     SearchWindow searchWindow = new SearchWindow();
+                    addProfileWindow.Hide();
                     searchWindow.ShowDialog();
                 }
                 
