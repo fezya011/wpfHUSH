@@ -23,6 +23,21 @@ namespace wpfHUSH.Model
         public int ReportId { get; set; }
         public Contact Contact { get; set; }
         public int ContactId { get; set; }
+        public string GenderIcon
+        {
+            get
+            {
+                if (Gender == false)
+                {
+                    return "/Pictures/WomanGender.png";
+                }
+                else
+                {
+                    return "/Pictures/ManGender.png";
+                }
+            }
+        }
+
     }
 
 }

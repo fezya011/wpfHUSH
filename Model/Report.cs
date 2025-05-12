@@ -12,5 +12,6 @@ namespace wpfHUSH.Model
         public string Text { get; set; }
         public Reason Reason { get; set; }
         public int ReasonId { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -125,7 +125,8 @@ namespace wpfHUSH.ViewModel
 
         public ICommand SaveProfileButton { get; }
         public ICommand OpenAddPhotoWindowButton { get; }
-        //public CommandVM<Button> ClickMan {  get; set; }
+        public CommandVM<Button> ClickWoman { get; set; }
+        public CommandVM<Button> ClickMan { get; set; }
         public ICommand ResetButton { get; }
 
 
@@ -149,15 +150,35 @@ namespace wpfHUSH.ViewModel
 
             SaveProfileButton = new CommandVM(() =>
             {
-                User user = UserStatic.CurrentUser;
-                user.Name = Name;
-                user.About = About;
-                user.Age = Age;
-                //user.Gender = Gender;
-                user.City = City;
-                user.RoleId = 1;
-                UserDB.GetDb().Update(user);
-            }, () => true);
+                if (Age > 50 || Age <= 10)
+                {
+                    MessageBox.Show("Введите свой реальный возраст");
+                }
+                else if (IsPhotoAdded == false)
+                {
+                    MessageBox.Show("Сначала добавь фото");
+                    return;
+                }
+                else 
+                {
+                    User user = UserStatic.CurrentUser;
+                    user.Contact = new Contact();
+                    user.Contact.VK = VKLink;
+                    user.Contact.Telegram = TelegramLink;
+                    user.Name = Name;
+                    user.About = About;
+                    user.Age = Age;
+                    user.Gender = Gender;
+                    user.City = City;
+                    user.RoleId = 1;
+                    user.LoginPasswordId = UserStatic.CurrentUser.LoginPassword.Id;
+                    UserDB.GetDb().Update(user);
+                    user = UserStatic.CurrentUser;
+                    SearchWindow searchWindow = new SearchWindow();
+                    searchWindow.ShowDialog();
+                }
+                
+            }, () => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(About) && !string.IsNullOrWhiteSpace(City) && Age != 0 && !string.IsNullOrWhiteSpace(VKLink) && !string.IsNullOrWhiteSpace(TelegramLink));
 
             ResetButton = new CommandVM(() =>
             {
@@ -165,13 +186,23 @@ namespace wpfHUSH.ViewModel
                 Image = "/Pictures/Group 21.png";
             }, () => true);
 
-            //ClickMan = new CommandVM<Button>((button) =>
-            //{
-            //    Style style = button.Style;
-            //    button.Style = null;
-            //    button.Style = style;
-            //},
-            //() => true);
+            ClickWoman = new CommandVM<Button>((button) =>
+            {
+                Style style = button.Style;
+                button.Style = null;
+                button.Style = style;
+                Gender = true;
+            },
+            () => true);
+
+            ClickMan = new CommandVM<Button>((button) =>
+            {
+                Style style = button.Style;
+                button.Style = null;
+                button.Style = style;
+                Gender = false;
+            },
+            () => true);
         }
 
         

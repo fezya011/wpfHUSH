@@ -349,15 +349,15 @@ RenderOptions.EdgeMode="Aliased"/>
             </Button>
         </StackPanel>
 
-        
+
 
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Button Style="{StaticResource UserButton}">
+            <Button Style="{StaticResource UserButton}" Command="{Binding LikeCommand}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Like.png"/>
                 </Button.Background>
             </Button>
-            <Button Style="{StaticResource UserButton}">
+            <Button Style="{StaticResource UserButton}" Command="{Binding DislikeCommand}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Dislike.png"/>
                 </Button.Background>
@@ -388,7 +388,7 @@ RenderOptions.EdgeMode="Aliased"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" >
-            <Image Source="/Pictures/PhotoTest.jpg" Stretch="UniformToFill" Height="353">
+            <Image Source="{Binding CurrentProfile.Photo}" Stretch="UniformToFill" Height="353">
                 <Image.Clip>
                     <RectangleGeometry Rect="0,0,340,340" RadiusX="14" RadiusY="14"/>
                 </Image.Clip>
@@ -397,19 +397,21 @@ RenderOptions.EdgeMode="Aliased"/>
 
         <StackPanel Grid.Row="1" Grid.Column="2">
             <StackPanel Orientation="Horizontal">
-                <Label Content="Андреq," Style="{StaticResource LabelText}"/>
-                <Label Content="17" Style="{StaticResource LabelText}"/>
+                <Label Content="{Binding CurrentProfile.Name}" Style="{StaticResource LabelText}"/>
+                <Label Content="{Binding CurrentProfile.Age}" Style="{StaticResource LabelText}"/>
+                <Image Source="{Binding CurrentProfile.GenderIcon}" RenderOptions.BitmapScalingMode="HighQuality" 
+RenderOptions.EdgeMode="Aliased" Height="23" Width="29"/>
             </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top">
             <Image Source="/Pictures/Loci.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,40,5,0"/>
-            <TextBlock Text="Владивосток" Height="23" Style="{StaticResource TextLocation}"/>
+            <TextBlock Text="{Binding CurrentProfile.City}" Height="23" Style="{StaticResource TextLocation}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top">
-            <TextBlock Text="Читаю книги, люблю готовить. Занимаюсь спортом, ищу свою жрицу любви ) asdasadsasadsdddvbnhfjghjghbnmbnmbnm" Style="{StaticResource TextDescription}" Width="211" />
+            <TextBlock Text="{Binding CurrentProfile.About}" Style="{StaticResource TextDescription}" Width="211" />
         </StackPanel>
 
     </Grid>

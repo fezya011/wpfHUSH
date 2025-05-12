@@ -19,14 +19,13 @@ namespace wpfHUSH.ViewModel
 {
     class SearchWindowViewModel : BaseVM
     {
-        
-
-        
-
         private Visibility reportWindowVisible = Visibility.Collapsed;
+        private List<User> profileToShow = new List<User>();
+        private Random random = new Random();
+        private User currentProfile;
+        private List<User> allProfiles;
+        private object genderIcon;
 
-
-       
         public Visibility ReportWindowVisible
         {
             get => reportWindowVisible; 
@@ -36,29 +35,67 @@ namespace wpfHUSH.ViewModel
                 Signal();
             }
         }
-        private bool _isLiked;
-        public bool IsLiked
-        {
-            get => _isLiked;
-            set { _isLiked = value; Signal(); }
+
+        public User CurrentProfile 
+        { 
+            get => currentProfile; 
+            set
+            {
+                currentProfile = value;
+                Signal();
+            }
         }
 
-        private bool _isDisliked;
-        public bool IsDisliked
-        {
-            get => _isDisliked;
-            set { _isDisliked = value; Signal(); }
+        public List<User> AllProfiles 
+        { 
+            get => allProfiles;
+            set
+            {
+                allProfiles = value;
+                Signal();
+            }
         }
+
+       
+
         public ICommand OpenEditWindow { get; set; }
         public ICommand OpenNotificationWindow { get; set; }
         public ICommand ReportVisible { get; }
         public ICommand ReportHidden { get; }
-
         public ICommand LikeCommand { get; }
         public ICommand DislikeCommand { get; }
+
+
         public SearchWindowViewModel(SearchWindow searchWindow)
         {
-           
+            SearchSelectAll();
+            profileToShow = AllProfiles
+                .OrderBy(x => random.Next())
+                .ToList();
+
+            
+
+            if (profileToShow.Count > 0)
+            {
+                CurrentProfile = profileToShow.First();
+            }
+
+            LikeCommand = new CommandVM(() =>
+            {
+                ProcessLikeDislike(true);
+                ShowNextProfile();
+            }, () => true);
+
+            DislikeCommand = new CommandVM(() =>
+            {
+                ProcessLikeDislike(false);
+                ShowNextProfile();
+            }, () => true);
+            OpenEditWindow = new CommandVM(() =>
+            {
+                EditProfileWindow editProfileWindow = new EditProfileWindow();
+                editProfileWindow.ShowDialog();
+            }, () => true);
 
             OpenEditWindow = new CommandVM(() =>
             {
@@ -81,6 +118,50 @@ namespace wpfHUSH.ViewModel
             {
                 ReportWindowVisible = Visibility.Hidden;
             }, () => true);
+        }
+
+        private void SearchSelectAll()
+        {
+            AllProfiles = new List<User>(UserDB.GetDb().SearchSelectAll());
+            
+        }
+
+        
+        private void ShowNextProfile()
+        {
+            if (profileToShow.Count == 0)
+            {
+                MessageBox.Show("Анкеты закончились");
+                CurrentProfile = null;
+                return;
+            }
+
+            profileToShow.Remove(CurrentProfile);
+
+            if (profileToShow.Count > 0)
+            {
+                CurrentProfile = profileToShow.First();
+            }
+            else
+            {
+                CurrentProfile = null;
+            }
+        }
+
+        private void ProcessLikeDislike(bool isLike)
+        {
+            if (CurrentProfile == null) return;
+
+            if (isLike)
+            {
+                MessageBox.Show($"Вы лайкнули {CurrentProfile.Name}");
+
+            }
+            else
+            {
+                MessageBox.Show($"Вы дизлаqe {CurrentProfile.Name}");
+
+            }
         }
     }
 }

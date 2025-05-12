@@ -655,23 +655,23 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Text="Имя" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Как тебя зовут?)"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Как тебя зовут?)" Text="{Binding Name}"/>
             <TextBlock Text="Описание" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Напиши что нибудь о себе..." />
+            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Напиши что нибудь о себе..."  Text="{Binding About}"/>
             <TextBlock Text="Населенный пункт" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Где ты живешь?"/>
+            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Где ты живешь?" Text="{Binding City}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2">
             <TextBlock Text="Возраст" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Сколько тебе лет?"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Сколько тебе лет?" Text="{Binding Age}"/>
             <TextBlock Text="Контакты" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку"/>
-            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя"/>
+            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Text="{Binding VKLink}"/>
+            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Text="{Binding TelegramLink}"/>
             <TextBlock Text="Пол" Style="{StaticResource TextBlockText}"/>
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="buttonWoman" Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleFemale}" Command="{Binding ClickMan}" CommandParameter="{Binding }" Margin="0,8,20,0"/>
-                <Button x:Name="buttonMan" Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleMale}" Margin="0,8,0,0"/>
+                <Button x:Name="buttonWoman" Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleFemale}" Command="{Binding ClickGender}" CommandParameter="{Binding ElementName=buttonMan, Path=.}" Margin="0,8,20,0"/>
+                <Button x:Name="buttonMan" Command="{Binding ClickGender}" CommandParameter="{Binding ElementName=buttonWoman, Path=.}" Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleMale}" Margin="0,8,0,0"/>
             </StackPanel>
 
         </StackPanel>

@@ -20,6 +20,7 @@
     <None Remove="Pictures\ic_baseline-create.png" />
     <None Remove="Pictures\Like.png" />
     <None Remove="Pictures\Loci.png" />
+    <None Remove="Pictures\ManGender.png" />
     <None Remove="Pictures\MessageLeft.png" />
     <None Remove="Pictures\MessageRight.png" />
     <None Remove="Pictures\Notification.png" />
@@ -31,6 +32,7 @@
     <None Remove="Pictures\Vector.png" />
     <None Remove="Pictures\Vector2333.png" />
     <None Remove="Pictures\VectorTG.png" />
+    <None Remove="Pictures\WomanGender.png" />
     <None Remove="View\2Vector.png" />
     <None Remove="View\Group 21.png" />
     <None Remove="View\Vector2.png" />
@@ -38,6 +40,7 @@
 
   <ItemGroup>
     <Resource Include="Pictures\Exit.png" />
+    <Resource Include="Pictures\ManGender.png" />
     <Resource Include="Pictures\MessageLeft.png" />
     <Resource Include="Pictures\MessageRight.png" />
     <Resource Include="Pictures\PhotoTest.jpg" />
@@ -70,6 +73,7 @@
     <Resource Include="Pictures\Test2.png" />
     <Resource Include="Pictures\Trash.png" />
     <Resource Include="Pictures\Vector2333.png" />
+    <Resource Include="Pictures\WomanGender.png" />
   </ItemGroup>
 
 </Project>

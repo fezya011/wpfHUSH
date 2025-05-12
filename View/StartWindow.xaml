@@ -85,8 +85,6 @@
             <Button Content="Регистрация" Style="{StaticResource RoundedBlackBorderButton}" Command="{Binding OpenRegistration}"/>
         </StackPanel>
 
-        <StackPanel>
-            <Button Command="{Binding OPEN}"/>
-        </StackPanel>
+       
     </Grid>
 </Window>

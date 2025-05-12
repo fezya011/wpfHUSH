@@ -33,29 +33,29 @@ namespace wpfHUSH.VMTools
         }
     }
 
-    //public class CommandVM<T> : ICommand
-    //{
-    //    Action<T> action;
-    //    Func<bool> canExecute;
+    public class CommandVM<T> : ICommand
+    {
+        Action<T> action;
+        Func<bool> canExecute;
 
-    //    public CommandVM(Action<T> action, Func<bool> canExecute)
-    //    {
-    //        this.action = action;
-    //        this.canExecute = canExecute;
-    //    }
+        public CommandVM(Action<T> action, Func<bool> canExecute)
+        {
+            this.action = action;
+            this.canExecute = canExecute;
+        }
 
-    //    public event EventHandler? CanExecuteChanged
-    //    {
-    //        add { CommandManager.RequerySuggested += value; }
-    //        remove { CommandManager.RequerySuggested -= value; }
-    //    }
-    //    public bool CanExecute(object? parameter)
-    //    {
-    //        return canExecute();
-    //    }
-    //    public void Execute(object? parameter)
-    //    {
-    //        action((T)parameter);
-    //    }
-    //}
+        public event EventHandler? CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+        public bool CanExecute(object? parameter)
+        {
+            return canExecute();
+        }
+        public void Execute(object? parameter)
+        {
+            action((T)parameter);
+        }
+    }
 }
