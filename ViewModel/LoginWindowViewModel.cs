@@ -61,9 +61,9 @@ namespace wpfHUSH.ViewModel
                 User user = Users.FirstOrDefault(u => u.LoginPassword.Login == UserLogin && u.LoginPassword.Password == UserPassword);
                 if (user != null)
                 {
-                    AddProfileWindow addProfileWindow = new AddProfileWindow();
                     UserStatic.CurrentUser = user;
-                    addProfileWindow.ShowDialog();
+                    SearchWindow searchWindow = new SearchWindow();
+                    searchWindow.ShowDialog();
                 }
                 else
                 {
