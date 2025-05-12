@@ -12,6 +12,7 @@
     <None Remove="Pictures\akar-icons_edit.png" />
     <None Remove="Pictures\Back.png" />
     <None Remove="Pictures\Dislike.png" />
+    <None Remove="Pictures\EditPhoto.png" />
     <None Remove="Pictures\Exit.png" />
     <None Remove="Pictures\Group 1.png" />
     <None Remove="Pictures\Group 18.png" />
@@ -40,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Pictures\EditPhoto.png" />
     <Resource Include="Pictures\Exit.png" />
     <Resource Include="Pictures\Logo.ico" />
     <Resource Include="Pictures\ManGender.png" />

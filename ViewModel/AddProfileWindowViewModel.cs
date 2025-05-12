@@ -158,7 +158,7 @@ namespace wpfHUSH.ViewModel
                 {
                     MessageBox.Show("Сначала добавь фото");
                     return;
-                }
+                }                  
                 else 
                 {
                     User user = UserStatic.CurrentUser;
@@ -185,6 +185,12 @@ namespace wpfHUSH.ViewModel
             {
                 IsPhotoAdded = false;
                 Image = "/Pictures/Group 21.png";
+                Name = null;
+                Age = 0;
+                About = null;
+                City = null;
+                VKLink = null;
+                TelegramLink = null;
             }, () => true);
 
             ClickWoman = new CommandVM<Button>((button) =>

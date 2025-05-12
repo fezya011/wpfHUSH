@@ -5,7 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Xml.Linq;
 using wpfHUSH.Model;
 using wpfHUSH.View;
 using wpfHUSH.VMTools;
@@ -40,6 +42,7 @@ namespace wpfHUSH.ViewModel
         public ICommand Logout { get; }
         public ICommand SaveEdit { get; }
         public ICommand OpenAddPhotoWindowButton { get; }
+        public ICommand Reset { get; }
 
         public EditProfileWindowViewModel(EditProfileWindow editProfileWindow)
         {
@@ -81,7 +84,7 @@ namespace wpfHUSH.ViewModel
                 UserStatic.CurrentUser.Contact.VK = EditableUser.Contact.VK;
                 UserStatic.CurrentUser.Contact.Telegram = EditableUser.Contact.Telegram;
                 UserDB.GetDb().Update(UserStatic.CurrentUser);
-            }, () => true);
+            }, () => !string.IsNullOrWhiteSpace(EditableUser.Name) && !string.IsNullOrWhiteSpace(EditableUser.About) && !string.IsNullOrWhiteSpace(EditableUser.City) && EditableUser.Age != 0 && !string.IsNullOrWhiteSpace(EditableUser.Contact.VK) && !string.IsNullOrWhiteSpace(EditableUser.Contact.Telegram));
 
             CloseWindow = new CommandVM(() =>
             {
@@ -91,6 +94,23 @@ namespace wpfHUSH.ViewModel
             Logout = new CommandVM(() =>
             {
                 WindowManager.ReturnToMainWindow();
+            }, () => true);
+
+            Reset = new CommandVM(() =>
+            {
+                Image = "/Pictures/EditPhoto.png";
+                EditableUser = new User
+                {
+                    Name = null,
+                    About = null,
+                    Age = 0,
+                    City = null,
+                    Contact = new Contact
+                    {
+                        VK = null,
+                        Telegram = null
+                    },                   
+                };
             }, () => true);
         }
     }

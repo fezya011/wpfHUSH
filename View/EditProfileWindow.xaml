@@ -520,7 +520,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
             <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Width="291" Text="{Binding EditableUser.Contact.Telegram}"/>
             <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
                 <Button Content="Сохранить" Style="{StaticResource RoundedButtonDown}" Command="{Binding SaveEdit}" Width="201" />
-                <Button Width="46" Style="{StaticResource RoundedButtonDown}">
+                <Button Width="46" Style="{StaticResource RoundedButtonDown}" Command="{Binding Reset}">
                     <Button.Background>
                         <ImageBrush ImageSource="/Pictures/Group 3.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Button.Background>

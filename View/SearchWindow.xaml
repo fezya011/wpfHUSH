@@ -387,7 +387,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,7,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Image Source="{Binding User.Photo}" Stretch="UniformToFill" Height="34">
+            <Image Source="{Binding User.Photo}" Stretch="UniformToFill" Width="34" Height="34" Margin="0,2,5,0">
                 <Image.Clip>
                     <RectangleGeometry Rect="0,0,32,32" RadiusX="12" RadiusY="12"/>
                 </Image.Clip>
