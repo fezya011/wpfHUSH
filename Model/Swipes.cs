@@ -8,7 +8,7 @@ using System.Windows.Xps.Serialization;
 namespace wpfHUSH.Model
 {
     public class Swipes
-    {      
+    {     
         public int SwiperId { get; set; }
         public int SwipedId { get; set; }
         public bool Action { get; set; }
