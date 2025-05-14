@@ -134,9 +134,9 @@
 
         <StackPanel Grid.Row="2" Grid.Column="1">
             <TextBlock Text="Регистрация" FontFamily="Arial Black" FontSize="18" Width="130" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Укажите логин" Text="{Binding UserLogin}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Придумайте пароль" Text="{Binding UserPassword}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Подтвердите пароль" Text="{Binding UserRepeatPassword}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Укажите логин" Text="{Binding UserLogin, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Придумайте пароль" Text="{Binding UserPassword, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Подтвердите пароль" Text="{Binding UserRepeatPassword, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Content="Зарегистрироваться" Style="{StaticResource RoundedBlackBorderButton}" Command="{Binding SaveNewUserLoginPassword}"/>
         </StackPanel>
     </Grid>

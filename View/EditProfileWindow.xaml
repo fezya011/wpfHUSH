@@ -512,12 +512,12 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Label Content="Редактирование профиля" Style="{StaticResource LabelText}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Имя" Text="{Binding EditableUser.Name}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Возраст" Margin="0,-2,0,9" Text="{Binding EditableUser.Age}"/>
-            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание..." Width="289" Text="{Binding EditableUser.About}"/>
-            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Населенный пункт" Width="291" Text="{Binding EditableUser.City}"/>
-            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Width="291" Text="{Binding EditableUser.Contact.VK}"/>
-            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Width="291" Text="{Binding EditableUser.Contact.Telegram}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Имя" Text="{Binding EditableUser.Name, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Возраст" Margin="0,-2,0,9" Text="{Binding EditableUser.Age, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание..." Width="289" Text="{Binding EditableUser.About, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Населенный пункт" Width="291" Text="{Binding EditableUser.City, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Width="291" Text="{Binding EditableUser.Contact.VK, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Width="291" Text="{Binding EditableUser.Contact.Telegram, UpdateSourceTrigger=PropertyChanged}"/>
             <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
                 <Button Content="Сохранить" Style="{StaticResource RoundedButtonDown}" Command="{Binding SaveEdit}" Width="201" />
                 <Button Width="46" Style="{StaticResource RoundedButtonDown}" Command="{Binding Reset}">

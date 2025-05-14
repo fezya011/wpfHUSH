@@ -134,8 +134,8 @@
 
         <StackPanel Grid.Row="2" Grid.Column="1">
             <TextBlock Text="Авторизация" FontFamily="Arial Black" FontSize="18" Width="130" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Логин" Text="{Binding UserLogin}" />
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Пароль" Text="{Binding UserPassword}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Логин" Text="{Binding UserLogin, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Пароль" Text="{Binding UserPassword, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Content="Войти" Style="{StaticResource RoundedBlackBorderButton}" Command="{Binding Login}"/>
         </StackPanel>
 

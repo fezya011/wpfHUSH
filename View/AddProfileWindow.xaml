@@ -655,19 +655,19 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Text="Имя" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Как тебя зовут?)" Text="{Binding Name}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Как тебя зовут?)" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Описание" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Напиши что нибудь о себе..."  Text="{Binding About}"/>
+            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Напиши что нибудь о себе..."  Text="{Binding About, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Населенный пункт" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Где ты живешь?" Text="{Binding City}"/>
+            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Где ты живешь?" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="2">
             <TextBlock Text="Возраст" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Сколько тебе лет?" Text="{Binding Age}"/>
+            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Сколько тебе лет?" Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Контакты" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Text="{Binding VKLink}"/>
-            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Text="{Binding TelegramLink}"/>
+            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Text="{Binding VKLink, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Text="{Binding TelegramLink, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="Пол" Style="{StaticResource TextBlockText}"/>
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="buttonWoman" Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleFemale}" Command="{Binding ClickGender}" CommandParameter="{Binding ElementName=buttonMan, Path=.}" Margin="0,8,20,0"/>

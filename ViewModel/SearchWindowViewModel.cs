@@ -132,8 +132,10 @@ namespace wpfHUSH.ViewModel
             {
                 EditProfileWindow editProfileWindow = new EditProfileWindow();
                 searchWindow.Hide();
-                editProfileWindow.Show();
+                editProfileWindow.ShowDialog();
                 searchWindow.Visibility = Visibility.Visible;
+                User = null;
+                User = UserStatic.CurrentUser;
             }, () => true);
 
             OpenNotificationWindow = new CommandVM(() =>
