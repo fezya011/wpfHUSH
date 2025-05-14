@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="SearchWindow"  Height="480" Width="850" MaxHeight="480" MaxWidth="850" MinWidth="850" MinHeight="480" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico"> 
+        Title="SearchWindow"  Height="480" Width="850" MaxHeight="480" MaxWidth="850" MinWidth="850" MinHeight="480" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality"> 
     <Window.Resources>
         <Storyboard x:Key="SlideOutToLeft">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="NotificationCenterWindow" Height="320" Width="250" MaxHeight="320" MinHeight="320" MaxWidth="250" MinWidth="250" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico">
+        Title="NotificationCenterWindow" Height="340" Width="270" MaxHeight="340" MinHeight="340" MaxWidth="270" MinWidth="270" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
         <Style x:Key="LabelText" TargetType="Label">
             <Setter Property="FontFamily" Value="Arial Black"/>
@@ -42,6 +42,45 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style  TargetType="ListView">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="Arial Black"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="2"/>
+        </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0 0 0 6"/>
+            <Setter Property="Margin" Value="0 6 0 0"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border Name="Border" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#FFBBB8B8"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#FFBBB8B8"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#FFBBB8B8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -50,7 +89,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Image Source="/Pictures/Notification.png" Height="52" Width="38" VerticalAlignment="Top" Margin="7"/>
+            <Image Source="/Pictures/Notification.png" Height="52" Width="38" VerticalAlignment="Top" RenderOptions.BitmapScalingMode="HighQuality" 
+       RenderOptions.EdgeMode="Aliased" Margin="7"/>
             <Label Content="Центр" Style="{StaticResource LabelText}" Height="30" VerticalAlignment="Top" />
         </StackPanel>
 
@@ -59,16 +99,91 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1">
-            <Button Height="86" Width="208" HorizontalAlignment="Left" Style="{StaticResource RoundedButton}" Command="{Binding OpenLikedWindow}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/MessageLeft.png"/>
-                </Button.Background>
-            </Button>
-            <Button Height="86" Width="208" HorizontalAlignment="Right" Style="{StaticResource RoundedButton}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/MessageRight.png"/>
-                </Button.Background>
-            </Button>
+            <Grid>
+                <ListView x:Name="NotificationsListView">
+                    <ListView.Items>
+                        <!-- Жестко заданные уведомления -->
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Фото пользователя (загружаем из ресурсов) -->
+                                <Image Source="/Pictures/User1.png" Stretch="UniformToFill" Width="43" Height="43" Margin="5,5,8,5">
+                                    <Image.Clip>
+                                        <RectangleGeometry Rect="0,0,43,43" RadiusX="12" RadiusY="12"/>
+                                    </Image.Clip>
+                                </Image>
+
+                                <StackPanel>
+                                    <TextBlock Text="Анна понравилась вам!" FontWeight="Bold" Margin="0,3,0,2"/>
+                                    <TextBlock Text="Анна, 25, Москва"/>
+                                    <Ellipse Width="10" Height="10" Fill="Red" 
+                                     HorizontalAlignment="Right" Visibility="Visible"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Pictures/User2.png" Stretch="UniformToFill" Width="43" Height="43" Margin="5,5,8,5">
+                                    <Image.Clip>
+                                        <RectangleGeometry Rect="0,0,43,43" RadiusX="12" RadiusY="12"/>
+                                    </Image.Clip>
+                                </Image>
+                                <StackPanel>
+                                    <TextBlock Text="Иван понравился вам!" FontWeight="Bold" Margin="0,3,0,2"/>
+                                    <TextBlock Text="Иван, 30, Санкт-Петербург"/>
+                                    <Ellipse Width="10" Height="10" Fill="Red" 
+                                     HorizontalAlignment="Right" Visibility="Collapsed"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Pictures/User2.png" Stretch="UniformToFill" Width="43" Height="43" Margin="5,5,8,5">
+                                    <Image.Clip>
+                                        <RectangleGeometry Rect="0,0,43,43" RadiusX="12" RadiusY="12"/>
+                                    </Image.Clip>
+                                </Image>
+                                <StackPanel>
+                                    <TextBlock Text="Иван понравился вам!" FontWeight="Bold" Margin="0,3,0,2"/>
+                                    <TextBlock Text="Иван, 30, Санкт-Петербург"/>
+                                    <Ellipse Width="10" Height="10" Fill="Red" 
+             HorizontalAlignment="Right" Visibility="Collapsed"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Pictures/User2.png" Stretch="UniformToFill" Width="43" Height="43" Margin="5,5,8,5">
+                                    <Image.Clip>
+                                        <RectangleGeometry Rect="0,0,43,43" RadiusX="12" RadiusY="12"/>
+                                    </Image.Clip>
+                                </Image>
+                                <StackPanel>
+                                    <TextBlock Text="Иван понравился вам!" FontWeight="Bold" Margin="0,3,0,2"/>
+                                    <TextBlock Text="Иван, 30, Санкт-Петербург"/>
+                                    <Ellipse Width="10" Height="10" Fill="Red" 
+             HorizontalAlignment="Right" Visibility="Collapsed"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Pictures/User2.png" Stretch="UniformToFill" Width="43" Height="43" Margin="5,5,8,5">
+                                    <Image.Clip>
+                                        <RectangleGeometry Rect="0,0,43,43" RadiusX="12" RadiusY="12"/>
+                                    </Image.Clip>
+                                </Image>
+                                <StackPanel>
+                                    <TextBlock Text="Иван понравился вам!" FontWeight="Bold" Margin="0,3,0,2"/>
+                                    <TextBlock Text="Иван, 30, Санкт-Петербург"/>
+                                    <Ellipse Width="10" Height="10" Fill="Red" 
+             HorizontalAlignment="Right" Visibility="Collapsed"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView.Items>
+                </ListView>
+            </Grid>
         </StackPanel>
     </Grid>
 </Window>

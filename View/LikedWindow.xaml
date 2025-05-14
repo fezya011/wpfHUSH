@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="LikedWindow" Height="470" Width="820" MaxHeight="450" MaxWidth="820" MinWidth="820" MinHeight="470" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico">
+        Title="LikedWindow" Height="470" Width="820" MaxHeight="450" MaxWidth="820" MinWidth="820" MinHeight="470" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
         <Style x:Key="UserButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>

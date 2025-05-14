@@ -31,6 +31,8 @@
     <None Remove="Pictures\Test.png" />
     <None Remove="Pictures\Test2.png" />
     <None Remove="Pictures\Trash.png" />
+    <None Remove="Pictures\User1.png" />
+    <None Remove="Pictures\User2.png" />
     <None Remove="Pictures\Vector.png" />
     <None Remove="Pictures\Vector2333.png" />
     <None Remove="Pictures\VectorTG.png" />
@@ -48,6 +50,8 @@
     <Resource Include="Pictures\MessageLeft.png" />
     <Resource Include="Pictures\MessageRight.png" />
     <Resource Include="Pictures\PhotoTest.jpg" />
+    <Resource Include="Pictures\User1.png" />
+    <Resource Include="Pictures\User2.png" />
     <Resource Include="Pictures\VectorTG.png" />
   </ItemGroup>
 

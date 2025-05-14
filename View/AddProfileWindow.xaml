@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="AddProfileWindow" Height="480" Width="820" MaxHeight="480" MaxWidth="820" MinWidth="820" MinHeight="480" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico">
+        Title="AddProfileWindow" Height="480" Width="820" MaxHeight="480" MaxWidth="820" MinWidth="820" MinHeight="480" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
         <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>

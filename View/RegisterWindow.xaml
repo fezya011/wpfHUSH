@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="RegisterWindow" Height="400" Width="550" MaxHeight="400" MaxWidth="550" MinHeight="400" MinWidth="550" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico">
+        Title="RegisterWindow" Height="400" Width="550" MaxHeight="400" MaxWidth="550" MinHeight="400" MinWidth="550" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
         <Style x:Key="ModernTextBoxStyle" TargetType="{x:Type TextBox}">
             <Setter Property="Background" Value="White"/>

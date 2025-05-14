@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="EditProfileWindow" Height="530" Width="820" MaxHeight="530" MaxWidth="820" MinWidth="820" MinHeight="530" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico">
+        Title="EditProfileWindow" Height="530" Width="820" MaxHeight="530" MaxWidth="820" MinWidth="820" MinHeight="530" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality" 
+       >
     <Window.Resources>
         <Style x:Key="EditPhotoButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>
