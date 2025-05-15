@@ -99,9 +99,11 @@ namespace wpfHUSH.ViewModel
 
         public SearchWindowViewModel(SearchWindow searchWindow)
         {
+            
             User = UserStatic.CurrentUser;
 
             SearchSelectAll();
+            
             profileToShow = AllProfiles
                 .OrderBy(x => random.Next())
                 .ToList();
@@ -157,8 +159,11 @@ namespace wpfHUSH.ViewModel
 
         private void SearchSelectAll()
         {
-            AllProfiles = new List<User>(UserDB.GetDb().SearchSelectAll());
-            
+            AllProfiles = new List<User>(UserDB.GetDb().SearchSelectAll().Where(user => user.Id != UserStatic.CurrentUser.Id && !SwipeDB.GetDb().SelectAll().Any(swipe => swipe.SwiperId == UserStatic.CurrentUser.Id && swipe.SwipedId == user.Id)).ToList());
+            if (AllProfiles.Count == 0)
+            {
+                HideAndVisability();
+            }
         }
 
 
@@ -166,14 +171,13 @@ namespace wpfHUSH.ViewModel
         {
             if (CurrentProfile == null) return;
 
-            // Запускаем анимацию исчезновения
             Application.Current.Dispatcher.Invoke(() =>
             {
                 var window = Application.Current.Windows.OfType<SearchWindow>().FirstOrDefault();
                 window?.StartProfileAnimation(isLike ? "SlideOutToRight" : "SlideOutToLeft");
             });
 
-            await Task.Delay(200); // Ждем завершения анимации
+            await Task.Delay(200); 
 
             profileToShow.Remove(CurrentProfile);
 
@@ -181,7 +185,6 @@ namespace wpfHUSH.ViewModel
             {
                 CurrentProfile = profileToShow.First();
 
-                // Запускаем анимацию появления нового профиля
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     var window = Application.Current.Windows.OfType<SearchWindow>().FirstOrDefault();
@@ -190,9 +193,8 @@ namespace wpfHUSH.ViewModel
             }
             else
             {
-                AreOver = Visibility.Visible;
-                HiddenLocationAndPhoto = Visibility.Hidden;
-                CurrentProfile = null;      
+                HideAndVisability();
+                CurrentProfile = null;
             }
         }
 
@@ -200,9 +202,23 @@ namespace wpfHUSH.ViewModel
         {
             if (CurrentProfile == null) return;
 
-            
-
+            var swipe = new Swipes
+            {
+                SwiperId = UserStatic.CurrentUser.Id,
+                SwipedId = CurrentProfile.Id,
+                Action = isLike,
+                IsNotificated = false
+            };
+           
+            SwipeDB.GetDb().InsertSwipe(swipe);
+                          
             ShowNextProfile(isLike);
+        }
+
+        private void HideAndVisability()
+        {
+            AreOver = Visibility.Visible;
+            HiddenLocationAndPhoto = Visibility.Hidden;            
         }
     }
 }

@@ -81,6 +81,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -100,88 +101,37 @@
 
         <StackPanel Grid.Row="1">
             <Grid>
-                <ListView x:Name="NotificationsListView">
-                    <ListView.Items>
-                        <!-- Жестко заданные уведомления -->
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal">
-                                <!-- Фото пользователя (загружаем из ресурсов) -->
-                                <Image Source="/Pictures/User1.png" Stretch="UniformToFill" Width="43" Height="43" Margin="5,5,8,5">
-                                    <Image.Clip>
-                                        <RectangleGeometry Rect="0,0,43,43" RadiusX="12" RadiusY="12"/>
-                                    </Image.Clip>
-                                </Image>
+                <ListView x:Name="NotificationsListView" ItemsSource="{Binding Notifications}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <StackPanel>
-                                    <TextBlock Text="Анна понравилась вам!" FontWeight="Bold" Margin="0,3,0,2"/>
-                                    <TextBlock Text="Анна, 25, Москва"/>
-                                    <Ellipse Width="10" Height="10" Fill="Red" 
-                                     HorizontalAlignment="Right" Visibility="Visible"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </ListViewItem>
+                                    <Image Grid.Column="0" Width="50" Height="50" Margin="0,0,10,0"
+                                   Source="{Binding User.PhotoImage}"/>
 
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Pictures/User2.png" Stretch="UniformToFill" Width="43" Height="43" Margin="5,5,8,5">
-                                    <Image.Clip>
-                                        <RectangleGeometry Rect="0,0,43,43" RadiusX="12" RadiusY="12"/>
-                                    </Image.Clip>
-                                </Image>
-                                <StackPanel>
-                                    <TextBlock Text="Иван понравился вам!" FontWeight="Bold" Margin="0,3,0,2"/>
-                                    <TextBlock Text="Иван, 30, Санкт-Петербург"/>
-                                    <Ellipse Width="10" Height="10" Fill="Red" 
-                                     HorizontalAlignment="Right" Visibility="Collapsed"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Pictures/User2.png" Stretch="UniformToFill" Width="43" Height="43" Margin="5,5,8,5">
-                                    <Image.Clip>
-                                        <RectangleGeometry Rect="0,0,43,43" RadiusX="12" RadiusY="12"/>
-                                    </Image.Clip>
-                                </Image>
-                                <StackPanel>
-                                    <TextBlock Text="Иван понравился вам!" FontWeight="Bold" Margin="0,3,0,2"/>
-                                    <TextBlock Text="Иван, 30, Санкт-Петербург"/>
-                                    <Ellipse Width="10" Height="10" Fill="Red" 
-             HorizontalAlignment="Right" Visibility="Collapsed"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Pictures/User2.png" Stretch="UniformToFill" Width="43" Height="43" Margin="5,5,8,5">
-                                    <Image.Clip>
-                                        <RectangleGeometry Rect="0,0,43,43" RadiusX="12" RadiusY="12"/>
-                                    </Image.Clip>
-                                </Image>
-                                <StackPanel>
-                                    <TextBlock Text="Иван понравился вам!" FontWeight="Bold" Margin="0,3,0,2"/>
-                                    <TextBlock Text="Иван, 30, Санкт-Петербург"/>
-                                    <Ellipse Width="10" Height="10" Fill="Red" 
-             HorizontalAlignment="Right" Visibility="Collapsed"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Pictures/User2.png" Stretch="UniformToFill" Width="43" Height="43" Margin="5,5,8,5">
-                                    <Image.Clip>
-                                        <RectangleGeometry Rect="0,0,43,43" RadiusX="12" RadiusY="12"/>
-                                    </Image.Clip>
-                                </Image>
-                                <StackPanel>
-                                    <TextBlock Text="Иван понравился вам!" FontWeight="Bold" Margin="0,3,0,2"/>
-                                    <TextBlock Text="Иван, 30, Санкт-Петербург"/>
-                                    <Ellipse Width="10" Height="10" Fill="Red" 
-             HorizontalAlignment="Right" Visibility="Collapsed"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </ListViewItem>
-                    </ListView.Items>
+                                    <!-- Информация о пользователе -->
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding Message}" FontWeight="Bold"/>
+                                        <TextBlock>
+                                    <Run Text="{Binding Swiper.Name}"/>
+                                    <Run Text=","/>
+                                    <Run Text="{Binding User.Age}"/>
+                                    <Run Text=","/>
+                                    <Run Text="{Binding User.City}"/>
+                                        </TextBlock>
+                                        <!-- Индикатор нового уведомления -->
+                                        <Ellipse Width="10" Height="10" Fill="Red" HorizontalAlignment="Right"
+                                         Visibility="{Binding IsNew, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </Grid>
         </StackPanel>
