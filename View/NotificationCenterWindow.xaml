@@ -99,9 +99,16 @@
             <Label Content="уведомлений" Style="{StaticResource LabelText}" Height="30" VerticalAlignment="Top" Margin="53,25,0,0" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+
+
+        <StackPanel Grid.Row="2">
             <Grid>
-                <ListView x:Name="NotificationsListView" ItemsSource="{Binding Notifications}">
+                <ListView x:Name="NotificationsListView" ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedItem}">
+                    
+                    <ListView.InputBindings>
+                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenLikedWindow}"/>
+                    </ListView.InputBindings> 
+                    
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="5">
@@ -111,22 +118,23 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Image Grid.Column="0" Width="50" Height="50" Margin="0,0,10,0"
-                                   Source="{Binding User.PhotoImage}"/>
+                                    <Image Source="{Binding Swiper.Photo}" Stretch="UniformToFill" Width="35" Height="35" Margin="0,2,5,0">
+                                        <Image.Clip>
+                                            <RectangleGeometry Rect="0,0,33,33" RadiusX="10" RadiusY="10"/>
+                                        </Image.Clip>
+                                    </Image>
 
-                                    <!-- Информация о пользователе -->
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding Message}" FontWeight="Bold"/>
                                         <TextBlock>
-                                    <Run Text="{Binding Swiper.Name}"/>
-                                    <Run Text=","/>
-                                    <Run Text="{Binding User.Age}"/>
-                                    <Run Text=","/>
-                                    <Run Text="{Binding User.City}"/>
+                                        <Run Text="{Binding Swiper.Name}"/>
+                                        <Run Text=","/>
+                                        <Run Text="{Binding Swiper.Age}"/>
+                                        <Run Text=","/>
+                                        <Run Text="{Binding Swiper.City}"/>
                                         </TextBlock>
-                                        <!-- Индикатор нового уведомления -->
                                         <Ellipse Width="10" Height="10" Fill="Red" HorizontalAlignment="Right"
-                                         Visibility="{Binding IsNew, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                             Visibility="{Binding IsNew, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>

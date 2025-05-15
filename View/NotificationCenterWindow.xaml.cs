@@ -25,5 +25,7 @@ namespace wpfHUSH.View
             InitializeComponent();
             DataContext = new NotificationCenterWindowViewModel();
         }
+
+       
     }
 }

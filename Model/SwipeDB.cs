@@ -55,7 +55,7 @@ namespace wpfHUSH.Model
 
             if (connection.OpenConnection())
             {
-                var command = connection.CreateCommand("SELECT u.Id AS uId, u1.Id AS u1Id, u.Name AS uName, u.Age AS uAge, u.City AS uCity, u.Photo AS uPhoto, u.Gender AS uGender, SwiperId, SwipedId, IsNotificated, Action FROM Swipes s LEFT JOIN User u ON s.SwipedId = u.Id LEFT JOIN User u1 ON s.SwiperId = u1.Id");
+                var command = connection.CreateCommand("SELECT u.Id AS uId, u1.Id AS u1Id, u.Name AS uName, u.Age AS uAge, u.City AS uCity, u.Photo AS uPhoto, u.Gender AS uGender, SwiperId, SwipedId, IsNotificated, Action FROM Swipes s LEFT JOIN User u ON s.SwiperId = u.Id LEFT JOIN User u1 ON s.SwipedId = u1.Id");
                 try
                 {
                     MySqlDataReader dr = command.ExecuteReader();
@@ -111,16 +111,16 @@ namespace wpfHUSH.Model
                         if (!dr.IsDBNull("Action"))
                             action = dr.GetBoolean("Action");
                       
-                        User swiper = new User();
-                        swiper.Id = u1Id;
-
                         User swiped = new User();
-                        swiped.Id = uId;
-                        swiped.Name = uName;
-                        swiped.Age = uAge;
-                        swiped.Gender = uGender;
-                        swiped.City = uCity;
-                        swiped.Photo = uPhoto;
+                        swiped.Id = u1Id;
+
+                        User swiper = new User();
+                        swiper.Id = uId;
+                        swiper.Name = uName;
+                        swiper.Age = uAge;
+                        swiper.Gender = uGender;
+                        swiper.City = uCity;
+                        swiper.Photo = uPhoto;
 
                         swipes.Add(new Swipes
                         {

@@ -47,9 +47,6 @@
     <Resource Include="Pictures\Exit.png" />
     <Resource Include="Pictures\Logo.ico" />
     <Resource Include="Pictures\ManGender.png" />
-    <Resource Include="Pictures\MessageLeft.png" />
-    <Resource Include="Pictures\MessageRight.png" />
-    <Resource Include="Pictures\PhotoTest.jpg" />
     <Resource Include="Pictures\User1.png" />
     <Resource Include="Pictures\User2.png" />
     <Resource Include="Pictures\VectorTG.png" />

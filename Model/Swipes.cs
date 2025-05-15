@@ -15,5 +15,18 @@ namespace wpfHUSH.Model
         public bool IsNotificated { get; set; }
         public User Swiper { get; set; }
         public User Swiped { get; set; }
+
+        public string Message
+        {
+            get
+            {
+                if (Swiper.Gender == false)
+                    return "Ты понравилась!";
+                else
+                    return "Ты понравился!";
+            }
+        }
+
+        public bool IsNew => !IsNotificated;
     }
 }

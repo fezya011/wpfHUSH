@@ -254,6 +254,124 @@ namespace wpfHUSH.Model
             return users;
         }
 
+        internal User SelectById(int userId)
+        {
+            User user = null;
+            if (connection == null)
+                return user;
+
+            if (connection.OpenConnection())
+            {
+                var command = connection.CreateCommand("SELECT User.Id, Name, About, Age, Gender, Photo, LoginPasswordId, RoleId, ContactId, City, Login, Password, RoleName, Telegram, VK FROM User LEFT JOIN LoginPassword ON LoginPasswordId = LoginPassword.Id LEFT JOIN Role ON RoleId = Role.Id LEFT JOIN Contact ON ContactId = Contact.Id");
+                try
+                {
+                    MySqlDataReader dr = command.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        int id = dr.GetInt32(0);
+
+                        string name = string.Empty;
+                        if (!dr.IsDBNull("Name"))
+                            name = dr.GetString("Name");
+
+                        string about = string.Empty;
+                        if (!dr.IsDBNull("About"))
+                            about = dr.GetString("About");
+
+                        int age = 0;
+                        if (!dr.IsDBNull("Age"))
+                            age = dr.GetInt32("Age");
+
+                        bool gender = false;
+                        if (!dr.IsDBNull("Gender"))
+                            gender = dr.GetBoolean("Gender");
+
+                        byte[] photo = null;
+                        if (!dr.IsDBNull(5))
+                        {
+                            long size = dr.GetBytes(5, 0, null, 0, 0);
+                            photo = new byte[size];
+                            dr.GetBytes(5, 0, photo, 0, (int)size);
+                        }
+
+                        int loginPasswordId = 0;
+                        if (!dr.IsDBNull("LoginPasswordId"))
+                            loginPasswordId = dr.GetInt32("LoginPasswordId");
+
+                        int roleId = 0;
+                        if (!dr.IsDBNull("RoleId"))
+                            roleId = dr.GetInt32("RoleId");
+
+                        int contactId = 0;
+                        if (!dr.IsDBNull("ContactId"))
+                            contactId = dr.GetInt32("ContactId");
+
+                        string city = string.Empty;
+                        if (!dr.IsDBNull("City"))
+                            city = dr.GetString("City");
+
+                        string login = string.Empty;
+                        if (!dr.IsDBNull("Login"))
+                            login = dr.GetString("Login");
+
+                        string password = string.Empty;
+                        if (!dr.IsDBNull("Password"))
+                            password = dr.GetString("Password");
+
+                        string roleName = string.Empty;
+                        if (!dr.IsDBNull("RoleName"))
+                            roleName = dr.GetString("RoleName");
+
+                        string telegram = string.Empty;
+                        if (!dr.IsDBNull("Telegram"))
+                            telegram = dr.GetString("Telegram");
+
+                        string vk = string.Empty;
+                        if (!dr.IsDBNull("VK"))
+                            vk = dr.GetString("VK");
+
+                        LoginPassword loginPassword = new LoginPassword();
+                        loginPassword.Login = login;
+                        loginPassword.Password = password;
+
+                        Role role = new Role();
+                        role.RoleName = roleName;
+
+                        Contact contact = new Contact();
+                        contact.Telegram = telegram;
+                        contact.VK = vk;
+
+
+                        user = new User
+                        {
+                            Id = id,
+                            Name = name,
+                            About = about,
+                            Age = age,
+                            Gender = gender,
+                            Photo = photo,
+                            LoginPasswordId = loginPasswordId,
+                            RoleId = roleId,
+                            ContactId = contactId,
+                            City = city,
+                            LoginPassword = loginPassword,
+                            Role = role,
+                            Contact = contact
+                        };
+
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            connection.CloseConnection();
+            return user;
+        }
+
         internal List<User> SearchSelectAll()
         {
             List<User> users = new List<User>();
