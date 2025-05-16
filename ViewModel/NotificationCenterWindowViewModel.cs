@@ -47,20 +47,12 @@ namespace wpfHUSH.ViewModel
             }
         }
 
-        public ICommand OpenLikedWindow { get; }
         public ICommand MarkAsReadCommand { get; }
 
         public NotificationCenterWindowViewModel()
         {
             LoadNotifications();
-            OpenLikedWindow = new CommandVM(() =>
-            {
-                if (SelectedItem != null)
-                {
-                    LikedWindow likedWindow = new LikedWindow();
-                    likedWindow.ShowDialog();
-                }
-            }, () => true);
+           
             MarkAsReadCommand = new CommandVM(MarkAllAsRead, () => true);
         }
 
@@ -121,6 +113,15 @@ namespace wpfHUSH.ViewModel
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка загрузки уведомлений: {ex.Message}");
+            }
+        }
+
+        internal void DoubleClickList()
+        {
+            if (SelectedItem != null)
+            {
+                LikedWindow likedWindow = new LikedWindow();
+                likedWindow.ShowDialog();
             }
         }
     }

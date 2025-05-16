@@ -103,11 +103,8 @@
 
         <StackPanel Grid.Row="2">
             <Grid>
-                <ListView x:Name="NotificationsListView" ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedItem}">
-                    
-                    <ListView.InputBindings>
-                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding OpenLikedWindow}"/>
-                    </ListView.InputBindings> 
+                <ListView x:Name="NotificationsListView" ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedItem}" MouseDoubleClick="DoubleClickList">
+                                       
                     
                     <ListView.ItemTemplate>
                         <DataTemplate>

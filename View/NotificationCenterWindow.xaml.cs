@@ -26,6 +26,10 @@ namespace wpfHUSH.View
             DataContext = new NotificationCenterWindowViewModel();
         }
 
-       
+        private void DoubleClickList(object sender, MouseButtonEventArgs e)
+        {
+            (DataContext as NotificationCenterWindowViewModel).DoubleClickList() ;
+
+        }
     }
 }
