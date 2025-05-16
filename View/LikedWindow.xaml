@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="LikedWindow" Height="470" Width="820" MaxHeight="450" MaxWidth="820" MinWidth="820" MinHeight="470" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
+        Title="LikedWindow" Height="490" Width="820" MaxHeight="490" MaxWidth="820" MinWidth="820" MinHeight="490" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
         <Style x:Key="UserButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Padding" Value="0"/>
             <Setter Property="Width" Value="55"/>
             <Setter Property="Height" Value="55"/>
             <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
             <Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>
-            <Setter Property="Margin" Value="5,40,5,5"/>
+            <Setter Property="Margin" Value="5,11,5,5"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -56,8 +56,8 @@
         </Style>
         <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="12"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
             <Setter Property="Margin" Value="4,0,10,0"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -67,7 +67,7 @@
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="16">
+                    CornerRadius="0">
                             <ContentPresenter 
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -76,7 +76,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FFB34545"/>
+                                <Setter TargetName="border" Property="Background" Value="{x:Null}"/>
                                 <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -86,32 +86,32 @@
         </Style>
         <Style x:Key="LabelText" TargetType="Label">
             <Setter Property="FontFamily" Value="Arial Black"/>
-            <Setter Property="FontSize" Value="25"/>
-            <Setter Property="Margin" Value="0,6,0,0"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Margin" Value="0,10,-8,0"/>
         </Style>
         <Style x:Key="TextLocation" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Margin" Value="0,45,0,0"/>
+            <Setter Property="Margin" Value="0,54,0,0"/>
         </Style>
         <Style x:Key="TextDescription" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Margin" Value="6,70,0,0"/>
+            <Setter Property="Margin" Value="6,0,0,0"/>
             <Setter Property="Height" Value="Auto"/>
             <Setter Property="Width" Value="332"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
         <Style x:Key="LinkBlockText" TargetType="TextBlock">
-            <Setter Property="Margin" Value="6,0,0,0"/>
+            <Setter Property="Margin" Value="11,0,0,0"/>
             <Setter Property="FontFamily" Value="Arial Black"/>
-            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="Height" Value="18"/>
         </Style>
         <Style x:Key="Text" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Margin" Value="0,170,190,5"/>
+            <Setter Property="Margin" Value="0,180,160,8"/>
         </Style>
 
         <Style x:Key="RoundedComboBoxStyle" TargetType="{x:Type ComboBox}">
@@ -350,8 +350,12 @@ RenderOptions.EdgeMode="Aliased" Margin="0,7,0,0"/>
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Image Source="/Pictures/Rectangle 20.png" Height="34" Width="34" Margin="0,0,7,0" />
-            <TextBlock Text="asdadadas" Style="{StaticResource TextNickname}"/>
+            <Image Source="{Binding User.Photo}" Stretch="UniformToFill" Width="34" Height="34" Margin="0,2,5,0">
+                <Image.Clip>
+                    <RectangleGeometry Rect="0,0,32,32" RadiusX="12" RadiusY="12"/>
+                </Image.Clip>
+            </Image>
+            <TextBlock Text="{Binding User.Name}" Style="{StaticResource TextNickname}"/>
             <Button BorderBrush="{x:Null}" Width="16" Height="16" Style="{StaticResource RoundedButton}" Command="{Binding OpenEditWindow}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/ic_baseline-create.png" RenderOptions.BitmapScalingMode="HighQuality" 
@@ -361,13 +365,18 @@ RenderOptions.EdgeMode="Aliased"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0">
-            <Image Height="338" Margin="25,15,15,0" Source="/Pictures/Test2.png"/>
+            <Image Source="{Binding Swiper.Swiper.Photo}" Stretch="UniformToFill" Height="367" Width="367" Margin="40,15,15,0">
+                <Image.Clip>
+                    <RectangleGeometry Rect="0,0,367,367" RadiusX="14" RadiusY="14"/>
+                </Image.Clip>
+            </Image>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <StackPanel Orientation="Horizontal">
-                <Label Content="Андреq," Style="{StaticResource LabelText}"/>
-                <Label Content="17" Style="{StaticResource LabelText}"/>
+                <Label Content="{Binding Swiper.Swiper.Name}" Style="{StaticResource LabelText}"/>
+                <Label Content="," Style="{StaticResource LabelText}" Margin="0,7,-6,0"/>
+                <Label Content="{Binding Swiper.Swiper.Age}" Style="{StaticResource LabelText}"/>
             </StackPanel>
         </StackPanel>
 
@@ -380,42 +389,44 @@ RenderOptions.EdgeMode="Aliased"/>
             </Button>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
-            <Image Source="/Pictures/Loci.png" RenderOptions.BitmapScalingMode="HighQuality" 
-RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,40,5,0"/>
-            <TextBlock Text="Владивосток" Height="23" Style="{StaticResource TextLocation}"/>
+        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,8,0,0" >
+                <Image Source="/Pictures/Loci.png" RenderOptions.BitmapScalingMode="HighQuality" 
+RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,43,5,0"/>
+                <TextBlock Text="{Binding Swiper.Swiper.City}" Height="23" Style="{StaticResource TextLocation}"/>
+            </StackPanel>
+            <TextBlock Text="{Binding Swiper.Swiper.About}" Style="{StaticResource TextDescription}" />
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding UserButtonsVisible}">
+                <Button Style="{StaticResource UserButton}" Command="{Binding LinkVisible}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Pictures/Like.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Style="{StaticResource UserButton}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Pictures/Dislike.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Style="{StaticResource UserButton}" Command="{Binding ReportVisible}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Pictures/Report.png"/>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
-            <TextBlock Text="Читаю книги, люблю готовить. Занимаюсь спортом, ищу свою жрицу любви ) asdasadsasadsdddvbnhfjghjghbnmbnmbnm" Style="{StaticResource TextDescription}" />
-        </StackPanel>
+        
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding UserButtonsVisible}">
-            <Button Style="{StaticResource UserButton}" Command="{Binding LinkVisible}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/Like.png"/>
-                </Button.Background>
-            </Button>
-            <Button Style="{StaticResource UserButton}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/Dislike.png"/>
-                </Button.Background>
-            </Button>
-            <Button Style="{StaticResource UserButton}" Command="{Binding ReportVisible}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/Report.png"/>
-                </Button.Background>
-            </Button>
-        </StackPanel>
+        
 
         <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding LinksButtonsVisible}">
-            <StackPanel Orientation="Horizontal" Margin="10,170,0,0">
+            <StackPanel Orientation="Horizontal" Margin="10,111,0,0">
                 <Image Source="/Pictures/Vector2333.png" Height="33" Width="41" />
-                <TextBlock Text="https://vk.ru/123123" Style="{StaticResource LinkBlockText}"/>
+                <TextBlock Text="{Binding Swiper.Swiper.Contact.VK}" Style="{StaticResource LinkBlockText}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
                 <Image Source="/Pictures/VectorTG.png" Height="33" Width="41" />
-                <TextBlock Text="@1213132asdasd" Style="{StaticResource LinkBlockText}"/>
+                <TextBlock Text="{Binding Swiper.Swiper.Contact.Telegram}" Style="{StaticResource LinkBlockText}"/>
             </StackPanel>
         </StackPanel>
 

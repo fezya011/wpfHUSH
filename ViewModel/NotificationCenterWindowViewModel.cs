@@ -120,7 +120,7 @@ namespace wpfHUSH.ViewModel
         {
             if (SelectedItem != null)
             {
-                LikedWindow likedWindow = new LikedWindow();
+                LikedWindow likedWindow = new LikedWindow(SelectedItem);
                 likedWindow.ShowDialog();
             }
         }

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="450" MaxHeight="300" MaxWidth="450" MinHeight="300" MinWidth="450" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
-        <Style x:Key="RoundedBlackBorderButton" TargetType="Button">
+        <Style x:Key="RoundedBlackBorderButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderBrush" Value="#FF2B2B2B"/>
@@ -19,27 +19,85 @@
             <Setter Property="Height" Value="37"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="{x:Type Button}">
                         <Border 
-                        x:Name="border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="10">
+                    x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="10"
+                    RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
                             <ContentPresenter 
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            TextBlock.FontFamily="{TemplateBinding FontFamily}"
-                            TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RecognizesAccessKey="True"
+                        TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                        TextBlock.FontSize="{TemplateBinding FontSize}"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#F0F0F0"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="#333333"/>
-                            </Trigger>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                    Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                    To="#F0F0F0"
+                                    Duration="0:0:0.2"/>
+                                        <ColorAnimation
+                                    Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                    To="#333333"
+                                    Duration="0:0:0.2"/>
+                                        <DoubleAnimation
+                                    Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                    To="1.02"
+                                    Duration="0:0:0.2"/>
+                                        <DoubleAnimation
+                                    Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                    To="1.02"
+                                    Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                    Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                    To="White"
+                                    Duration="0:0:0.3"/>
+                                        <ColorAnimation
+                                    Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                    To="#FF2B2B2B"
+                                    Duration="0:0:0.3"/>
+                                        <DoubleAnimation
+                                    Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                    To="1"
+                                    Duration="0:0:0.3"/>
+                                        <DoubleAnimation
+                                    Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                    To="1"
+                                    Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
                                 <Setter TargetName="border" Property="BorderBrush" Value="#000000"/>
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

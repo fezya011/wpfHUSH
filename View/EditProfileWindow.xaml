@@ -34,7 +34,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FFCECECE"/>
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="/Pictures/EditPhoto.png"/>
+                                    </Setter.Value>
+                                </Setter>
                                 <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
@@ -114,28 +118,76 @@
         </Style>
         <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="12"/>
-            <Setter Property="Margin" Value="4,0,10,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border 
-             x:Name="border"
-             Background="{TemplateBinding Background}"
-             BorderBrush="{TemplateBinding BorderBrush}"
-             BorderThickness="{TemplateBinding BorderThickness}"
-             CornerRadius="16">
-                            <ContentPresenter 
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Center"
-                 TextBlock.FontFamily="{TemplateBinding FontFamily}"
-                 TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="0"
+            RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                         TextBlock.FontSize="{TemplateBinding FontSize}"/>
                         </Border>
+
                         <ControlTemplate.Triggers>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                    To="#F0F0F0"
+                                    Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                    To="1.02"
+                                    Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                    To="1.02"
+                                    Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                    To="#FFBBBBBB"
+                                    Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                    To="1"
+                                    Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                    To="1"
+                                    Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Эффект при нажатии -->
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FFB34545"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                                
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -431,27 +483,71 @@ RenderOptions.EdgeMode="Aliased"/>
             <Setter Property="FontFamily" Value="Arial Black"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border 
-           x:Name="border"
-           Background="{TemplateBinding Background}"
-           BorderBrush="{TemplateBinding BorderBrush}"
-           BorderThickness="{TemplateBinding BorderThickness}"
-           CornerRadius="16">
-                            <ContentPresenter 
-HorizontalAlignment="Center"
-VerticalAlignment="Center"
-TextBlock.FontFamily="{TemplateBinding FontFamily}"
-TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="16"
+            RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                         TextBlock.FontSize="{TemplateBinding FontSize}"/>
                         </Border>
+
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FFCECECE"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
-                            </Trigger>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                    To="#FFABABAB"
+                                    Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                    To="1.02"
+                                    Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                    To="1.02"
+                                    Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                    To="#FFBBBBBB"
+                                    Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                    To="1"
+                                    Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                    To="1"
+                                    Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Эффект при нажатии -->
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -467,21 +563,96 @@ TextBlock.FontSize="{TemplateBinding FontSize}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border 
+                        <Grid>
+                            <Border 
                 x:Name="border"
-                Background="{TemplateBinding Background}"
+                Background="Transparent"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="16">
-                            <ContentPresenter 
+                                <ContentPresenter 
      HorizontalAlignment="Center"
      VerticalAlignment="Center"
      TextBlock.FontFamily="{TemplateBinding FontFamily}"
      TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                            </Border>
+
+                            <Image x:Name="editPhoto"
+               Source="/Pictures/EditPhoto.png"
+               Opacity="0"
+               Stretch="Fill"
+               VerticalAlignment="Center" Height="402" Width="383"/>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <!-- При наведении: плавное появление EditPhoto.png -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="editPhoto"
+                                       Storyboard.TargetProperty="Opacity"
+                                       From="0" To="1"
+                                       Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <!-- Плавное исчезновение EditPhoto.png -->
+                                            <DoubleAnimation Storyboard.TargetName="editPhoto"
+                                       Storyboard.TargetProperty="Opacity"
+                                       From="1" To="0"
+                                       Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+
+                                <!-- Дополнительные изменения (если нужны) -->
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+
+                            <!-- Обработка нажатия -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="AddPhotoButton2" TargetType="Button">
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Width" Value="277"/>
+            <Setter Property="Margin" Value="30,8,19,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+           x:Name="border"
+           Background="{TemplateBinding Background}"
+           BorderBrush="{TemplateBinding BorderBrush}"
+           BorderThickness="{TemplateBinding BorderThickness}"
+           CornerRadius="16">
+                            <ContentPresenter 
+HorizontalAlignment="Center"
+VerticalAlignment="Center"
+TextBlock.FontFamily="{TemplateBinding FontFamily}"
+TextBlock.FontSize="{TemplateBinding FontSize}"/>
                         </Border>
+
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FFCECECE"/>
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="/Pictures/EditPhoto.png"/>
+                                    </Setter.Value>
+                                </Setter>
                                 <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
@@ -545,14 +716,20 @@ RenderOptions.EdgeMode="Aliased"/>
 
 
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Height="402" Style="{StaticResource AddPhotoButton}" Width="383" Command="{Binding OpenAddPhotoWindowButton}">
+            <Button Height="402" Style="{StaticResource AddPhotoButton2}" Width="383" Command="{Binding OpenAddPhotoWindowButton}">
                 <Button.Background>
                     <ImageBrush ImageSource="{Binding Image}"/>
                 </Button.Background>
             </Button>
         </StackPanel>
 
-
+        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Height="402" Style="{StaticResource AddPhotoButton}" Width="383" Command="{Binding OpenAddPhotoWindowButton}">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Pictures/EditPhoto.png"/>
+                </Button.Background>
+            </Button>
+        </StackPanel>
 
 
 

@@ -61,28 +61,76 @@
         </Style>
         <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="12"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
             <Setter Property="Margin" Value="4,0,10,0"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border 
-                            x:Name="border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="16">
-                            <ContentPresenter 
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                TextBlock.FontFamily="{TemplateBinding FontFamily}"
-                                TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="0"
+            RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                         TextBlock.FontSize="{TemplateBinding FontSize}"/>
                         </Border>
+
                         <ControlTemplate.Triggers>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                    To="#F0F0F0"
+                                    Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                    To="1.07"
+                                    Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                    To="1.07"
+                                    Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                    To="#FFBBBBBB"
+                                    Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                    To="1"
+                                    Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                    Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                    To="1"
+                                    Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Эффект при нажатии -->
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#FFB34545"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+                                
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.97" ScaleY="0.97"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -421,8 +469,8 @@ RenderOptions.EdgeMode="Aliased"/>
             </Button>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="43">
-            <Button Height="35" Width="30" Style="{StaticResource RoundedButton}" Command="{Binding OpenNotificationWindow}" Margin="4,0,10,10" >
+        <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="46" Width="45">
+            <Button Height="35" Width="30" Style="{StaticResource RoundedButton}" Command="{Binding OpenNotificationWindow}" Margin="4,5,10,10">
                 <Button.Background>
                     <ImageBrush ImageSource="/Pictures/Notification.png"/>
                 </Button.Background>

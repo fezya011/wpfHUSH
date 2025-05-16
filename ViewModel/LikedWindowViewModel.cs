@@ -17,20 +17,15 @@ namespace wpfHUSH.ViewModel
 {
     public class LikedWindowViewModel : BaseVM
     {
-        private ObservableCollection<Item> _items;
-        public ObservableCollection<Item> Items
-        {
-            get => _items;
-            set
-            {
-                _items = value;
-                Signal();
-            }
-        }
+        
+        
 
         private Visibility linksButtonsVisible = Visibility.Collapsed;
         private Visibility userButtonsVisible;
         private Visibility reportWindowVisible = Visibility.Collapsed;
+        private Swipes swiper;
+        private User users;
+        private User user;
 
         public ICommand LinkVisible { get; }
         public ICommand ReportVisible { get; }
@@ -66,8 +61,38 @@ namespace wpfHUSH.ViewModel
                 Signal();
             }
         }
-        public LikedWindowViewModel(LikedWindow likedWindow)
+
+        public Swipes Swiper 
+        { 
+            get => swiper; 
+            set
+            {
+                swiper = value;
+                Signal();
+            }
+        }
+
+        public User User 
+        { 
+            get => user; 
+            set
+            {
+                user = value;
+                Signal();
+            }
+        }
+
+
+        public LikedWindowViewModel(LikedWindow likedWindow, Swipes swiper)
         {
+            Swiper = swiper;
+            User = UserStatic.CurrentUser;
+
+            List<User> users = UserDB.GetDb().SelectAll();
+            var user = users.FirstOrDefault(u => u.ContactId == swiper.Swiper.ContactId)?.Contact;
+
+            Swiper.Swiper.Contact = user;
+
             LinkVisible = new CommandVM(() =>
             {
                 UserButtonsVisible = Visibility.Collapsed;
@@ -96,13 +121,7 @@ namespace wpfHUSH.ViewModel
                 editProfileWindow.ShowDialog();
             }, () => true);
 
-            Items = new ObservableCollection<Item>
-            {
-                new Item { Id = 1, Name = "Элемент 1" },
-                new Item { Id = 2, Name = "Элемент 2" },
-                new Item { Id = 3, Name = "Элемент 3" }
-            };
-
+          
         }
     }
 }

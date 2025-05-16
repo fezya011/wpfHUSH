@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,10 +22,10 @@ namespace wpfHUSH.View
     /// </summary>
     public partial class LikedWindow : Window
     {
-        public LikedWindow()
+        public LikedWindow(Swipes swiper)
         {
             InitializeComponent();
-            DataContext = new LikedWindowViewModel(this);
+            DataContext = new LikedWindowViewModel(this, swiper);
         }
     }
 }
