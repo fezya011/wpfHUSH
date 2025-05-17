@@ -28,6 +28,9 @@ namespace wpfHUSH.ViewModel
         private Visibility areOver = Visibility.Hidden;
         private Visibility hiddenLocationAndPhoto;
         private User user;
+        private List<Reason> reasons;
+        private Reason selectedReason;
+        private string reportText;
 
         public Visibility ReportWindowVisible
         {
@@ -89,31 +92,80 @@ namespace wpfHUSH.ViewModel
             }
         }
 
+        public List<Reason> Reasons 
+        { 
+            get => reasons; 
+            set
+            {
+                reasons = value;
+                Signal();
+            }
+        }
+
+        public Reason SelectedReason 
+        { 
+            get => selectedReason; 
+            set
+            {
+                selectedReason = value;
+                Signal();
+            }
+        }
+
+        public string ReportText 
+        { 
+            get => reportText; 
+            set
+            {
+                reportText = value;
+                Signal();
+            }
+        }
+
         public ICommand OpenEditWindow { get; set; }
         public ICommand OpenNotificationWindow { get; set; }
         public ICommand ReportVisible { get; }
         public ICommand ReportHidden { get; }
         public ICommand LikeCommand { get; }
         public ICommand DislikeCommand { get; }
+        public ICommand SendReport { get; }
 
 
         public SearchWindowViewModel(SearchWindow searchWindow)
-        {
-            
+        {           
             User = UserStatic.CurrentUser;
 
             SearchSelectAll();
+            ReasonsSelectAll();
             
             profileToShow = AllProfiles
                 .OrderBy(x => random.Next())
                 .ToList();
-
-            
-
+           
             if (profileToShow.Count > 0)
             {
                 CurrentProfile = profileToShow.First();
             }
+
+            SendReport = new CommandVM(() =>
+            {
+                if (SelectedReason == null)
+                {
+                    MessageBox.Show("Сначала выбери причину жалобы");
+                }
+                else
+                {
+                    Report report = new Report();
+                    report.ReportedId = CurrentProfile.Id;
+                    report.ReporterId = UserStatic.CurrentUser.Id;
+                    report.Text = ReportText;
+                    report.Reason = new Reason();
+                    report.Reason.Type = SelectedReason.Type;
+                    report.ReasonId = SelectedReason.Id;
+                    ReportDB.GetDb().InsertReport(report);
+                    ReportWindowVisible = Visibility.Hidden;
+                }                              
+            }, () => !string.IsNullOrWhiteSpace(ReportText));
 
             LikeCommand = new CommandVM(() =>
             {
@@ -166,6 +218,10 @@ namespace wpfHUSH.ViewModel
             }
         }
 
+        private void ReasonsSelectAll()
+        {
+            Reasons = ReportDB.GetDb().SelectAll();        
+        }
 
         private async void ShowNextProfile(bool isLike)
         {

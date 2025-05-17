@@ -26,12 +26,18 @@ namespace wpfHUSH.ViewModel
         private Swipes swiper;
         private User users;
         private User user;
+        private List<Reason> reasons;
+        private Reason selectedReason;
+        private string reportText;
+
 
         public ICommand LinkVisible { get; }
         public ICommand ReportVisible { get; }
         public ICommand ReturnUsersButtons { get; }
         public ICommand CloseWindow { get; }
         public ICommand OpenEditWindow { get; }
+        public ICommand SendReport { get; }
+        public ICommand Dislike { get; }
 
         public Visibility ReportWindowVisible 
         {
@@ -81,10 +87,43 @@ namespace wpfHUSH.ViewModel
                 Signal();
             }
         }
+        public List<Reason> Reasons
+        {
+            get => reasons;
+            set
+            {
+                reasons = value;
+                Signal();
+            }
+        }
+
+        public Reason SelectedReason
+        {
+            get => selectedReason;
+            set
+            {
+                selectedReason = value;
+                Signal();
+            }
+        }
+
+        public string ReportText
+        {
+            get => reportText;
+            set
+            {
+                reportText = value;
+                Signal();
+            }
+        }
 
 
         public LikedWindowViewModel(LikedWindow likedWindow, Swipes swiper)
         {
+            swiper.IsNotificated = true;
+            SwipeDB.GetDb().Update(swiper);
+
+            ReasonsSelectAll();
             Swiper = swiper;
             User = UserStatic.CurrentUser;
 
@@ -93,10 +132,35 @@ namespace wpfHUSH.ViewModel
 
             Swiper.Swiper.Contact = user;
 
-            LinkVisible = new CommandVM(() =>
+            SendReport = new CommandVM(() =>
             {
+                if (SelectedReason == null)
+                {
+                    MessageBox.Show("Сначала выбери причину жалобы");
+                }
+                else
+                {
+                    Report report = new Report();
+                    report.ReportedId = Swiper.Swiper.Id;
+                    report.ReporterId = UserStatic.CurrentUser.Id;
+                    report.Text = ReportText;
+                    report.Reason = new Reason();
+                    report.Reason.Type = SelectedReason.Type;
+                    report.ReasonId = SelectedReason.Id;
+                    ReportDB.GetDb().InsertReport(report);
+                    ReportWindowVisible = Visibility.Hidden;
+                }
+            }, () => !string.IsNullOrWhiteSpace(ReportText));
+
+            LinkVisible = new CommandVM(() =>
+            {                
                 UserButtonsVisible = Visibility.Collapsed;
                 LinksButtonsVisible = Visibility.Visible;
+            }, () => true);
+
+            Dislike = new CommandVM(() =>
+            {              
+                likedWindow.Close();
             }, () => true);
 
             ReportVisible = new CommandVM(() =>
@@ -123,10 +187,10 @@ namespace wpfHUSH.ViewModel
 
           
         }
+
+        private void ReasonsSelectAll()
+        {
+            Reasons = ReportDB.GetDb().SelectAll();
+        }
     }
-}
-public class Item
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
 }

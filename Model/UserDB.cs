@@ -103,7 +103,7 @@ namespace wpfHUSH.Model
 
             if (connection.OpenConnection())
             {
-                MySqlCommand cmd = connection.CreateCommand("insert into `User` Values (0, @Name, @About, @Age, @Gender, @Photo, @LoginPasswordId, 1, @City, NULL);select LAST_INSERT_ID();");
+                MySqlCommand cmd = connection.CreateCommand("insert into `User` Values (0, @Name, @About, @Age, @Gender, @Photo, @LoginPasswordId, 1, @City, NULL, CURRENT_TIMESTAMP);select LAST_INSERT_ID();");
 
                 cmd.Parameters.Add(new MySqlParameter("Name", user.Name));
                 cmd.Parameters.Add(new MySqlParameter("About", user.About));
@@ -380,7 +380,7 @@ namespace wpfHUSH.Model
 
             if (connection.OpenConnection())
             {
-                var command = connection.CreateCommand($"SELECT User.Id, Name, About, Age, Gender, Photo, LoginPasswordId, RoleId, ContactId, City, Login, Password, RoleName, Telegram, VK FROM User LEFT JOIN LoginPassword ON LoginPasswordId = LoginPassword.Id LEFT JOIN Role ON RoleId = Role.Id LEFT JOIN Contact ON ContactId = Contact.Id where User.Id != {UserStatic.CurrentUser.Id}");
+                var command = connection.CreateCommand($"SELECT User.Id, Name, About, Age, Gender, Photo, LoginPasswordId, RoleId, ContactId, City, Login, Password, RoleName, Telegram, VK FROM User LEFT JOIN LoginPassword ON LoginPasswordId = LoginPassword.Id LEFT JOIN Role ON RoleId = Role.Id LEFT JOIN Contact ON ContactId = Contact.Id where User.Id != {UserStatic.CurrentUser.Id} and RoleId = 1");
                 try
                 {
                     MySqlDataReader dr = command.ExecuteReader();

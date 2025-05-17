@@ -7,6 +7,22 @@
         mc:Ignorable="d"
         Title="LikedWindow" Height="490" Width="820" MaxHeight="490" MaxWidth="820" MinWidth="820" MinHeight="490" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
+        <ControlTemplate x:Key="CleanToggleButtonTemplate" TargetType="{x:Type ToggleButton}">
+            <Border Background="{TemplateBinding Background}"
+     BorderBrush="{TemplateBinding BorderBrush}"
+     BorderThickness="{TemplateBinding BorderThickness}"
+     CornerRadius="0,18,18,0">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
         <Style x:Key="UserButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -58,26 +74,74 @@
             <Setter Property="BorderBrush" Value="{x:Null}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="0"/>
-            <Setter Property="Margin" Value="4,0,10,0"/>
+            <Setter Property="Margin" Value="2,0,2,0"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border 
-                    x:Name="border"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="0">
-                            <ContentPresenter 
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        TextBlock.FontFamily="{TemplateBinding FontFamily}"
-                        TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+    Background="{TemplateBinding Background}"
+    BorderBrush="{TemplateBinding BorderBrush}"
+    BorderThickness="{TemplateBinding BorderThickness}"
+    CornerRadius="0"
+    RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                 TextBlock.FontSize="{TemplateBinding FontSize}"/>
                         </Border>
+
                         <ControlTemplate.Triggers>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                            Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                            To="#F0F0F0"
+                            Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                            Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                            To="1.02"
+                            Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                            Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                            To="1.02"
+                            Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                            Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                            To="#FFBBBBBB"
+                            Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                            Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                            To="1"
+                            Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                            Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                            To="1"
+                            Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Эффект при нажатии -->
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="{x:Null}"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="{x:Null}"/>
+
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -114,86 +178,108 @@
             <Setter Property="Margin" Value="0,180,160,8"/>
         </Style>
 
-        <Style x:Key="RoundedComboBoxStyle" TargetType="{x:Type ComboBox}">
+        <Style x:Key="ModernRoundedComboBoxStyle" TargetType="{x:Type ComboBox}">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
             <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
             <Setter Property="MinWidth" Value="120"/>
-            <Setter Property="MinHeight" Value="30"/>
-            <Setter Property="Margin" Value="0,0,0,7"/>
+            <Setter Property="MinHeight" Value="36"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Margin" Value="3,0,0,7"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ComboBox}">
                         <Grid>
+                            <!-- Основной контейнер -->
                             <Border x:Name="Border" 
-                                CornerRadius="12" 
-                                Background="White" 
-                                BorderBrush="Black" 
-                                BorderThickness="2">
+                    CornerRadius="18" 
+                    Background="{x:Null}" 
+                    BorderBrush="Black" 
+                    BorderThickness="1.5"
+                    Padding="0">
                                 <Grid>
-                                    
-
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="32"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <ContentPresenter x:Name="ContentSite"
-                                                  Content="{TemplateBinding SelectionBoxItem}"
-                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                                  Margin="5,0,0,0"
-                                                  VerticalAlignment="Center"
-                                                  HorizontalAlignment="Left"/>
-                                    <TextBox x:Name="PART_EditableTextBox"
-                                                     Style="{x:Null}" 
-                                                     HorizontalAlignment="Stretch"
-                                                     VerticalAlignment="Center"
-                                                     Margin="5,3,25,3"
-                                                     Focusable="True"
-                                                     Background="Transparent"
-                                                     Visibility="Hidden"
-                                                     IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                                    <TextBlock x:Name="PlaceholderText"
-                                                       Text="Выберите причину жалобы"
-                                                       FontFamily="Arial Black"
-                                                       FontSize="11"
-                                                       Margin="8,3,25,3"
-                                                       VerticalAlignment="Center"
-                                                       HorizontalAlignment="Left"
-                                                       Foreground="LightGray"/>
+                                    <!-- Контент и текстовое поле -->
+                                    <Grid Margin="12,0,0,0">
+                                        <ContentPresenter x:Name="ContentSite"
+                                  Content="{TemplateBinding SelectionBoxItem}"
+                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left"/>
 
+                                        <TextBox x:Name="PART_EditableTextBox"
+                             Style="{x:Null}"
+                             VerticalAlignment="Center"
+                             Focusable="True"
+                             Background="Transparent"
+                             Visibility="Hidden"
+                             IsReadOnly="{TemplateBinding IsReadOnly}"/>
 
+                                        <TextBlock x:Name="PlaceholderText"
+                               Text="Причина жалобы"
+                               FontFamily="Arial Black"
+                               FontSize="{TemplateBinding FontSize}"
+                               Margin="0,0,0,0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="LightGray"
+                               Opacity="0"/>
+                                    </Grid>
+
+                                    <!-- Кнопка раскрытия -->
                                     <ToggleButton x:Name="ToggleButton"
-                                              Grid.Column="1"
-                                              Focusable="False"
-                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                              ClickMode="Press" Background="{x:Null}" BorderBrush="{x:Null}">
+                              Grid.Column="1"
+                              Focusable="False"
+                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              ClickMode="Press" 
+                              Background="{x:Null}" 
+                              BorderBrush="Transparent"
+                              Padding="0,0,8,0"
+                              Template="{StaticResource CleanToggleButtonTemplate}">
                                         <Path x:Name="Arrow"
-                                          Fill="#444444"
-                                          Data="M0,0 L4,4 8,0 Z"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"/>
+                          Fill="Black"
+                          Data="M0,0 L4,4 8,0 Z"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                                      
+                          RenderTransformOrigin="0.5,0.5">
+                                            <Path.RenderTransform>
+                                                <RotateTransform Angle="0"/>
+                                            </Path.RenderTransform>
+                                        </Path>
                                     </ToggleButton>
                                 </Grid>
                             </Border>
 
-
+                            <!-- Выпадающий список -->
                             <Popup x:Name="Popup"
-                               Placement="Bottom"
-                               Focusable="False"
-                               AllowsTransparency="True"
-                               IsOpen="{TemplateBinding IsDropDownOpen}"
-                               PopupAnimation="Slide">
+                   Placement="Bottom"
+                   Focusable="False"
+                   AllowsTransparency="True"
+                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                   PopupAnimation="Fade">
                                 <Border x:Name="DropDownBorder"
-                                    CornerRadius="10"
-                                    Background="White"
-                                    BorderBrush="#888888"
-                                    BorderThickness="1"
-                                    MinWidth="{TemplateBinding ActualWidth}"
-                                    MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                    CornerRadius="12"
+                    Background="#FFFFFF"
+                    BorderBrush="Black"
+                    BorderThickness="2"
+                    MinWidth="{TemplateBinding ActualWidth}"
+                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                    Margin="0,4,0,0">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="12" 
+                                      ShadowDepth="0" 
+                                      Color="#20000000" 
+                                      Opacity="0.3"/>
+                                    </Border.Effect>
                                     <ScrollViewer>
                                         <ItemsPresenter/>
                                     </ScrollViewer>
@@ -201,28 +287,118 @@
                             </Popup>
                         </Grid>
 
-
                         <ControlTemplate.Triggers>
+                            <!-- Эффекты при наведении -->
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#555555"/>
-                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Black"/>
                             </Trigger>
+
+                            <!-- Эффекты при открытии -->
                             <Trigger Property="IsDropDownOpen" Value="True">
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#555555"/>
-                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Black"/>
+                                <Setter TargetName="Border" Property="CornerRadius" Value="18,18,0,0"/>
+                                <Setter TargetName="DropDownBorder" Property="Margin" Value="0,0,0,0"/>
+                                <Setter TargetName="Arrow" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="180"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
+
+                            <!-- Эффекты для disabled состояния -->
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Border" Property="Background" Value="#EEEEEE"/>
-                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Collapsed"/>
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#CCCCCC"/>
-                                <Setter Property="Foreground" Value="#888888"/>
+                                <Setter TargetName="Border" Property="Background" Value="Black"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Black"/>
+                                <Setter Property="Foreground" Value="#AAAAAA"/>
+                                <Setter TargetName="Arrow" Property="Fill" Value="#CCCCCC"/>
                             </Trigger>
-                            <DataTrigger Binding="{Binding SelectedItem, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
-                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
+
+                            <!-- Плейсхолдер для пустого значения -->
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="PlaceholderText" Property="Opacity" Value="1"/>
+                            </Trigger>
+
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="PlaceholderText" Property="Opacity" Value="1"/>
+                            </Trigger>
+
+                            <!-- Анимации для плейсхолдера -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Border"
+                               Storyboard.TargetProperty="BorderBrush.Opacity"
+                               To="0.8" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Border"
+                               Storyboard.TargetProperty="BorderBrush.Opacity"
+                               To="0.5" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <!-- Плавное появление/исчезание плейсхолдера -->
+                            <Trigger Property="Text" Value="">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="PlaceholderText"
+                               Storyboard.TargetProperty="Opacity"
+                               From="0" To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="PlaceholderText"
+                               Storyboard.TargetProperty="Opacity"
+                               From="1" To="0" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <!-- Стиль для элементов в выпадающем списке -->
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type ComboBoxItem}">
+                        <Setter Property="SnapsToDevicePixels" Value="True"/>
+                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                    <Border x:Name="ItemBorder" 
+                            CornerRadius="6"
+                            Background="Transparent" 
+                            BorderThickness="0"
+                            Padding="12,6,12,6"
+                            Margin="4,2,4,2">
+                                        <ContentPresenter />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="ItemBorder" Property="Background" Value="#F0F0F0"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="ItemBorder" Property="Background" Value="#E0E0E0"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -235,57 +411,81 @@
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="Height" Value="62"/>
             <Setter Property="Width" Value="232"/>
-
+            <Setter Property="Margin" Value="3,0,0,0"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">
                         <Grid>
                             <Border x:Name="border" 
-     Background="{TemplateBinding Background}"
-     BorderBrush="{TemplateBinding BorderBrush}"
-     BorderThickness="{TemplateBinding BorderThickness}"
-     CornerRadius="16"
-     SnapsToDevicePixels="True">
-
+             Background="{TemplateBinding Background}"
+             BorderBrush="{TemplateBinding BorderBrush}"
+             BorderThickness="{TemplateBinding BorderThickness}"
+             CornerRadius="16"
+             SnapsToDevicePixels="True">
                                 <Grid Margin="{TemplateBinding Padding}">
+                                    <!-- Watermark -->
                                     <TextBlock x:Name="watermark"
-                Text="{TemplateBinding Tag}"
-                Foreground="LightGray"
-                Visibility="Collapsed"
-                FontFamily="Arial Black"
-                VerticalAlignment="Center"
-                FontSize="11" FontWeight="Bold" Height="50" Margin="6,0,0,0"
-                                
-                        />
+                        Text="{TemplateBinding Tag}"
+                        Foreground="LightGray"
+                        Opacity="1"
+                        FontFamily="Arial Black"
+                        VerticalAlignment="Top" 
+                        Margin="5,3,5,0"
+                        FontSize="12" 
+                        FontWeight="Bold"/>
 
-                                    <ScrollViewer x:Name="PART_ContentHost"
-                  VerticalAlignment="Center" Height="50"/>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
                                 </Grid>
                             </Border>
                         </Grid>
 
                         <ControlTemplate.Triggers>
+                            <!-- Главный триггер - управляет видимостью watermark -->
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0" To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="1" To="0" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <!-- Дополнительный триггер для null значений -->
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                            </Trigger>
+
+                            <!-- Триггер на наведение - скрывает watermark только если поле пустое -->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
                                     <Condition Property="Text" Value=""/>
-                                    <Condition Property="IsMouseOver" Value="False"/>
-                                    <Condition Property="IsKeyboardFocused" Value="False"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </MultiTrigger>
 
+                            <!-- Стили для рамки -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
-
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
-                            </Trigger>
-
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -377,6 +577,7 @@ RenderOptions.EdgeMode="Aliased"/>
                 <Label Content="{Binding Swiper.Swiper.Name}" Style="{StaticResource LabelText}"/>
                 <Label Content="," Style="{StaticResource LabelText}" Margin="0,7,-6,0"/>
                 <Label Content="{Binding Swiper.Swiper.Age}" Style="{StaticResource LabelText}"/>
+                <Image Source="{Binding Swiper.Swiper.GenderIcon}" RenderOptions.BitmapScalingMode="HighQuality" Height="26" Width="29" Margin="4,4,0,0"/>
             </StackPanel>
         </StackPanel>
 
@@ -420,22 +621,22 @@ RenderOptions.EdgeMode="Aliased" Height="23" Width="16" Margin="5,43,5,0"/>
         
 
         <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding LinksButtonsVisible}">
-            <StackPanel Orientation="Horizontal" Margin="10,111,0,0">
+            <StackPanel Orientation="Horizontal" Margin="10,116,0,0">
                 <Image Source="/Pictures/Vector2333.png" Height="33" Width="41" />
                 <TextBlock Text="{Binding Swiper.Swiper.Contact.VK}" Style="{StaticResource LinkBlockText}"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
+            <StackPanel Orientation="Horizontal" Margin="10,12,0,0">
                 <Image Source="/Pictures/VectorTG.png" Height="33" Width="41" />
                 <TextBlock Text="{Binding Swiper.Swiper.Contact.Telegram}" Style="{StaticResource LinkBlockText}"/>
             </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding ReportWindowVisible}">
-            <TextBlock Text="Жалоба" Style="{StaticResource Text}" Width="75" />
-            <ComboBox Style="{StaticResource RoundedComboBoxStyle}" Width="233" HorizontalAlignment="Left" ItemsSource="{Binding Items}"/>
-            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание жалобы"/>
+            <TextBlock Text="Жалоба" Style="{StaticResource Text}" Width="75" Margin="0,115,158,8" />
+            <ComboBox Style="{StaticResource ModernRoundedComboBoxStyle}" Width="233" HorizontalAlignment="Left" ItemsSource="{Binding Reasons}" SelectedItem="{Binding SelectedReason}"/>
+            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание жалобы" Text="{Binding ReportText}"/>
             <StackPanel Orientation="Horizontal">
-                <Button Content="Отправить" Style="{StaticResource ReportButton}" Width="187"/>
+                <Button Content="Отправить" Style="{StaticResource ReportButton}" Width="187" Command="{Binding SendReport}"/>
                 <Button Content="х" Style="{StaticResource ReportButton}" Width="41" Command="{Binding ReturnUsersButtons}"/>
             </StackPanel>
             

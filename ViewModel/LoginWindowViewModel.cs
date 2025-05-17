@@ -61,10 +61,18 @@ namespace wpfHUSH.ViewModel
                 User user = Users.FirstOrDefault(u => u.LoginPassword.Login == UserLogin && u.LoginPassword.Password == UserPassword);
                 if (user != null)
                 {
-                    UserStatic.CurrentUser = user;
-                    SearchWindow searchWindow = new SearchWindow();
-                    loginWindow.Hide();
-                    searchWindow.ShowDialog();
+                    if (user.RoleId == 1)
+                    {
+                        UserStatic.CurrentUser = user;
+                        SearchWindow searchWindow = new SearchWindow();
+                        loginWindow.Hide();
+                        searchWindow.ShowDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ваш профиль забанен!");
+                    }
+                    
                 }
                 else
                 {
