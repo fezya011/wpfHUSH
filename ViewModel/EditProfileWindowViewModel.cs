@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Linq;
@@ -77,13 +78,25 @@ namespace wpfHUSH.ViewModel
 
             SaveEdit = new CommandVM(() =>
             {
-                UserStatic.CurrentUser.Name = EditableUser.Name;
-                UserStatic.CurrentUser.About = EditableUser.About;
-                UserStatic.CurrentUser.Age = EditableUser.Age;
-                UserStatic.CurrentUser.City = EditableUser.City;
-                UserStatic.CurrentUser.Contact.VK = EditableUser.Contact.VK;
-                UserStatic.CurrentUser.Contact.Telegram = EditableUser.Contact.Telegram;
-                UserDB.GetDb().Update(UserStatic.CurrentUser);
+                if (EditableUser.Age < 0)
+                {
+                    MessageBox.Show("Не рановато ли ты к нам?");
+                }
+                else if (EditableUser.Age > 45)
+                {
+                    MessageBox.Show("Ты либо слишком старый, либо введи свой реальный возраст!");
+                }
+                else
+                {
+                    UserStatic.CurrentUser.Name = EditableUser.Name;
+                    UserStatic.CurrentUser.About = EditableUser.About;
+                    UserStatic.CurrentUser.Age = EditableUser.Age;
+                    UserStatic.CurrentUser.City = EditableUser.City;
+                    UserStatic.CurrentUser.Contact.VK = EditableUser.Contact.VK;
+                    UserStatic.CurrentUser.Contact.Telegram = EditableUser.Contact.Telegram;
+                    UserDB.GetDb().Update(UserStatic.CurrentUser);
+                }
+                
             }, () => !string.IsNullOrWhiteSpace(EditableUser.Name) && !string.IsNullOrWhiteSpace(EditableUser.About) && !string.IsNullOrWhiteSpace(EditableUser.City) && EditableUser.Age != 0 && !string.IsNullOrWhiteSpace(EditableUser.Contact.VK) && !string.IsNullOrWhiteSpace(EditableUser.Contact.Telegram));
 
             CloseWindow = new CommandVM(() =>

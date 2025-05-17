@@ -31,6 +31,8 @@ namespace wpfHUSH.ViewModel
         private List<Reason> reasons;
         private Reason selectedReason;
         private string reportText;
+        private List<Swipes> swipes;
+
 
         public Visibility ReportWindowVisible
         {
@@ -121,6 +123,15 @@ namespace wpfHUSH.ViewModel
                 Signal();
             }
         }
+        public List<Swipes> Swipes 
+        { 
+            get => swipes; 
+            set
+            {
+                swipes = value;
+                Signal();
+            }
+        }
 
         public ICommand OpenEditWindow { get; set; }
         public ICommand OpenNotificationWindow { get; set; }
@@ -134,13 +145,15 @@ namespace wpfHUSH.ViewModel
         public SearchWindowViewModel(SearchWindow searchWindow)
         {           
             User = UserStatic.CurrentUser;
-
+            SwipeSelectAll();
             SearchSelectAll();
             ReasonsSelectAll();
             
             profileToShow = AllProfiles
                 .OrderBy(x => random.Next())
                 .ToList();
+
+            
            
             if (profileToShow.Count > 0)
             {
@@ -221,6 +234,11 @@ namespace wpfHUSH.ViewModel
         private void ReasonsSelectAll()
         {
             Reasons = ReportDB.GetDb().SelectAll();        
+        }
+
+        private void SwipeSelectAll()
+        {
+            Swipes = SwipeDB.GetDb().SelectAll();
         }
 
         private async void ShowNextProfile(bool isLike)

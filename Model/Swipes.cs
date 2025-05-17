@@ -28,5 +28,6 @@ namespace wpfHUSH.Model
         }
 
         public bool IsNew => !IsNotificated;
+
     }
 }

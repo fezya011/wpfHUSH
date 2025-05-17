@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="RegisterWindow" Height="400" Width="550" MaxHeight="400" MaxWidth="550" MinHeight="400" MinWidth="550" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
+        Title="RegisterWindow" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Height="400" Width="550" MaxHeight="400" MaxWidth="550" MinHeight="400" MinWidth="550" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
         <Style x:Key="ModernTextBoxStyle" TargetType="{x:Type TextBox}">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Padding" Value="5"/>
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="Height" Value="38"/>
             <Setter Property="Width" Value="305"/>
@@ -22,49 +22,74 @@
                     <ControlTemplate TargetType="{x:Type TextBox}">
                         <Grid>
                             <Border x:Name="border" 
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="16"
-                            SnapsToDevicePixels="True">
-
+                     Background="{TemplateBinding Background}"
+                     BorderBrush="{TemplateBinding BorderBrush}"
+                     BorderThickness="{TemplateBinding BorderThickness}"
+                     CornerRadius="16"
+                     SnapsToDevicePixels="True">
                                 <Grid Margin="{TemplateBinding Padding}">
+                                    <!-- Watermark -->
                                     <TextBlock x:Name="watermark"
-                                       Text="{TemplateBinding Tag}"
-                                       Foreground="LightGray"
-                                       Visibility="Collapsed"
-                                       FontFamily="Arial Black"
-                                       VerticalAlignment="Center" 
-                                       Margin="10,0,0,0"
-                                       FontSize="13" FontWeight="Bold" 
-                                               />
+                                Text="{TemplateBinding Tag}"
+                                Foreground="LightGray"
+                                Opacity="0"
+                                FontFamily="Arial Black"
+                                VerticalAlignment="Center" 
+                                Margin="10,0,0,0"
+                                FontSize="13" 
+                                FontWeight="Bold"/>
 
-                                    <ScrollViewer x:Name="PART_ContentHost"
-                                         VerticalAlignment="Center"/>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
                                 </Grid>
                             </Border>
                         </Grid>
 
                         <ControlTemplate.Triggers>
+                            <!-- Главный триггер - управляет видимостью watermark -->
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0" To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="1" To="0" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <!-- Дополнительный триггер для null значений -->
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                            </Trigger>
+
+                            <!-- Триггер на наведение - скрывает watermark только если поле пустое -->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
                                     <Condition Property="Text" Value=""/>
-                                    <Condition Property="IsMouseOver" Value="False"/>
-                                    <Condition Property="IsKeyboardFocused" Value="False"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </MultiTrigger>
 
+                            <!-- Стили для рамки -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
-
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
-                            </Trigger>
-
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -83,106 +108,211 @@
     <Setter Property="Height" Value="37"/>
     <Setter Property="Margin" Value="0,15,0,0"/>
 
-    <Setter Property="Template">
-        <Setter.Value>
-            <ControlTemplate TargetType="{x:Type Button}">
-                <Border x:Name="border"
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="16"
                 RenderTransformOrigin="0.5,0.5">
-                    <Border.RenderTransform>
-                        <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
-                    </Border.RenderTransform>
-                    <ContentPresenter HorizontalAlignment="Center"
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
                              VerticalAlignment="Center"
                              TextBlock.FontFamily="{TemplateBinding FontFamily}"
                              TextBlock.FontSize="{TemplateBinding FontSize}"/>
-                </Border>
+                        </Border>
 
-                <ControlTemplate.Triggers>
-                    <!-- Анимация при наведении -->
-                    <EventTrigger RoutedEvent="MouseEnter">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation Storyboard.TargetName="border"
+                        <ControlTemplate.Triggers>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
                                         Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                                         To="#FFC7C7C7"
                                         Duration="0:0:0.2"/>
-                                <DoubleAnimation Storyboard.TargetName="border"
+                                        <DoubleAnimation Storyboard.TargetName="border"
                                         Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
                                         To="1.02"
                                         Duration="0:0:0.2"/>
-                                <DoubleAnimation Storyboard.TargetName="border"
+                                        <DoubleAnimation Storyboard.TargetName="border"
                                         Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
                                         To="1.02"
                                         Duration="0:0:0.2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
 
-                    <!-- Анимация при уходе курсора -->
-                    <EventTrigger RoutedEvent="MouseLeave">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation Storyboard.TargetName="border"
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
                                         Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                                         To="#FFBBBBBB"
                                         Duration="0:0:0.3"/>
-                                <DoubleAnimation Storyboard.TargetName="border"
+                                        <DoubleAnimation Storyboard.TargetName="border"
                                         Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
                                         To="1"
                                         Duration="0:0:0.3"/>
-                                <DoubleAnimation Storyboard.TargetName="border"
+                                        <DoubleAnimation Storyboard.TargetName="border"
                                         Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
                                         To="1"
                                         Duration="0:0:0.3"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
 
-                    <!-- Эффект при нажатии -->
-                    <Trigger Property="IsPressed" Value="True">
-                        <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
-                        <Setter TargetName="border" Property="RenderTransform">
-                            <Setter.Value>
-                                <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
-                            </Setter.Value>
-                        </Setter>
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>
-</Style>
+                            <!-- Эффект при нажатии -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="WindowButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="#FF2D2D30"/>
+            <!-- Явно задаем начальный цвет -->
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+                 BorderBrush="{TemplateBinding BorderBrush}"
+                 BorderThickness="{TemplateBinding BorderThickness}"
+                 CornerRadius="3"
+                 RenderTransformOrigin="0.5,0.5">
+                            <Border.Background>
+                                <!-- Явно определяем SolidColorBrush -->
+                                <SolidColorBrush Color="#FF2D2D30"/>
+                            </Border.Background>
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                              TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF333337"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF2D2D30"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Эффект при нажатии -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
+    <Border CornerRadius="10" Background="White" ClipToBounds="True">
+        <Grid>
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Height="30" Background="#FF2D2D30" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid>
+                        <TextBlock Text="" 
+VerticalAlignment="Center" 
+HorizontalAlignment="Center"
+Margin="10,0,0,0"
+Foreground="White"/>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="_" Style="{StaticResource WindowButton}" Width="40" Background="Transparent" 
+ Foreground="White" BorderThickness="0" Click="MinimizeButton_Click"/>
+                            <Button Content="X" Width="40" Background="Transparent" 
+ Foreground="White" BorderThickness="0" Click="CloseButton_Click" Style="{StaticResource WindowButton}"
+ />
+                        </StackPanel>
+                    </Grid>
+                </Border>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="15*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10*"/>
-        </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="1" Grid.Row="1">
-            <Image Source="/Pictures/Group 18.png" Height="54" Width="272" RenderOptions.BitmapScalingMode="HighQuality" 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="15*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="1" Grid.Row="1">
+                        <Image Source="/Pictures/Group 18.png" Height="54" Width="272" RenderOptions.BitmapScalingMode="HighQuality" 
        RenderOptions.EdgeMode="Aliased"/>
-        </StackPanel>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.Column="1">
-            <TextBlock Text="Регистрация" FontFamily="Arial Black" FontSize="18" Width="130" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Укажите логин" Text="{Binding UserLogin, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Придумайте пароль" Text="{Binding UserPassword, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Подтвердите пароль" Text="{Binding UserRepeatPassword, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Content="Зарегистрироваться" Style="{StaticResource RoundedBlackBorderButton}" Command="{Binding SaveNewUserLoginPassword}"/>
-        </StackPanel>
-    </Grid>
+                    <StackPanel Grid.Row="2" Grid.Column="1">
+                        <TextBlock Text="Регистрация" FontFamily="Arial Black" FontSize="18" Width="130" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Укажите логин" Text="{Binding UserLogin, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Придумайте пароль" Text="{Binding UserPassword, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Подтвердите пароль" Text="{Binding UserRepeatPassword, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Content="Зарегистрироваться" Style="{StaticResource RoundedBlackBorderButton}" Command="{Binding SaveNewUserLoginPassword}"/>
+                    </StackPanel>
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </Border>
 </Window>

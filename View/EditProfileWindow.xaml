@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="EditProfileWindow" Height="530" Width="820" MaxHeight="530" MaxWidth="820" MinWidth="820" MinHeight="530" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality" 
+        Title="EditProfileWindow" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Height="530" Width="820" MaxHeight="530" MaxWidth="820" MinWidth="820" MinHeight="530" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality" 
        >
     <Window.Resources>
         <Style x:Key="EditPhotoButton" TargetType="Button">
@@ -55,61 +55,85 @@
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Padding" Value="5"/>
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="Height" Value="38"/>
             <Setter Property="Width" Value="210"/>
-            <Setter Property="Margin" Value="0,6,0,10"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0,6,0,10"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">
                         <Grid>
                             <Border x:Name="border" 
-            Background="{TemplateBinding Background}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}"
-            CornerRadius="16"
-            SnapsToDevicePixels="True">
-
+             Background="{TemplateBinding Background}"
+             BorderBrush="{TemplateBinding BorderBrush}"
+             BorderThickness="{TemplateBinding BorderThickness}"
+             CornerRadius="16"
+             >
                                 <Grid Margin="{TemplateBinding Padding}">
+                                    <!-- Watermark -->
                                     <TextBlock x:Name="watermark"
-                       Text="{TemplateBinding Tag}"
-                       Foreground="LightGray"
-                       Visibility="Collapsed"
-                       FontFamily="Arial Black"
-                       VerticalAlignment="Center" 
-                       Margin="10,0,0,0"
-                       FontSize="11" FontWeight="Bold"
-                                       
-                               />
+                        Text="{TemplateBinding Tag}"
+                        Foreground="LightGray"
+                        Opacity="0"
+                        FontFamily="Arial Black"
+                        VerticalAlignment="Center" 
+                        Margin="10,0,0,0"
+                        FontSize="11" 
+                        FontWeight="Bold"/>
 
-                                    <ScrollViewer x:Name="PART_ContentHost"
-                         VerticalAlignment="Center"/>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
                                 </Grid>
                             </Border>
                         </Grid>
 
                         <ControlTemplate.Triggers>
+                            <!-- Главный триггер - управляет видимостью watermark -->
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0" To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="1" To="0" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <!-- Дополнительный триггер для null значений -->
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                            </Trigger>
+
+                            <!-- Триггер на наведение - скрывает watermark только если поле пустое -->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
                                     <Condition Property="Text" Value=""/>
-                                    <Condition Property="IsMouseOver" Value="False"/>
-                                    <Condition Property="IsKeyboardFocused" Value="False"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </MultiTrigger>
 
+                            <!-- Стили для рамки -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
-
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
-                            </Trigger>
-
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -220,44 +244,69 @@
      BorderThickness="{TemplateBinding BorderThickness}"
      CornerRadius="16"
      SnapsToDevicePixels="True">
-
                                 <Grid Margin="{TemplateBinding Padding}">
+                                    <!-- Watermark -->
                                     <TextBlock x:Name="watermark"
                 Text="{TemplateBinding Tag}"
                 Foreground="LightGray"
-                Visibility="Collapsed"
+                Opacity="1"
                 FontFamily="Arial Black"
-                VerticalAlignment="Center"
-                FontSize="11" FontWeight="Bold" Height="72" Margin="6,0,0,0"
-                                
-                        />
+                VerticalAlignment="Top" 
+                Margin="7,6,5,0"
+                FontSize="11" 
+                FontWeight="Bold"/>
 
-                                    <ScrollViewer x:Name="PART_ContentHost"
-                  VerticalAlignment="Center" Height="85"/>
+                                    <ScrollViewer x:Name="PART_ContentHost"/>
                                 </Grid>
                             </Border>
                         </Grid>
 
                         <ControlTemplate.Triggers>
+                            <!-- Главный триггер - управляет видимостью watermark -->
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                            Storyboard.TargetProperty="Opacity"
+                            From="0" To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                            Storyboard.TargetProperty="Opacity"
+                            From="1" To="0" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <!-- Дополнительный триггер для null значений -->
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                            </Trigger>
+
+                            <!-- Триггер на наведение - скрывает watermark только если поле пустое -->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
                                     <Condition Property="Text" Value=""/>
-                                    <Condition Property="IsMouseOver" Value="False"/>
-                                    <Condition Property="IsKeyboardFocused" Value="False"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </MultiTrigger>
 
+                            <!-- Стили для рамки -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
-
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
-                            </Trigger>
-
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -280,53 +329,77 @@
                     <ControlTemplate TargetType="{x:Type TextBox}">
                         <Grid>
                             <Border x:Name="border" 
-      Background="{TemplateBinding Background}"
-      BorderBrush="{TemplateBinding BorderBrush}"
-      BorderThickness="{TemplateBinding BorderThickness}"
-      CornerRadius="16"
-      SnapsToDevicePixels="True">
+                   Background="{TemplateBinding Background}"
+                   BorderBrush="{TemplateBinding BorderBrush}"
+                   BorderThickness="{TemplateBinding BorderThickness}"
+                   CornerRadius="16"
+                   SnapsToDevicePixels="True">
 
                                 <Grid Margin="{TemplateBinding Padding}">
+                                    <!-- Watermark -->
                                     <TextBlock x:Name="watermark"
-                 Text="{TemplateBinding Tag}"
-                 Foreground="LightGray"
-                 Visibility="Collapsed"
-                 FontFamily="Arial Black"
-                 VerticalAlignment="Center" 
-                 Margin="29,0,0,0"
-                 FontSize="11" FontWeight="Bold"
-                                       
-                                 
-                         />
-                                    <Image Source="/Pictures/Vector2333.png" Margin="3,3,254,3" RenderOptions.BitmapScalingMode="HighQuality" 
+                              Text="{TemplateBinding Tag}"
+                              Foreground="LightGray"
+                              Opacity="0"
+                              FontFamily="Arial Black"
+                              VerticalAlignment="Center" 
+                              Margin="29,0,0,0"
+                              FontSize="11" 
+                              FontWeight="Bold"/>
+                                    <Image Source="/Pictures/Vector2333.png" Margin="3,3,252,3" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
 
-                                    <ScrollViewer x:Name="PART_ContentHost"
-                   VerticalAlignment="Center" Margin="27,0,0,0"/>
+                                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="27,0,0,0"/>
                                 </Grid>
                             </Border>
                         </Grid>
 
                         <ControlTemplate.Triggers>
+                            <!-- Главный триггер - управляет видимостью watermark -->
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                          Storyboard.TargetProperty="Opacity"
+                                          From="0" To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                          Storyboard.TargetProperty="Opacity"
+                                          From="1" To="0" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <!-- Дополнительный триггер для null значений -->
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                            </Trigger>
+
+                            <!-- Триггер на наведение - скрывает watermark только если поле пустое -->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
                                     <Condition Property="Text" Value=""/>
-                                    <Condition Property="IsMouseOver" Value="False"/>
-                                    <Condition Property="IsKeyboardFocused" Value="False"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </MultiTrigger>
 
+                            <!-- Стили для рамки -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
-
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
-                            </Trigger>
-
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -349,53 +422,77 @@ RenderOptions.EdgeMode="Aliased"/>
                     <ControlTemplate TargetType="{x:Type TextBox}">
                         <Grid>
                             <Border x:Name="border" 
-Background="{TemplateBinding Background}"
-BorderBrush="{TemplateBinding BorderBrush}"
-BorderThickness="{TemplateBinding BorderThickness}"
-CornerRadius="16"
-SnapsToDevicePixels="True">
+                   Background="{TemplateBinding Background}"
+                   BorderBrush="{TemplateBinding BorderBrush}"
+                   BorderThickness="{TemplateBinding BorderThickness}"
+                   CornerRadius="16"
+                   SnapsToDevicePixels="True">
 
                                 <Grid Margin="{TemplateBinding Padding}">
+                                    <!-- Watermark -->
                                     <TextBlock x:Name="watermark"
-           Text="{TemplateBinding Tag}"
-           Foreground="LightGray"
-           Visibility="Collapsed"
-           FontFamily="Arial Black"
-           VerticalAlignment="Center" 
-           Margin="29,0,0,0"
-           FontSize="11" FontWeight="Bold"
-                                 
-                           
-                   />
+                              Text="{TemplateBinding Tag}"
+                              Foreground="LightGray"
+                              Opacity="0"
+                              FontFamily="Arial Black"
+                              VerticalAlignment="Center" 
+                              Margin="29,0,0,0"
+                              FontSize="11" 
+                              FontWeight="Bold"/>
                                     <Image Source="/Pictures/VectorTG.png" Margin="3,3,252,3" RenderOptions.BitmapScalingMode="HighQuality" 
-  RenderOptions.EdgeMode="Aliased"/>
+RenderOptions.EdgeMode="Aliased"/>
 
-                                    <ScrollViewer x:Name="PART_ContentHost"
-             VerticalAlignment="Center" Margin="27,0,0,0"/>
+                                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="27,0,0,0"/>
                                 </Grid>
                             </Border>
                         </Grid>
 
                         <ControlTemplate.Triggers>
+                            <!-- Главный триггер - управляет видимостью watermark -->
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                          Storyboard.TargetProperty="Opacity"
+                                          From="0" To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                          Storyboard.TargetProperty="Opacity"
+                                          From="1" To="0" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <!-- Дополнительный триггер для null значений -->
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                            </Trigger>
+
+                            <!-- Триггер на наведение - скрывает watermark только если поле пустое -->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
                                     <Condition Property="Text" Value=""/>
-                                    <Condition Property="IsMouseOver" Value="False"/>
-                                    <Condition Property="IsKeyboardFocused" Value="False"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </MultiTrigger>
 
+                            <!-- Стили для рамки -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
-
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
-                            </Trigger>
-
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -418,53 +515,77 @@ SnapsToDevicePixels="True">
                     <ControlTemplate TargetType="{x:Type TextBox}">
                         <Grid>
                             <Border x:Name="border" 
-      Background="{TemplateBinding Background}"
-      BorderBrush="{TemplateBinding BorderBrush}"
-      BorderThickness="{TemplateBinding BorderThickness}"
-      CornerRadius="16"
-      SnapsToDevicePixels="True">
+                   Background="{TemplateBinding Background}"
+                   BorderBrush="{TemplateBinding BorderBrush}"
+                   BorderThickness="{TemplateBinding BorderThickness}"
+                   CornerRadius="16"
+                   SnapsToDevicePixels="True">
 
-                                <Grid Margin="4,4,83,4">
+                                <Grid Margin="{TemplateBinding Padding}">
+                                    <!-- Watermark -->
                                     <TextBlock x:Name="watermark"
-                 Text="{TemplateBinding Tag}"
-                 Foreground="LightGray"
-                 Visibility="Collapsed"
-                 FontFamily="Arial Black"
-                 VerticalAlignment="Center" 
-                 Margin="29,0,0,0"
-                 FontSize="11" FontWeight="Bold"
-                                       
-                                 
-                         />
-                                    <Image Source="/Pictures/Loci.png" Margin="3,3,174,3" RenderOptions.BitmapScalingMode="HighQuality" 
+                              Text="{TemplateBinding Tag}"
+                              Foreground="LightGray"
+                              Opacity="0"
+                              FontFamily="Arial Black"
+                              VerticalAlignment="Center" 
+                              Margin="29,0,0,0"
+                              FontSize="11" 
+                              FontWeight="Bold"/>
+                                    <Image Source="/Pictures/Loci.png" Margin="3,3,252,3" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
 
-                                    <ScrollViewer x:Name="PART_ContentHost"
-                   VerticalAlignment="Center" Margin="27,0,0,0"/>
+                                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="27,0,0,0"/>
                                 </Grid>
                             </Border>
                         </Grid>
 
                         <ControlTemplate.Triggers>
+                            <!-- Главный триггер - управляет видимостью watermark -->
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                          Storyboard.TargetProperty="Opacity"
+                                          From="0" To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="watermark"
+                                          Storyboard.TargetProperty="Opacity"
+                                          From="1" To="0" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <!-- Дополнительный триггер для null значений -->
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="watermark" Property="Opacity" Value="1"/>
+                            </Trigger>
+
+                            <!-- Триггер на наведение - скрывает watermark только если поле пустое -->
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True"/>
                                     <Condition Property="Text" Value=""/>
-                                    <Condition Property="IsMouseOver" Value="False"/>
-                                    <Condition Property="IsKeyboardFocused" Value="False"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="watermark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </MultiTrigger>
 
+                            <!-- Стили для рамки -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
-
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#0078D7"/>
-                            </Trigger>
-
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#555555"/>
+                                <Setter TargetName="watermark" Property="Opacity" Value="0"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -664,77 +785,182 @@ TextBlock.FontSize="{TemplateBinding FontSize}"/>
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="WindowButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="#FF2D2D30"/>
+            <!-- Явно задаем начальный цвет -->
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+                 BorderBrush="{TemplateBinding BorderBrush}"
+                 BorderThickness="{TemplateBinding BorderThickness}"
+                 CornerRadius="3"
+                 RenderTransformOrigin="0.5,0.5">
+                            <Border.Background>
+                                <!-- Явно определяем SolidColorBrush -->
+                                <SolidColorBrush Color="#FF2D2D30"/>
+                            </Border.Background>
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                              TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF333337"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF2D2D30"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Эффект при нажатии -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <Border CornerRadius="10" Background="White" ClipToBounds="True">
+        <Grid>
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Height="30" Background="#FF2D2D30" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid>
+                        <TextBlock Text="" 
+    VerticalAlignment="Center" 
+    HorizontalAlignment="Center"
+    Margin="10,0,0,0"
+    Foreground="White"/>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10*"/>
-        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="_" Style="{StaticResource WindowButton}" Width="40" Background="Transparent" 
+     Foreground="White" BorderThickness="0" Click="MinimizeButton_Click"/>
+                            <Button Content="X" Width="40" Background="Transparent" 
+     Foreground="White" BorderThickness="0" Click="CloseButton_Click" Style="{StaticResource WindowButton}"
+     />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">
-            <Image Source="/Pictures/Group 18.png" Height="37" Width="180" RenderOptions.BitmapScalingMode="HighQuality" 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Image Source="/Pictures/Group 18.png" Height="37" Width="180" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
-        </StackPanel>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <Label Content="Редактирование профиля" Style="{StaticResource LabelText}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Имя" Text="{Binding EditableUser.Name, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Возраст" Margin="0,-2,0,9" Text="{Binding EditableUser.Age, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание..." Width="289" Text="{Binding EditableUser.About, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Населенный пункт" Width="291" Text="{Binding EditableUser.City, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Width="291" Text="{Binding EditableUser.Contact.VK, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Width="291" Text="{Binding EditableUser.Contact.Telegram, UpdateSourceTrigger=PropertyChanged}"/>
-            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
-                <Button Content="Сохранить" Style="{StaticResource RoundedButtonDown}" Command="{Binding SaveEdit}" Width="201" />
-                <Button Width="46" Style="{StaticResource RoundedButtonDown}" Command="{Binding Reset}">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/Pictures/Group 3.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Button.Background>
-                </Button>
-                <Button Width="46" Style="{StaticResource RoundedButtonDown}" Command="{Binding Logout}">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/Pictures/Exit.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Button.Background>
-                </Button>
-            </StackPanel>
-        </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="1">
+                        <Label Content="Редактирование профиля" Style="{StaticResource LabelText}"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Имя" Text="{Binding EditableUser.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Возраст" Margin="0,-2,0,9" Text="{Binding EditableUser.Age, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#}}"/>
+                        <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание..." Width="289" Text="{Binding EditableUser.About, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Населенный пункт" Width="291" Text="{Binding EditableUser.City, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Width="291" Text="{Binding EditableUser.Contact.VK, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Width="291" Text="{Binding EditableUser.Contact.Telegram, UpdateSourceTrigger=PropertyChanged}"/>
+                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+                            <Button Content="Сохранить" Style="{StaticResource RoundedButtonDown}" Command="{Binding SaveEdit}" Width="201" />
+                            <Button Width="46" Style="{StaticResource RoundedButtonDown}" Command="{Binding Reset}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="/Pictures/Group 3.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </Button.Background>
+                            </Button>
+                            <Button Width="46" Style="{StaticResource RoundedButtonDown}" Command="{Binding Logout}">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="/Pictures/Exit.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <Button Width="33" Style="{StaticResource RoundedButton}" Height="33" Margin="4,7,10,0" Command="{Binding CloseWindow}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/Back.png" RenderOptions.BitmapScalingMode="HighQuality" 
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <Button Width="33" Style="{StaticResource RoundedButton}" Height="33" Margin="4,7,10,0" Command="{Binding CloseWindow}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/Pictures/Back.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
-                </Button.Background>
-            </Button>
-        </StackPanel>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
 
 
-        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Height="402" Style="{StaticResource AddPhotoButton2}" Width="383" Command="{Binding OpenAddPhotoWindowButton}">
-                <Button.Background>
-                    <ImageBrush ImageSource="{Binding Image}"/>
-                </Button.Background>
-            </Button>
-        </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button Height="402" Style="{StaticResource AddPhotoButton2}" Width="383" Command="{Binding OpenAddPhotoWindowButton}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="{Binding Image}"/>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Height="402" Style="{StaticResource AddPhotoButton}" Width="383" Command="{Binding OpenAddPhotoWindowButton}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/EditPhoto.png"/>
-                </Button.Background>
-            </Button>
-        </StackPanel>
-
-
-
+                    <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button Height="402" Style="{StaticResource AddPhotoButton}" Width="383" Command="{Binding OpenAddPhotoWindowButton}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/Pictures/EditPhoto.png"/>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
 
 
 
-    </Grid>
+
+
+
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </Border>
 </Window>

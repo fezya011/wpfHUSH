@@ -1,12 +1,14 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using wpfHUSH.Model;
@@ -132,6 +134,7 @@ namespace wpfHUSH.ViewModel
 
         public AddProfileWindowViewModel(AddProfileWindow addProfileWindow)
         {
+            
             Image = "/Pictures/Group 21.png";
             OpenAddPhotoWindowButton = new CommandVM(() =>
             {
@@ -150,15 +153,47 @@ namespace wpfHUSH.ViewModel
 
             SaveProfileButton = new CommandVM(() =>
             {
-                if (Age > 50 || Age <= 10)
+                var maxAllowedLenght = 13;
+                if (Age > 45)
                 {
-                    MessageBox.Show("Введите свой реальный возраст");
+                    MessageBox.Show("Вам точно это будет интересно?");
+                }
+                else if (Age > 60)
+                {
+
+                    MessageBox.Show("Вы были перенаправлены на зеркало нашего приложения: gosuslugi.ru",
+                                   "Перенаправление",
+                                   MessageBoxButton.OK,
+                                   MessageBoxImage.Information);
+
+                    try
+                    {
+                        Process.Start(new ProcessStartInfo("https://gosuslugi.ru")
+                        {
+                            UseShellExecute = true
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Не удалось открыть сайт: {ex.Message}",
+                                       "Ошибка",
+                                       MessageBoxButton.OK,
+                                       MessageBoxImage.Error);
+                    }
+                }
+                else if (Age < 10)
+                {
+                    MessageBox.Show("Вы слишком малы для использования нашего приложения!");
                 }
                 else if (IsPhotoAdded == false)
                 {
                     MessageBox.Show("Сначала добавь фото");
                     return;
-                }                  
+                }
+                else if (Name.Length >= maxAllowedLenght)
+                {
+                    MessageBox.Show("Лимит символов имени превышен!");
+                }
                 else 
                 {
                     User user = UserStatic.CurrentUser;

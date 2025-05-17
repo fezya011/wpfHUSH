@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="AddProfileWindow" Height="480" Width="820" MaxHeight="480" MaxWidth="820" MinWidth="820" MinHeight="480" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
+        Title="AddProfileWindow" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Height="480" Width="820" MaxHeight="480" MaxWidth="820" MinWidth="820" MinHeight="480" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
         <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="BorderBrush" Value="{x:Null}"/>
@@ -821,137 +821,238 @@ RenderOptions.EdgeMode="Aliased"/>
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="WindowButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="#FF2D2D30"/>
+            <!-- Явно задаем начальный цвет -->
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+                 BorderBrush="{TemplateBinding BorderBrush}"
+                 BorderThickness="{TemplateBinding BorderThickness}"
+                 CornerRadius="3"
+                 RenderTransformOrigin="0.5,0.5">
+                            <Border.Background>
+                                <!-- Явно определяем SolidColorBrush -->
+                                <SolidColorBrush Color="#FF2D2D30"/>
+                            </Border.Background>
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                              TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF333337"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF2D2D30"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Эффект при нажатии -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
+    <Border CornerRadius="10" Background="White" ClipToBounds="True">
+        <Grid>
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Height="30" CornerRadius="9,9,0,0" Background="#FF2D2D30" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid>
+                        <TextBlock Text="" 
+ VerticalAlignment="Center" 
+ HorizontalAlignment="Center"
+ Margin="10,0,0,0"
+ Foreground="White"/>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="_" Style="{StaticResource WindowButton}" Width="40" Background="Transparent" 
+  Foreground="White" BorderThickness="0" Click="MinimizeButton_Click"/>
+                            <Button Content="X" Width="40" Background="Transparent" 
+  Foreground="White" BorderThickness="0" Click="CloseButton_Click" Style="{StaticResource WindowButton}"
+  />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5*"/>
-        </Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">
-            <Image Source="/Pictures/Group 18.png" Height="37" Width="180" RenderOptions.BitmapScalingMode="HighQuality" 
+                    <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Image Source="/Pictures/Group 18.png" Height="37" Width="180" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
-        </StackPanel>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="1">
-            <TextBlock Text="Создание профиля" Style="{StaticResource LabelAddProfile}"/>
-            <Button Height="303" Style="{StaticResource AddPhotoButton}" Width="298" Command="{Binding OpenAddPhotoWindowButton}">
-                <Button.Background>
-                    <ImageBrush ImageSource="{Binding Image}"/>
-                </Button.Background>
-            </Button>
-            
-        </StackPanel>
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Text="Создание профиля" Style="{StaticResource LabelAddProfile}"/>
+                        <Button Height="303" Style="{StaticResource AddPhotoButton}" Width="298" Command="{Binding OpenAddPhotoWindowButton}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="{Binding Image}"/>
+                            </Button.Background>
+                        </Button>
 
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <TextBlock Text="Имя" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Как тебя зовут?)" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="Описание" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Напиши что нибудь о себе..."  Text="{Binding About, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="Населенный пункт" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Где ты живешь?" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"/>
-        </StackPanel>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="2">
-            <TextBlock Text="Возраст" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Сколько тебе лет?" Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="Контакты" Style="{StaticResource TextBlockText}"/>
-            <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Text="{Binding VKLink, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Text="{Binding TelegramLink, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="Пол" Style="{StaticResource TextBlockText}"/>
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="buttonWoman" Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleFemale}" Command="{Binding ClickGender}" CommandParameter="{Binding ElementName=buttonMan, Path=.}" Margin="0,8,20,0"/>
-                <Button x:Name="buttonMan" Command="{Binding ClickGender}" CommandParameter="{Binding ElementName=buttonWoman, Path=.}" Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleMale}" Margin="0,8,0,0"/>
-            </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="1">
+                        <TextBlock Text="Имя" Style="{StaticResource TextBlockText}"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Как тебя зовут?)" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="Описание" Style="{StaticResource TextBlockText}"/>
+                        <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Напиши что нибудь о себе..."  Text="{Binding About, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="Населенный пункт" Style="{StaticResource TextBlockText}"/>
+                        <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Где ты живешь?" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
 
-        </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="2">
+                        <TextBlock Text="Возраст" Style="{StaticResource TextBlockText}"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Сколько тебе лет?" Text="{Binding Age, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#}}"/>
+                        <TextBlock Text="Контакты" Style="{StaticResource TextBlockText}"/>
+                        <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Text="{Binding VKLink, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Text="{Binding TelegramLink, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="Пол" Style="{StaticResource TextBlockText}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="buttonWoman" Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleFemale}" Command="{Binding ClickGender}" CommandParameter="{Binding ElementName=buttonMan, Path=.}" Margin="0,8,20,0"/>
+                            <Button x:Name="buttonMan" Command="{Binding ClickGender}" CommandParameter="{Binding ElementName=buttonWoman, Path=.}" Height="70" Width="68" Style="{StaticResource RoundedImageButtonStyleMale}" Margin="0,8,0,0"/>
+                        </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
-            <Button Content="Сохранить" Style="{StaticResource RoundedButton}" Command="{Binding SaveProfileButton}"/>
-            <Button Width="46" Style="{StaticResource RoundedButton}" Command="{Binding ResetButton}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/Group 3.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                </Button.Background>
-            </Button>
-        </StackPanel>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="0">
-            <Viewbox Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,10,70,5">
-                <Grid Width="24" Height="24">
-                    <!-- Зелёный кружок -->
-                    <Ellipse Fill="#FF4CAF50" Width="20" Height="20" Opacity="0">
-                        <Ellipse.Style>
-                            <Style TargetType="Ellipse">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsPhotoAdded}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                    <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
+                        <Button Content="Сохранить" Style="{StaticResource RoundedButton}" Command="{Binding SaveProfileButton}"/>
+                        <Button Width="46" Style="{StaticResource RoundedButton}" Command="{Binding ResetButton}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/Pictures/Group 3.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="0">
+                        <Viewbox Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,10,70,5">
+                            <Grid Width="24" Height="24">
+                                <!-- Зелёный кружок -->
+                                <Ellipse Fill="#FF4CAF50" Width="20" Height="20" Opacity="0">
+                                    <Ellipse.Style>
+                                        <Style TargetType="Ellipse">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsPhotoAdded}" Value="True">
+                                                    <DataTrigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                             From="0" To="1" Duration="0:0:0.3"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.EnterActions>
-                                        <DataTrigger.ExitActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.EnterActions>
+                                                    <DataTrigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                             To="0" Duration="0:0:0.3"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.ExitActions>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Ellipse.Style>
-                    </Ellipse>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.ExitActions>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Ellipse.Style>
+                                </Ellipse>
 
-                    <!-- Белая галочка -->
-                    <Path Data="M6,12 L10,16 18,8"
+                                <!-- Белая галочка -->
+                                <Path Data="M6,12 L10,16 18,8"
               Stroke="White"
               StrokeThickness="2.5"
               StrokeStartLineCap="Round"
               StrokeEndLineCap="Round"
               StrokeLineJoin="Round"
               Opacity="0">
-                        <Path.Style>
-                            <Style TargetType="Path">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsPhotoAdded}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                    <Path.Style>
+                                        <Style TargetType="Path">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsPhotoAdded}" Value="True">
+                                                    <DataTrigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                             From="0" To="1" Duration="0:0:0.3"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.EnterActions>
-                                        <DataTrigger.ExitActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.EnterActions>
+                                                    <DataTrigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                             To="0" Duration="0:0:0.3"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.ExitActions>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Path.Style>
-                    </Path>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.ExitActions>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
+                            </Grid>
+                        </Viewbox>
+                    </StackPanel>
                 </Grid>
-            </Viewbox>
-        </StackPanel>
-
-        
-
-    </Grid>
+            </DockPanel>
+        </Grid>
+    </Border>
 </Window>

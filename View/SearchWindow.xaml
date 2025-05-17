@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="SearchWindow"  Height="480" Width="850" MaxHeight="480" MaxWidth="850" MinWidth="850" MinHeight="480" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality"> 
+        Title="SearchWindow" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Height="480" Width="850" MaxHeight="480" MaxWidth="850" MinWidth="850" MinHeight="480" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <ControlTemplate x:Key="CleanToggleButtonTemplate" TargetType="{x:Type ToggleButton}">
             <Border Background="{TemplateBinding Background}"
             BorderBrush="{TemplateBinding BorderBrush}"
@@ -141,7 +142,7 @@
 
                             <!-- Эффект при нажатии -->
                             <Trigger Property="IsPressed" Value="True">
-                                
+
                                 <Setter TargetName="border" Property="RenderTransform">
                                     <Setter.Value>
                                         <ScaleTransform ScaleX="0.97" ScaleY="0.97"/>
@@ -569,119 +570,224 @@ CornerRadius="10">
             <Setter Property="Width" Value="332"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
+        <Style x:Key="WindowButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="#FF2D2D30"/>
+            <!-- Явно задаем начальный цвет -->
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+                 BorderBrush="{TemplateBinding BorderBrush}"
+                 BorderThickness="{TemplateBinding BorderThickness}"
+                 CornerRadius="3"
+                 RenderTransformOrigin="0.5,0.5">
+                            <Border.Background>
+                                <!-- Явно определяем SolidColorBrush -->
+                                <SolidColorBrush Color="#FF2D2D30"/>
+                            </Border.Background>
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                              TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF333337"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF2D2D30"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Эффект при нажатии -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="37*"/>
-            <ColumnDefinition Width="53*"/>
-            <ColumnDefinition Width="35*"/>
-        </Grid.ColumnDefinitions>
+    <Border CornerRadius="10" Background="White" ClipToBounds="True">
+        <Grid>
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Height="30" Background="#FF2D2D30" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid>
+                        <TextBlock Text="" 
+    VerticalAlignment="Center" 
+    HorizontalAlignment="Center"
+    Margin="10,0,0,0"
+    Foreground="White"/>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="8*"/>
-        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="_" Style="{StaticResource WindowButton}" Width="40" Background="Transparent" 
+     Foreground="White" BorderThickness="0" Click="MinimizeButton_Click"/>
+                            <Button Content="X" Width="40" Background="Transparent" 
+     Foreground="White" BorderThickness="0" Click="CloseButton_Click" Style="{StaticResource WindowButton}"
+     />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="37*"/>
+                        <ColumnDefinition Width="53*"/>
+                        <ColumnDefinition Width="35*"/>
+                    </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">
-            <Image Source="/Pictures/Group 18.png" Height="37" Width="180" RenderOptions.BitmapScalingMode="HighQuality" 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Image Source="/Pictures/Group 18.png" Height="37" Width="180" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased" Margin="0,7,0,0"/>
-        </StackPanel>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Image Source="{Binding User.Photo}" Stretch="UniformToFill" Width="34" Height="34" Margin="0,2,5,0">
-                <Image.Clip>
-                    <RectangleGeometry Rect="0,0,32,32" RadiusX="12" RadiusY="12"/>
-                </Image.Clip>
-            </Image>
-            <TextBlock Text="{Binding User.Name}" Style="{StaticResource TextNickname}"/>
-            <Button BorderBrush="{x:Null}" Width="16" Height="16" Style="{StaticResource RoundedButton}" Command="{Binding OpenEditWindow}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/ic_baseline-create.png" RenderOptions.BitmapScalingMode="HighQuality" 
+                    <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Image Source="{Binding User.Photo}" Stretch="UniformToFill" Width="34" Height="34" Margin="0,2,5,0">
+                            <Image.Clip>
+                                <RectangleGeometry Rect="0,0,32,32" RadiusX="12" RadiusY="12"/>
+                            </Image.Clip>
+                        </Image>
+                        <TextBlock Text="{Binding User.Name}" Style="{StaticResource TextNickname}"/>
+                        <Button BorderBrush="{x:Null}" Width="16" Height="16" Style="{StaticResource RoundedButton}" Command="{Binding OpenEditWindow}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/Pictures/ic_baseline-create.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
-                </Button.Background>
-            </Button>
-        </StackPanel>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
 
 
 
-        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Button Style="{StaticResource UserButton}" Command="{Binding LikeCommand}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/Like.png"/>
-                </Button.Background>
-            </Button>
-            <Button Style="{StaticResource UserButton}" Command="{Binding DislikeCommand}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/Dislike.png"/>
-                </Button.Background>
-            </Button>
-            <Button Style="{StaticResource UserButton}" Command="{Binding ReportVisible}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/Report.png"/>
-                </Button.Background>
-            </Button>
-        </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button Style="{StaticResource UserButton}" Command="{Binding LikeCommand}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/Pictures/Like.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Style="{StaticResource UserButton}" Command="{Binding DislikeCommand}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/Pictures/Dislike.png"/>
+                            </Button.Background>
+                        </Button>
+                        <Button Style="{StaticResource UserButton}" Command="{Binding ReportVisible}">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/Pictures/Report.png"/>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="46" Width="45">
-            <Button Height="35" Width="30" Style="{StaticResource RoundedButton}" Command="{Binding OpenNotificationWindow}" Margin="4,5,10,10">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Pictures/Notification.png"/>
-                </Button.Background>
-            </Button>
-        </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="46" Width="45">
+                        <Button Height="35" Width="30" Style="{StaticResource RoundedButton}" Command="{Binding OpenNotificationWindow}" Margin="4,5,10,10">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/Pictures/Notification.png"/>
+                            </Button.Background>
+                        </Button>
+                    </StackPanel>
 
-        <StackPanel Grid.RowSpan="3" Grid.Column="0" Visibility="{Binding ReportWindowVisible}" Margin="10,0,0,0">
-            <TextBlock Text="Жалоба" Style="{StaticResource Text}" Width="75" />
-            <ComboBox Style="{StaticResource ModernRoundedComboBoxStyle}" Width="160" HorizontalAlignment="Left" ItemsSource="{Binding Reasons}" DisplayMemberPath="Type" SelectedItem="{Binding SelectedReason}"/>
-            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание жалобы" Width="160" Text="{Binding ReportText}"/>
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Отправить" Style="{StaticResource ReportButton}" Width="118" Height="26" Command="{Binding SendReport}"/>
-                <Button Content="х" Style="{StaticResource ReportButton}" Width="34" Command="{Binding ReportHidden}" Height="26"/>
-            </StackPanel>
-        </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding AreOver}">
-            <TextBlock Text="Анкет больше нет..." Style="{StaticResource LabelText}" />
-        </StackPanel>
+                    <StackPanel Grid.RowSpan="3" Grid.Column="0" Visibility="{Binding ReportWindowVisible}" Margin="10,0,0,0">
+                        <TextBlock Text="Жалоба" Style="{StaticResource Text}" Width="75" />
+                        <ComboBox Style="{StaticResource ModernRoundedComboBoxStyle}" Width="160" HorizontalAlignment="Left" ItemsSource="{Binding Reasons}" DisplayMemberPath="Type" SelectedItem="{Binding SelectedReason,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание жалобы" Width="160" Text="{Binding ReportText, UpdateSourceTrigger=PropertyChanged}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Отправить" Style="{StaticResource ReportButton}" Width="118" Height="26" Command="{Binding SendReport}"/>
+                            <Button Content="х" Style="{StaticResource ReportButton}" Width="34" Command="{Binding ReportHidden}" Height="26"/>
+                        </StackPanel>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" x:Name="ProfileContainer">
-            <Border x:Name="ProfileBorder" RenderTransformOrigin="0.5,0.5">
-                <Border.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Border.RenderTransform>
-                <Image Source="{Binding CurrentProfile.Photo}" Stretch="UniformToFill" Height="353">
-                    <Image.Clip>
-                        <RectangleGeometry Rect="0,0,340,340" RadiusX="14" RadiusY="14"/>
-                    </Image.Clip>
-                </Image>
-            </Border>
-        </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding AreOver}">
+                        <TextBlock Text="Анкет больше нет..." Style="{StaticResource LabelText}" />
+                    </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="2">
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
-                <TextBlock Text="{Binding CurrentProfile.Name}" Style="{StaticResource LabelText}"/>
-                <TextBlock Text="," Style="{StaticResource LabelText}" Height="28" Width="8" Visibility="{Binding HiddenLocationAndPhoto}" Margin="0,0,4,0"/>
-                <TextBlock Text="{Binding CurrentProfile.Age}" Style="{StaticResource LabelText}"/>
-                <Image Source="{Binding CurrentProfile.GenderIcon}" RenderOptions.BitmapScalingMode="HighQuality" 
+                    <StackPanel Grid.Row="1" Grid.Column="1" x:Name="ProfileContainer">
+                        <Border x:Name="ProfileBorder" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                            <Image Source="{Binding CurrentProfile.Photo}" Stretch="UniformToFill" Height="353">
+                                <Image.Clip>
+                                    <RectangleGeometry Rect="0,0,340,340" RadiusX="14" RadiusY="14"/>
+                                </Image.Clip>
+                            </Image>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="2">
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
+                            <TextBlock Text="{Binding CurrentProfile.Name}" Style="{StaticResource LabelText}"/>
+                            <TextBlock Text="," Style="{StaticResource LabelText}" Height="28" Width="8" Visibility="{Binding HiddenLocationAndPhoto}" Margin="0,0,4,0"/>
+                            <TextBlock Text="{Binding CurrentProfile.Age}" Style="{StaticResource LabelText}"/>
+                            <Image Source="{Binding CurrentProfile.GenderIcon}" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased" Height="23" Width="29"/>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Visibility="{Binding HiddenLocationAndPhoto}" Margin="0,6,0,0" >
-                <Image Source="/Pictures/Loci.png" RenderOptions.BitmapScalingMode="HighQuality" 
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Visibility="{Binding HiddenLocationAndPhoto}" Margin="0,6,0,0" >
+                            <Image Source="/Pictures/Loci.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased" Height="23" Width="16"/>
-                <TextBlock Text="{Binding CurrentProfile.City}" Height="23" Style="{StaticResource TextLocation}"/>
-            </StackPanel>
-        </StackPanel>
+                            <TextBlock Text="{Binding CurrentProfile.City}" Height="23" Style="{StaticResource TextLocation}"/>
+                        </StackPanel>
+                    </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top">
-            <TextBlock Text="{Binding CurrentProfile.About}" Style="{StaticResource TextDescription}" Width="211" Margin="3,70,0,0" />
-        </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Text="{Binding CurrentProfile.About}" Style="{StaticResource TextDescription}" Width="211" Margin="3,70,0,0" />
+                    </StackPanel>
 
-    </Grid>
-
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </Border>
 </Window>

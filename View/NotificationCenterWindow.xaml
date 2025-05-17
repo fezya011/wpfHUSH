@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="NotificationCenterWindow" Height="340" Width="270" MaxHeight="340" MinHeight="340" MaxWidth="270" MinWidth="270" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
+        Title="NotificationCenterWindow" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Height="340" Width="270" MaxHeight="340" MinHeight="340" MaxWidth="270" MinWidth="270" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
         <Style x:Key="LabelText" TargetType="Label">
             <Setter Property="FontFamily" Value="Arial Black"/>
@@ -81,64 +81,194 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+        <Style x:Key="WindowButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="#FF2D2D30"/>
+            <!-- Явно задаем начальный цвет -->
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+                 BorderBrush="{TemplateBinding BorderBrush}"
+                 BorderThickness="{TemplateBinding BorderThickness}"
+                 CornerRadius="3"
+                 RenderTransformOrigin="0.5,0.5">
+                            <Border.Background>
+                                <!-- Явно определяем SolidColorBrush -->
+                                <SolidColorBrush Color="#FF2D2D30"/>
+                            </Border.Background>
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                              TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF333337"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF2D2D30"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Эффект при нажатии -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
+    <Border CornerRadius="10" Background="White" ClipToBounds="True">
+        <Grid>
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Height="30" Background="#FF2D2D30" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid>
+                        <TextBlock Text="" 
+     VerticalAlignment="Center" 
+     HorizontalAlignment="Center"
+     Margin="10,0,0,0"
+     Foreground="White"/>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Image Source="/Pictures/Notification.png" Height="52" Width="38" VerticalAlignment="Top" RenderOptions.BitmapScalingMode="HighQuality" 
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="_" Style="{StaticResource WindowButton}" Width="40" Background="Transparent" 
+      Foreground="White" BorderThickness="0" Click="MinimizeButton_Click"/>
+                            <Button Content="X" Width="40" Background="Transparent" 
+      Foreground="White" BorderThickness="0" Click="CloseButton_Click" Style="{StaticResource WindowButton}"
+      />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Image Source="/Pictures/Notification.png" Height="52" Width="38" VerticalAlignment="Top" RenderOptions.BitmapScalingMode="HighQuality" 
        RenderOptions.EdgeMode="Aliased" Margin="7"/>
-            <Label Content="Центр" Style="{StaticResource LabelText}" Height="30" VerticalAlignment="Top" />
-        </StackPanel>
+                        <Label Content="Центр" Style="{StaticResource LabelText}" Height="30" VerticalAlignment="Top" />
+                    </StackPanel>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Label Content="уведомлений" Style="{StaticResource LabelText}" Height="30" VerticalAlignment="Top" Margin="53,25,0,0" />
-        </StackPanel>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Label Content="уведомлений" Style="{StaticResource LabelText}" Height="30" VerticalAlignment="Top" Margin="53,25,0,0" />
+                    </StackPanel>
 
 
 
-        <StackPanel Grid.Row="2">
-            <Grid>
-                <ListView x:Name="NotificationsListView" ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedItem}" MouseDoubleClick="DoubleClickList">
-                                       
-                    
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="5">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="2">
+                        <Grid>
+                            <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="5">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                    <ListView x:Name="NotificationsListView" 
+                          ItemsSource="{Binding Notifications}" 
+                          SelectedItem="{Binding SelectedItem}" 
+                          MouseDoubleClick="DoubleClickList"
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          Padding="0">
 
-                                    <Image Source="{Binding Swiper.Photo}" Stretch="UniformToFill" Width="35" Height="35" Margin="0,2,5,0">
-                                        <Image.Clip>
-                                            <RectangleGeometry Rect="0,0,33,33" RadiusX="10" RadiusY="10"/>
-                                        </Image.Clip>
-                                    </Image>
+                                        <!-- Контекстное меню для элементов ListView -->
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="ContextMenu">
+                                                    <Setter.Value>
+                                                        <ContextMenu>
+                                                            <MenuItem Header="Удалить" Command="{Binding DeleteNotificationCommand}" CommandParameter="{Binding}">
+                                                                <MenuItem.Icon>
+                                                                    <Image Source="/Pictures/Trash.png" Width="16" Height="16"/>
+                                                                </MenuItem.Icon>
+                                                            </MenuItem>
+                                                        </ContextMenu>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
 
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding Message}" FontWeight="Bold"/>
-                                        <TextBlock>
-                                        <Run Text="{Binding Swiper.Name}"/>
-                                        <Run Text=","/>
-                                        <Run Text="{Binding Swiper.Age}"/>
-                                        <Run Text=","/>
-                                        <Run Text="{Binding Swiper.City}"/>
-                                        </TextBlock>
-                                        <Ellipse Width="10" Height="10" Fill="Red" HorizontalAlignment="Right"
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Padding="5">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Image Source="{Binding Swiper.Photo}" Stretch="UniformToFill" Width="35" Height="35" Margin="0,2,5,0">
+                                                            <Image.Clip>
+                                                                <RectangleGeometry Rect="0,0,33,33" RadiusX="10" RadiusY="10"/>
+                                                            </Image.Clip>
+                                                        </Image>
+
+                                                        <StackPanel Grid.Column="1">
+                                                            <TextBlock Text="{Binding Message}" FontWeight="Bold" TextWrapping="Wrap"/>
+                                                            <TextBlock TextWrapping="Wrap">
+                                            <Run Text="{Binding Swiper.Name}"/>
+                                            <Run Text=", "/>
+                                            <Run Text="{Binding Swiper.Age}"/>
+                                            <Run Text=", "/>
+                                            <Run Text="{Binding Swiper.City}"/>
+                                                            </TextBlock>
+                                                            <Ellipse Width="10" Height="10" Fill="Red" HorizontalAlignment="Right"
                                              Visibility="{Binding IsNew, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                    </StackPanel>
-                                </Grid>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ScrollViewer>
                             </Border>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-        </StackPanel>
-    </Grid>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </Border>
 </Window>

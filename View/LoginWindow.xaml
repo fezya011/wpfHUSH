@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="350" Width="500" MaxHeight="350" MaxWidth="500" MinHeight="350" MinWidth="500" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
+        Title="LoginWindow" Height="350" AllowsTransparency="True" Background="Transparent" WindowStyle="None" Width="500" MaxHeight="350" MaxWidth="500" MinHeight="350" MinWidth="500" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
         <Style x:Key="ModernTextBoxStyle" TargetType="{x:Type TextBox}">
             <Setter Property="Background" Value="White"/>
@@ -167,7 +167,7 @@
                                 </BeginStoryboard>
                             </EventTrigger>
 
-                            <!-- Эффект при нажатии -->
+
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
                                 <Setter TargetName="border" Property="RenderTransform">
@@ -181,33 +181,136 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="WindowButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="#FF2D2D30"/>
+            <!-- Явно задаем начальный цвет -->
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+                 BorderBrush="{TemplateBinding BorderBrush}"
+                 BorderThickness="{TemplateBinding BorderThickness}"
+                 CornerRadius="3"
+                 RenderTransformOrigin="0.5,0.5">
+                            <Border.Background>
+                                <!-- Явно определяем SolidColorBrush -->
+                                <SolidColorBrush Color="#FF2D2D30"/>
+                            </Border.Background>
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="scaleTransform" ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
+                            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              TextBlock.FontFamily="{TemplateBinding FontFamily}"
+                              TextBlock.FontSize="{TemplateBinding FontSize}"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <!-- Анимация при наведении -->
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF333337"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1.01"
+                                        Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Анимация при уходе курсора -->
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="#FF2D2D30"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                        <DoubleAnimation Storyboard.TargetName="border"
+                                        Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                        To="1"
+                                        Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!-- Эффект при нажатии -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
+    <Border CornerRadius="10" Background="White" ClipToBounds="True">
+        <Grid>
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Height="30" Background="#FF2D2D30" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid>
+                        <TextBlock Text="" 
+        VerticalAlignment="Center" 
+        HorizontalAlignment="Center"
+        Margin="10,0,0,0"
+        Foreground="White"/>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="_" Style="{StaticResource WindowButton}" Width="40" Background="Transparent" 
+         Foreground="White" BorderThickness="0" Click="MinimizeButton_Click"/>
+                            <Button Content="X" Width="40" Background="Transparent" 
+         Foreground="White" BorderThickness="0" Click="CloseButton_Click" Style="{StaticResource WindowButton}"
+         />
+                        </StackPanel>
+                    </Grid>
+                </Border>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="15*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10*"/>
-        </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="1" Grid.Row="1" UseLayoutRounding="True">
-            <Image Source="/Pictures/Group 18.png" Height="54" Width="272" RenderOptions.BitmapScalingMode="HighQuality"/>
-        </StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="15*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="2" Grid.Column="1">
-            <TextBlock Text="Авторизация" FontFamily="Arial Black" FontSize="18" Width="130" HorizontalAlignment="Center" Margin="0,0,0,5"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Логин" Text="{Binding UserLogin, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Пароль" Text="{Binding UserPassword, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Content="Войти" Style="{StaticResource RoundedBlackBorderButton}" Command="{Binding Login}"/>
-        </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1" UseLayoutRounding="True">
+                        <Image Source="/Pictures/Group 18.png" Height="54" Width="272" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </StackPanel>
 
-        
-    </Grid>
+                    <StackPanel Grid.Row="2" Grid.Column="1">
+                        <TextBlock Text="Авторизация" FontFamily="Arial Black" FontSize="18" Width="130" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Логин" Text="{Binding UserLogin, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Tag="Пароль" Text="{Binding UserPassword, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Content="Войти" Style="{StaticResource RoundedBlackBorderButton}" Command="{Binding Login}"/>
+                    </StackPanel>
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </Border>
 </Window>
