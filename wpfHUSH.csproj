@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pictures\%40.png" />
     <None Remove="Pictures\akar-icons_edit.png" />
     <None Remove="Pictures\Back.png" />
     <None Remove="Pictures\Dislike.png" />
@@ -31,6 +32,7 @@
     <None Remove="Pictures\Test.png" />
     <None Remove="Pictures\Test2.png" />
     <None Remove="Pictures\Trash.png" />
+    <None Remove="Pictures\trashwithoutback.png" />
     <None Remove="Pictures\User1.png" />
     <None Remove="Pictures\User2.png" />
     <None Remove="Pictures\Vector.png" />
@@ -43,12 +45,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Pictures\@.png" />
     <Resource Include="Pictures\EditPhoto.png" />
     <Resource Include="Pictures\Exit.png" />
     <Resource Include="Pictures\Logo.ico" />
     <Resource Include="Pictures\ManGender.png" />
-    <Resource Include="Pictures\User1.png" />
-    <Resource Include="Pictures\User2.png" />
+    <Resource Include="Pictures\trashwithoutback.png" />
     <Resource Include="Pictures\VectorTG.png" />
   </ItemGroup>
 

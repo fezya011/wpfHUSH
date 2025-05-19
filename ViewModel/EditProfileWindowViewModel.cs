@@ -78,11 +78,11 @@ namespace wpfHUSH.ViewModel
 
             SaveEdit = new CommandVM(() =>
             {
-                if (EditableUser.Age < 0)
+                if (EditableUser.Age < 14)
                 {
                     MessageBox.Show("Не рановато ли ты к нам?");
-                }
-                else if (EditableUser.Age > 45)
+                }               
+                else if (EditableUser.Age > 50)
                 {
                     MessageBox.Show("Ты либо слишком старый, либо введи свой реальный возраст!");
                 }

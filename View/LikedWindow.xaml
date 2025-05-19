@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="LikedWindow" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Height="490" Width="820" MaxHeight="490" MaxWidth="820" MinWidth="820" MinHeight="490" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
+        Title="LikedWindow" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Height="480" Width="860" MaxHeight="480" MaxWidth="860" MinWidth="860" MinHeight="480" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality">
     <Window.Resources>
         <ControlTemplate x:Key="CleanToggleButtonTemplate" TargetType="{x:Type ToggleButton}">
             <Border Background="{TemplateBinding Background}"
@@ -740,7 +740,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,7,0,0"/>
                             </Image.Clip>
                         </Image>
                         <TextBlock Text="{Binding User.Name}" Style="{StaticResource TextNickname}"/>
-                        <Button BorderBrush="{x:Null}" Width="16" Height="16" Style="{StaticResource RoundedButton}" Command="{Binding OpenEditWindow}">
+                        <Button BorderBrush="{x:Null}" Width="16" Height="16" Style="{StaticResource RoundedButton}" Command="{Binding OpenEditWindow}" Margin="2,0,9,0">
                             <Button.Background>
                                 <ImageBrush ImageSource="/Pictures/ic_baseline-create.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
@@ -766,22 +766,25 @@ RenderOptions.EdgeMode="Aliased"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-                        <Button Width="33" Style="{StaticResource RoundedButton}" Height="33" Margin="4,10,10,0" Command="{Binding CloseWindow}">
+                        <Button Width="24" Style="{StaticResource RoundedButton}" Height="24" Margin="4,18,10,0" Command="{Binding CloseWindow}">
                             <Button.Background>
                                 <ImageBrush ImageSource="/Pictures/Back.png" RenderOptions.BitmapScalingMode="HighQuality" 
-RenderOptions.EdgeMode="Aliased"/>
+RenderOptions.EdgeMode="Aliased" />
                             </Button.Background>
                         </Button>
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
-                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,8,0,0" >
+                        <!-- Основной контент (город и описание) -->
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0" Width="392">
                             <Image Source="/Pictures/Loci.png" RenderOptions.BitmapScalingMode="HighQuality" 
-RenderOptions.EdgeMode="Aliased" Height="25" Width="19" Margin="3,53,5,0"/>
-                            <TextBlock Text="{Binding Swiper.Swiper.City}" Height="27" Style="{StaticResource TextLocation}" Margin="0,53,0,0"/>
+               RenderOptions.EdgeMode="Aliased" Height="25" Width="19" Margin="3,49,5,0"/>
+                            <TextBlock Text="{Binding Swiper.Swiper.City}" Height="27" Style="{StaticResource TextLocation}" Margin="0,49,0,0"/>
                         </StackPanel>
-                        <TextBlock Text="{Binding Swiper.Swiper.About}" Style="{StaticResource TextDescription}" Margin="6,5,0,0" />
-                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding UserButtonsVisible}">
+                        <TextBlock Text="{Binding Swiper.Swiper.About}" Style="{StaticResource TextDescription}" Margin="6,6,0,0" HorizontalAlignment="Left" Foreground="#FF373737"/>
+
+                        <!-- Слой с кнопками пользователя (видимость управляется UserButtonsVisible) -->
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding UserButtonsVisible}">
                             <Button Style="{StaticResource UserButton}" Command="{Binding LinkVisible}">
                                 <Button.Background>
                                     <ImageBrush ImageSource="/Pictures/Like.png"/>
@@ -798,35 +801,42 @@ RenderOptions.EdgeMode="Aliased" Height="25" Width="19" Margin="3,53,5,0"/>
                                 </Button.Background>
                             </Button>
                         </StackPanel>
+
+                        <!-- Слой с ссылками (видимость управляется LinksButtonsVisible) -->
+                        <StackPanel Visibility="{Binding LinksButtonsVisible}" Margin="0,5,0,0" >
+                            <StackPanel Orientation="Horizontal" Margin="10,0,0,0" Height="38">
+                                <Image Source="/Pictures/Vector2333.png" Height="33" Width="41" />
+                                <Image Source="/Pictures/@.png" Height="19" Width="22" Margin="7,0,0,0" />
+                                <TextBlock Text="{Binding Swiper.Swiper.Contact.VK}" Style="{StaticResource LinkBlockText}" Margin="4,7,0,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
+                                <Image Source="/Pictures/VectorTG.png" Height="38" Width="41" />
+                                <Image Source="/Pictures/@.png" Height="19" Width="22" Margin="7,0,0,0" />
+                                <TextBlock Text="{Binding Swiper.Swiper.Contact.Telegram}" Style="{StaticResource LinkBlockText}" Margin="4,7,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Слой с жалобой (изначально скрыт) -->
+                        <StackPanel Visibility="Hidden" Margin="0,-69,0,0" >
+                            <TextBlock Text="Жалоба" Style="{StaticResource Text}" Width="75" Margin="0,0,164,8" />
+                            <ComboBox Style="{StaticResource ModernRoundedComboBoxStyle}" Width="233" HorizontalAlignment="Left" 
+                 ItemsSource="{Binding Reasons}" SelectedItem="{Binding SelectedReason, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание жалобы" 
+                Text="{Binding ReportText, UpdateSourceTrigger=PropertyChanged}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Отправить" Style="{StaticResource ReportButton}" Width="187" Command="{Binding SendReport}"/>
+                                <Button Content="х" Style="{StaticResource ReportButton}" Width="41" Command="{Binding ReturnUsersButtons}"/>
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
 
 
 
 
 
-                    <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding LinksButtonsVisible}">
-                        <StackPanel Orientation="Horizontal" Margin="10,116,0,0" Height="38">
-                            <Image Source="/Pictures/Vector2333.png" Height="33" Width="41" />
-                            <TextBlock Text="@" FontFamily="Arial Black" FontSize="20" Margin="4,8,0,0"/>
-                            <TextBlock Text="{Binding Swiper.Swiper.Contact.VK}" Style="{StaticResource LinkBlockText}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="10,12,0,0">
-                            <Image Source="/Pictures/VectorTG.png" Height="38" Width="41" />
-                            <TextBlock Text="@" FontFamily="Arial Black" FontSize="20" Margin="4,8,0,0"/>
-                            <TextBlock Text="{Binding Swiper.Swiper.Contact.Telegram}" Style="{StaticResource LinkBlockText}"/>
-                        </StackPanel>
-                    </StackPanel>
 
-                    <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding ReportWindowVisible}">
-                        <TextBlock Text="Жалоба" Style="{StaticResource Text}" Width="75" Margin="0,115,158,8" />
-                        <ComboBox Style="{StaticResource ModernRoundedComboBoxStyle}" Width="233" HorizontalAlignment="Left" ItemsSource="{Binding Reasons}" SelectedItem="{Binding SelectedReason, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание жалобы" Text="{Binding ReportText, UpdateSourceTrigger=PropertyChanged}"/>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Content="Отправить" Style="{StaticResource ReportButton}" Width="187" Command="{Binding SendReport}"/>
-                            <Button Content="х" Style="{StaticResource ReportButton}" Width="41" Command="{Binding ReturnUsersButtons}"/>
-                        </StackPanel>
 
-                    </StackPanel>
+
 
                 </Grid>
             </DockPanel>

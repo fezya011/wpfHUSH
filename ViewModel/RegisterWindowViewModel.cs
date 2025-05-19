@@ -87,7 +87,7 @@ namespace wpfHUSH.ViewModel
                     UserDB.GetDb().Insert(user);
                     UserStatic.CurrentUser = user;
                     AddProfileWindow addProfileWindow = new AddProfileWindow();
-                    registerWindow.Hide();
+                    registerWindow.Close();
                     addProfileWindow.ShowDialog();
                 }
             }, () => !string.IsNullOrWhiteSpace(UserLogin) && !string.IsNullOrWhiteSpace(UserPassword) && !string.IsNullOrWhiteSpace(UserRepeatPassword));

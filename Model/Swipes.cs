@@ -21,9 +21,9 @@ namespace wpfHUSH.Model
             get
             {
                 if (Swiper.Gender == false)
-                    return "Ты понравилась!";
+                    return "Ты понравился(-ась)!";
                 else
-                    return "Ты понравился!";
+                    return "Ты понравился(-ась)!";
             }
         }
 

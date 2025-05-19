@@ -180,6 +180,29 @@ namespace wpfHUSH.Model
             return result;
         }
 
+        internal bool Remove(Swipes remove)
+        {
+            bool result = false;
+            if (connection == null)
+                return result;
+
+            if (connection.OpenConnection())
+            {
+                var mc = connection.CreateCommand($"delete from `Swipes` where `SwiperId` = {remove.SwiperId} and `SwipedId` = {remove.SwipedId}");
+                try
+                {
+                    mc.ExecuteNonQuery();
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            connection.CloseConnection();
+            return result;
+        }
+
         static SwipeDB db;
         public static SwipeDB GetDb()
         {

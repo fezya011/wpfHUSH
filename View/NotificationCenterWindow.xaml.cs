@@ -20,15 +20,16 @@ namespace wpfHUSH.View
     /// </summary>
     public partial class NotificationCenterWindow : Window
     {
-        public NotificationCenterWindow()
+        public NotificationCenterWindow(SearchWindow searchWindow)
         {
             InitializeComponent();
-            DataContext = new NotificationCenterWindowViewModel();
+            DataContext = new NotificationCenterWindowViewModel(searchWindow);
         }
 
         private void DoubleClickList(object sender, MouseButtonEventArgs e)
         {
-            (DataContext as NotificationCenterWindowViewModel).DoubleClickList() ;
+            (DataContext as NotificationCenterWindowViewModel).DoubleClickList();
+            
         }
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

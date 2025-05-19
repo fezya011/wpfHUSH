@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfHUSH.View"
         mc:Ignorable="d"
-        Title="EditProfileWindow" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Height="530" Width="820" MaxHeight="530" MaxWidth="820" MinWidth="820" MinHeight="530" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality" 
+        Title="EditProfileWindow" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Height="530" Width="860" MaxHeight="530" MaxWidth="860" MinWidth="860" MinHeight="530" WindowStartupLocation="CenterScreen" Icon="/Pictures/Logo.ico" RenderOptions.BitmapScalingMode="HighQuality" 
        >
     <Window.Resources>
         <Style x:Key="EditPhotoButton" TargetType="Button">
@@ -206,7 +206,7 @@
 
                             <!-- Эффект при нажатии -->
                             <Trigger Property="IsPressed" Value="True">
-                                
+
                                 <Setter TargetName="border" Property="RenderTransform">
                                     <Setter.Value>
                                         <ScaleTransform ScaleX="0.99" ScaleY="0.99"/>
@@ -220,7 +220,7 @@
         </Style>
         <Style x:Key="LabelText" TargetType="Label">
             <Setter Property="FontFamily" Value="Arial Black"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontSize" Value="22"/>
             <Setter Property="Margin" Value="0,6,0,0"/>
         </Style>
         <Style x:Key="BigTextBoxStyle" TargetType="{x:Type TextBox}">
@@ -346,7 +346,7 @@
                               Margin="29,0,0,0"
                               FontSize="11" 
                               FontWeight="Bold"/>
-                                    <Image Source="/Pictures/Vector2333.png" Margin="3,3,252,3" RenderOptions.BitmapScalingMode="HighQuality" 
+                                    <Image Source="/Pictures/Vector2333.png" Margin="3,3,307,3" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
 
                                     <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="27,0,0,0"/>
@@ -439,7 +439,7 @@ RenderOptions.EdgeMode="Aliased"/>
                               Margin="29,0,0,0"
                               FontSize="11" 
                               FontWeight="Bold"/>
-                                    <Image Source="/Pictures/VectorTG.png" Margin="3,3,252,3" RenderOptions.BitmapScalingMode="HighQuality" 
+                                    <Image Source="/Pictures/VectorTG.png" Margin="3,3,305,3" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
 
                                     <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="27,0,0,0"/>
@@ -532,7 +532,7 @@ RenderOptions.EdgeMode="Aliased"/>
                               Margin="29,0,0,0"
                               FontSize="11" 
                               FontWeight="Bold"/>
-                                    <Image Source="/Pictures/Loci.png" Margin="3,3,252,3" RenderOptions.BitmapScalingMode="HighQuality" 
+                                    <Image Source="/Pictures/Loci.png" Margin="3,3,308,3" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
 
                                     <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="27,0,0,0"/>
@@ -989,14 +989,14 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
 
                     <StackPanel Grid.Row="1" Grid.Column="1">
                         <Label Content="Редактирование профиля" Style="{StaticResource LabelText}"/>
-                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Имя" Text="{Binding EditableUser.Name, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="289" Tag="Возраст" Margin="0,-2,0,9" Text="{Binding EditableUser.Age, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#}}"/>
-                        <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание..." Width="289" Text="{Binding EditableUser.About, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Населенный пункт" Width="291" Text="{Binding EditableUser.City, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Width="291" Text="{Binding EditableUser.Contact.VK, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Width="291" Text="{Binding EditableUser.Contact.Telegram, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="344" Tag="Имя" Text="{Binding EditableUser.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource ModernTextBoxStyle}" Width="344" Tag="Возраст" Margin="0,-2,0,9" Text="{Binding EditableUser.Age, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#}}"/>
+                        <TextBox Style="{StaticResource BigTextBoxStyle}" Tag="Описание..." Width="344" Text="{Binding EditableUser.About, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource LocationTextBoxStyle}" Tag="Населенный пункт" Width="344" Text="{Binding EditableUser.City, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource VKTextBoxStyle}" Tag="Вставь ссылку" Width="344" Text="{Binding EditableUser.Contact.VK, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Style="{StaticResource TelegramTextBoxStyle}" Tag="Имя пользователя" Width="344" Text="{Binding EditableUser.Contact.Telegram, UpdateSourceTrigger=PropertyChanged}"/>
                         <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
-                            <Button Content="Сохранить" Style="{StaticResource RoundedButtonDown}" Command="{Binding SaveEdit}" Width="201" />
+                            <Button Content="Сохранить" Style="{StaticResource RoundedButtonDown}" Command="{Binding SaveEdit}" Width="251" />
                             <Button Width="46" Style="{StaticResource RoundedButtonDown}" Command="{Binding Reset}">
                                 <Button.Background>
                                     <ImageBrush ImageSource="/Pictures/Group 3.png" RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -1011,7 +1011,7 @@ RenderOptions.EdgeMode="Aliased" Margin="0,10,0,0"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-                        <Button Width="33" Style="{StaticResource RoundedButton}" Height="33" Margin="4,7,10,0" Command="{Binding CloseWindow}">
+                        <Button Width="24" Style="{StaticResource RoundedButton}" Height="24" Margin="4,11,10,0" Command="{Binding CloseWindow}">
                             <Button.Background>
                                 <ImageBrush ImageSource="/Pictures/Back.png" RenderOptions.BitmapScalingMode="HighQuality" 
 RenderOptions.EdgeMode="Aliased"/>
@@ -1029,7 +1029,7 @@ RenderOptions.EdgeMode="Aliased"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Button Height="402" Style="{StaticResource AddPhotoButton}" Width="383" Command="{Binding OpenAddPhotoWindowButton}">
+                        <Button Height="402" Style="{StaticResource AddPhotoButton}" Width="402" Command="{Binding OpenAddPhotoWindowButton}">
                             <Button.Background>
                                 <ImageBrush ImageSource="/Pictures/EditPhoto.png"/>
                             </Button.Background>
