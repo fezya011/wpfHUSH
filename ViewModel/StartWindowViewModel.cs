@@ -26,7 +26,7 @@ namespace wpfHUSH.ViewModel
             OpenLogin = new CommandVM(() =>
             {
                 LoginWindow loginWindow = new LoginWindow();
-                startWindow.Hide();
+                startWindow.Close();
                 loginWindow.ShowDialog();
             }, () => true);
 

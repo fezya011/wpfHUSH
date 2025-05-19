@@ -155,6 +155,7 @@ namespace wpfHUSH.ViewModel
             {
                 var maxAllowedNameLenght = 13;
                 var maxAllowedAboutLenght = 210;
+                var maxAllowedCityLenght = 20;
                 if (Age > 50)
                 {
                     MessageBox.Show("Вам точно это будет интересно?");
@@ -194,6 +195,10 @@ namespace wpfHUSH.ViewModel
                 else if (Name.Length >= maxAllowedNameLenght)
                 {
                     MessageBox.Show("Лимит символов имени превышен!");
+                }
+                else if (City.Length >= maxAllowedNameLenght)
+                {
+                    MessageBox.Show("Лимит символов города превышен!");
                 }
                 else if (About.Length > maxAllowedAboutLenght)
                 {

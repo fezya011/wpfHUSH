@@ -268,6 +268,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <ElasticEase x:Key="ElasticEase" Oscillations="1" Springiness="4" EasingMode="EaseOut"/>
+
     </Window.Resources>
     <Border CornerRadius="10" Background="White" ClipToBounds="True">
         <Grid>
@@ -309,8 +312,39 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-                        <Image Source="/Pictures/Group 18.png" Height="54" Width="272" RenderOptions.BitmapScalingMode="HighQuality" 
-       RenderOptions.EdgeMode="Aliased"/>
+                        <Image x:Name="LogoImage" Source="/Pictures/Group 18.png" Height="54" Width="272" 
+           RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"
+           Opacity="0" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                                    <TranslateTransform Y="-50"/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                            <Image.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <!-- Анимация прозрачности -->
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                         From="0" To="1" Duration="0:0:0.8"/>
+
+                                            <!-- Анимация масштаба -->
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleX"
+                                         From="0.5" To="1" Duration="0:0:1.2"
+                                         EasingFunction="{StaticResource ElasticEase}"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].ScaleY"
+                                         From="0.5" To="1" Duration="0:0:1.2"
+                                         EasingFunction="{StaticResource ElasticEase}"/>
+
+                                            <!-- Анимация положения -->
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[1].Y"
+                                         From="-50" To="0" Duration="0:0:0.8"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Image.Triggers>
+                        </Image>
                     </StackPanel>
 
                     <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
