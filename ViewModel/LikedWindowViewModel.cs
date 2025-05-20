@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -38,6 +39,8 @@ namespace wpfHUSH.ViewModel
         public ICommand OpenEditWindow { get; }
         public ICommand SendReport { get; }
         public ICommand Dislike { get; }
+
+        
 
         public Visibility ReportWindowVisible 
         {
@@ -118,8 +121,10 @@ namespace wpfHUSH.ViewModel
         }
 
 
+
         public LikedWindowViewModel(LikedWindow likedWindow, Swipes swiper)
         {
+            
             swiper.IsNotificated = true;
             SwipeDB.GetDb().Update(swiper);
 
@@ -152,6 +157,8 @@ namespace wpfHUSH.ViewModel
                 }
             }, () => !string.IsNullOrWhiteSpace(ReportText));
 
+            
+
             LinkVisible = new CommandVM(() =>
             {                
                 UserButtonsVisible = Visibility.Collapsed;
@@ -161,6 +168,7 @@ namespace wpfHUSH.ViewModel
             Dislike = new CommandVM(() =>
             {              
                 likedWindow.Close();
+                SwipeDB.GetDb().Remove(Swiper);
             }, () => true);
 
             ReportVisible = new CommandVM(() =>

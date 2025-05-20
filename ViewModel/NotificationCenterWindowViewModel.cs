@@ -48,12 +48,21 @@ namespace wpfHUSH.ViewModel
         }
 
         public ICommand MarkAsReadCommand { get; }
+        public ICommand DeleteNotificationCommand { get; }
 
-        public NotificationCenterWindowViewModel()
+        public NotificationCenterWindowViewModel(SearchWindow searchWindow)
         {
-            LoadNotifications();
-           
+            LoadNotifications();          
             MarkAsReadCommand = new CommandVM(MarkAllAsRead, () => true);
+
+            DeleteNotificationCommand = new CommandVM(() =>
+            {
+                if (SelectedItem != null)
+                {
+                    SwipeDB.GetDb().Remove(SelectedItem);
+                    LoadNotifications();
+                }               
+            }, () => true);
         }
 
        
@@ -122,6 +131,7 @@ namespace wpfHUSH.ViewModel
             {
                 LikedWindow likedWindow = new LikedWindow(SelectedItem);
                 likedWindow.ShowDialog();
+                LoadNotifications();
             }
         }
     }

@@ -65,7 +65,7 @@ namespace wpfHUSH.ViewModel
                     {
                         UserStatic.CurrentUser = user;
                         SearchWindow searchWindow = new SearchWindow();
-                        loginWindow.Hide();
+                        loginWindow.Close();
                         searchWindow.ShowDialog();
                     }
                     else

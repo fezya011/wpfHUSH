@@ -13,6 +13,5 @@ namespace wpfHUSH.Model
         public string Telegram { get; set; }
         public string VK { get; set; }
 
-        
     }
 }

@@ -153,8 +153,10 @@ namespace wpfHUSH.ViewModel
 
             SaveProfileButton = new CommandVM(() =>
             {
-                var maxAllowedLenght = 13;
-                if (Age > 45)
+                var maxAllowedNameLenght = 13;
+                var maxAllowedAboutLenght = 210;
+                var maxAllowedCityLenght = 20;
+                if (Age > 50)
                 {
                     MessageBox.Show("Вы были перенаправлены на зеркало нашего приложения: gosuslugi.ru",
                                    "Перенаправление",
@@ -176,8 +178,7 @@ namespace wpfHUSH.ViewModel
                                        MessageBoxImage.Error);
                     }
                 }
-               
-                else if (Age < 10)
+                else if (Age < 14)
                 {
                     MessageBox.Show("Вы слишком малы для использования нашего приложения!");
                 }
@@ -186,9 +187,18 @@ namespace wpfHUSH.ViewModel
                     MessageBox.Show("Сначала добавь фото");
                     return;
                 }
-                else if (Name.Length >= maxAllowedLenght)
+                else if (Name.Length >= maxAllowedNameLenght)
                 {
                     MessageBox.Show("Лимит символов имени превышен!");
+                }
+                else if (City.Length >= maxAllowedNameLenght)
+                {
+                    MessageBox.Show("Лимит символов города превышен!");
+                }
+                else if (About.Length > maxAllowedAboutLenght)
+                {
+                    MessageBox.Show("Лимит символов описания превышен!");
+
                 }
                 else 
                 {

@@ -198,16 +198,14 @@ namespace wpfHUSH.ViewModel
             OpenEditWindow = new CommandVM(() =>
             {
                 EditProfileWindow editProfileWindow = new EditProfileWindow();
-                searchWindow.Hide();
                 editProfileWindow.ShowDialog();
-                searchWindow.Visibility = Visibility.Visible;
                 User = null;
                 User = UserStatic.CurrentUser;
             }, () => true);
 
             OpenNotificationWindow = new CommandVM(() =>
             {
-                NotificationCenterWindow notificationCenterWindow = new NotificationCenterWindow();
+                NotificationCenterWindow notificationCenterWindow = new NotificationCenterWindow(searchWindow);
                 notificationCenterWindow.ShowDialog();
             }, () => true);
 

@@ -19,14 +19,14 @@ namespace wpfHUSH.ViewModel
             OpenRegistration = new CommandVM(() =>
             {
                 RegisterWindow registerWindow = new RegisterWindow();
-                startWindow.Hide();
+                startWindow.Close();
                 registerWindow.ShowDialog();
             }, () => true);
 
             OpenLogin = new CommandVM(() =>
             {
                 LoginWindow loginWindow = new LoginWindow();
-                startWindow.Hide();
+                startWindow.Close();
                 loginWindow.ShowDialog();
             }, () => true);
 
