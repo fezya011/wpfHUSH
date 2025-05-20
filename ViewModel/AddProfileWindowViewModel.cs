@@ -156,11 +156,6 @@ namespace wpfHUSH.ViewModel
                 var maxAllowedLenght = 13;
                 if (Age > 45)
                 {
-                    MessageBox.Show("Вам точно это будет интересно?");
-                }
-                else if (Age > 60)
-                {
-
                     MessageBox.Show("Вы были перенаправлены на зеркало нашего приложения: gosuslugi.ru",
                                    "Перенаправление",
                                    MessageBoxButton.OK,
@@ -181,6 +176,7 @@ namespace wpfHUSH.ViewModel
                                        MessageBoxImage.Error);
                     }
                 }
+               
                 else if (Age < 10)
                 {
                     MessageBox.Show("Вы слишком малы для использования нашего приложения!");
