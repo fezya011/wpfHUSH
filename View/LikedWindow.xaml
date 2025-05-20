@@ -842,7 +842,7 @@ RenderOptions.EdgeMode="Aliased" />
                         </StackPanel>
 
                         <!-- Слой с жалобой (изначально скрыт) -->
-                        <StackPanel Visibility="Hidden" Margin="0,-69,0,0" >
+                        <StackPanel Visibility="{Binding ReportWindowVisible}" Margin="0,-69,0,0" >
                             <TextBlock Text="Жалоба" Style="{StaticResource Text}" Width="75" Margin="0,0,164,8" />
                             <ComboBox Style="{StaticResource ModernRoundedComboBoxStyle}" Width="233" HorizontalAlignment="Left" 
                  ItemsSource="{Binding Reasons}" SelectedItem="{Binding SelectedReason, UpdateSourceTrigger=PropertyChanged}"/>
